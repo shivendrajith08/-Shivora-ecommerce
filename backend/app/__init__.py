@@ -25,10 +25,11 @@ def create_app():
     # Init extensions
     db.init_app(app)
     jwt.init_app(app)
-    # Allow the configured frontend origin plus the common Vite dev ports
-    # (5173 and its 5174 fallback) so the app keeps working if Vite switches ports.
+    # Allowed CORS origins: the deployed Vercel frontend + the configured
+    # FRONTEND_URL (dynamic, e.g. set on Railway) + local Vite dev ports.
     allowed_origins = list({
         app.config["FRONTEND_URL"],
+        "https://shivora-ecommerce.vercel.app",
         "http://localhost:5173",
         "http://localhost:5174",
     })
