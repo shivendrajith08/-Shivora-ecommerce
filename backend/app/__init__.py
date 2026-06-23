@@ -8,13 +8,18 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Database: use DATABASE_URL (PostgreSQL, e.g. on Render) when set,
+    # Database: use the platform-provided connection URL when present
+    # (Render -> DATABASE_URL, Railway MySQL -> MYSQL_URL/DATABASE_URL);
     # otherwise fall back to the local MySQL URI from Config/.env.
-    database_url = os.environ.get("DATABASE_URL")
+    database_url = os.environ.get("DATABASE_URL") or os.environ.get("MYSQL_URL")
     if database_url:
-        # Render provides postgres:// but SQLAlchemy needs postgresql://
+        # Normalize driver prefixes so SQLAlchemy uses an installed driver:
+        #  - Render Postgres gives postgres://  -> needs postgresql://
+        #  - Railway MySQL gives bare mysql://   -> defaults to missing MySQLdb, force PyMySQL
         if database_url.startswith("postgres://"):
             database_url = database_url.replace("postgres://", "postgresql://", 1)
+        elif database_url.startswith("mysql://"):
+            database_url = database_url.replace("mysql://", "mysql+pymysql://", 1)
         app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 
     # Init extensions
@@ -40,9 +45,10 @@ def create_app():
     # Import models so SQLAlchemy is aware of them
     from app.models import user, category, product, cart, wishlist, order, order_item, review, address, coupon, return_request  # noqa: F401
 
-    # On PostgreSQL/Render, auto-create tables (local MySQL uses the SQL migrations).
+    # On a hosted DB (Render Postgres / Railway MySQL), auto-create tables.
+    # Local dev (no platform URL) uses the SQL migrations instead.
     with app.app_context():
-        if os.environ.get("DATABASE_URL"):
+        if os.environ.get("DATABASE_URL") or os.environ.get("MYSQL_URL"):
             db.create_all()
             print("Database tables created via create_all()")
 
