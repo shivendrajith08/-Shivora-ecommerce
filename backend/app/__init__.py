@@ -1,0 +1,115 @@
+import os
+from flask import Flask, jsonify, send_from_directory
+from app.config import Config
+from app.extensions import db, jwt, cors
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    # Init extensions
+    db.init_app(app)
+    jwt.init_app(app)
+    # Allow the configured frontend origin plus the common Vite dev ports
+    # (5173 and its 5174 fallback) so the app keeps working if Vite switches ports.
+    allowed_origins = list({
+        app.config["FRONTEND_URL"],
+        "http://localhost:5173",
+        "http://localhost:5174",
+    })
+    cors.init_app(
+        app,
+        resources={r"/api/*": {"origins": allowed_origins}},
+        supports_credentials=True,
+    )
+
+    # Ensure upload folders exist
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    os.makedirs(app.config["REVIEW_UPLOAD_FOLDER"], exist_ok=True)
+
+    # Import models so SQLAlchemy is aware of them
+    from app.models import user, category, product, cart, wishlist, order, order_item, review, address, coupon, return_request  # noqa: F401
+
+    # Register blueprints
+    from app.routes.auth_routes import auth_bp
+    from app.routes.product_routes import product_bp
+    from app.routes.category_routes import category_bp
+    from app.routes.cart_routes import cart_bp
+    from app.routes.wishlist_routes import wishlist_bp
+    from app.routes.order_routes import order_bp
+    from app.routes.user_routes import user_bp
+    from app.routes.admin_routes import admin_bp
+    from app.routes.review_routes import review_bp
+    from app.routes.address_routes import address_bp
+    from app.routes.coupon_routes import coupon_bp, admin_coupon_bp
+    from app.routes.return_routes import return_bp, admin_return_bp
+
+    app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    app.register_blueprint(product_bp, url_prefix="/api/products")
+    app.register_blueprint(category_bp, url_prefix="/api/categories")
+    app.register_blueprint(cart_bp, url_prefix="/api/cart")
+    app.register_blueprint(wishlist_bp, url_prefix="/api/wishlist")
+    app.register_blueprint(order_bp, url_prefix="/api/orders")
+    app.register_blueprint(user_bp, url_prefix="/api/users")
+    app.register_blueprint(admin_bp, url_prefix="/api/admin")
+    app.register_blueprint(review_bp, url_prefix="/api/reviews")
+    app.register_blueprint(address_bp, url_prefix="/api/addresses")
+    app.register_blueprint(coupon_bp, url_prefix="/api/coupons")
+    app.register_blueprint(admin_coupon_bp, url_prefix="/api/admin/coupons")
+    app.register_blueprint(return_bp, url_prefix="/api/orders")
+    app.register_blueprint(admin_return_bp, url_prefix="/api/admin/returns")
+
+    # Serve uploaded product images
+    @app.route("/uploads/products/<path:filename>")
+    def uploaded_file(filename):
+        return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
+    # Serve uploaded review images
+    @app.route("/uploads/reviews/<path:filename>")
+    def uploaded_review_file(filename):
+        return send_from_directory(app.config["REVIEW_UPLOAD_FOLDER"], filename)
+
+    # Health check
+    @app.route("/api/health")
+    def health_check():
+        return jsonify({"status": "ok", "message": "API is running"}), 200
+
+    # ---------------- Error Handlers ----------------
+    @app.errorhandler(400)
+    def bad_request(e):
+        return jsonify({"error": "Bad request", "message": str(e)}), 400
+
+    @app.errorhandler(401)
+    def unauthorized(e):
+        return jsonify({"error": "Unauthorized", "message": "Authentication required"}), 401
+
+    @app.errorhandler(403)
+    def forbidden(e):
+        return jsonify({"error": "Forbidden", "message": "You do not have permission"}), 403
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return jsonify({"error": "Not found", "message": "Resource not found"}), 404
+
+    @app.errorhandler(413)
+    def too_large(e):
+        return jsonify({"error": "Payload too large", "message": "File exceeds 5MB limit"}), 413
+
+    @app.errorhandler(500)
+    def server_error(e):
+        return jsonify({"error": "Internal server error", "message": "Something went wrong"}), 500
+
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        return jsonify({"error": "Token expired", "message": "Please log in again"}), 401
+
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        return jsonify({"error": "Invalid token", "message": "Please log in again"}), 401
+
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
+        return jsonify({"error": "Missing token", "message": "Authentication token is required"}), 401
+
+    return app

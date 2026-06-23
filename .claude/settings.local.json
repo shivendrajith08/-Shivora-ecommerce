@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\HI\\\\Downloads\\\\ecommerce-project\\\\ecommerce-project\\\\backend\\\\app\\\\uploads\\\\products\" | Where-Object { $_.Name -ne \".gitkeep\" } | Select-Object Name, @{N=\"KB\";E={[math]::Round\\($_.Length/1KB,0\\)}})",
+      "PowerShell(& \"C:\\\\Users\\\\HI\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" -c \"import flask_jwt_extended; print\\('found in 313'\\)\" 2>&1)",
+      "PowerShell(& \"C:\\\\Users\\\\HI\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python315\\\\python.exe\" -c \"import flask_jwt_extended; print\\('found in 315'\\)\" 2>&1)",
+      "PowerShell($r = Invoke-RestMethod \"http://localhost:5001/api/products?per_page=50\"; \"Total products: $\\($r.total\\)\"; \"Pages: $\\($r.pages\\)\"; \"\"; \"New products spot-check \\(id >= 9\\):\"; $r.products | Where-Object { $_.id -ge 9 } | ForEach-Object { \"  [$\\($_.id\\)] $\\($_.sku\\)  $\\($_.name\\)  — cat_id=$\\($_.category_id\\)  img=$\\(if\\($_.image_url\\){'SET'}else{'MISSING'}\\)\" })",
+      "PowerShell(Get-NetTCPConnection -LocalPort 5173 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue; Write-Output \"Killed PID $_\" })",
+      "PowerShell($screenshot = \"$env:TEMP\\\\product_details_reviews.png\"; $chrome = \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\"; & $chrome --headless=new --screenshot=$screenshot --window-size=1280,900 --disable-gpu \"http://localhost:5174/products/1\" 2>$null; Start-Sleep 4; Test-Path $screenshot)",
+      "PowerShell(npm install -g playwright 2>&1)",
+      "PowerShell(npx playwright install chromium 2>&1)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\pw_verify\"; node test_admin.mjs 2>&1)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\pw_verify\"; node test_core.mjs 2>&1)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\pw_verify\"; node test_core2.mjs 2>&1)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\pw_verify\"; node test_b10.mjs 2>&1)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\pw_verify\"; node test_responsive.mjs 2>&1)",
+      "PowerShell(Set-Location \"$env:TEMP\\\\pw_verify\"; node test_timeline.mjs 2>&1)"
+    ]
+  }
+}

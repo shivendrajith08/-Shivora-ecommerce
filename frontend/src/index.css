@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Dark gold-and-silver design tokens ──────────────────────────────────── */
+:root {
+  --color-base:           #14130F;
+  --color-base-soft:      #1A1916;
+  --color-surface:        #22201B;
+  --color-surface-raised: #2C2921;
+  --color-surface-border: #3A3630;
+
+  --color-gold-light:  #F0D98A;
+  --color-gold-hover:  #E0BE6A;
+  --color-gold:        #C9A24B;
+  --color-gold-dark:   #B8932F;
+  --color-gold-deep:   #9A7A22;
+
+  --color-silver-lightest: #E8EAED;
+  --color-silver-light:    #D8DADE;
+  --color-silver:          #C0C2C5;
+  --color-silver-muted:    #A8AAAD;
+  --color-silver-dim:      #8A8C8F;
+
+  --color-parchment: #F5F3EE;
+
+  --gold-shine:       linear-gradient(135deg, #E0BE6A 0%, #B8932F 100%);
+  --gold-shine-hover: linear-gradient(135deg, #F0D98A 0%, #C9A24B 100%);
+  --gold-shine-press: linear-gradient(135deg, #C9A24B 0%, #9A7A22 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: #14130F;
+  color: #F5F3EE;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+/* Dark-friendly native select options */
+select option {
+  background-color: #22201B;
+  color: #F5F3EE;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn shadow-sm font-semibold;
+    background-image: var(--gold-shine);
+    color: #14130F;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-image: var(--gold-shine-hover);
+  }
+  .btn-primary:active:not(:disabled) {
+    background-image: var(--gold-shine-press);
+  }
+  .btn-secondary {
+    @apply btn bg-surface text-parchment border border-surface-border hover:bg-surface-raised;
+  }
+  .btn-danger {
+    @apply btn bg-red-700 text-white hover:bg-red-600;
+  }
+  .btn-accent {
+    @apply btn bg-gold text-base-DEFAULT hover:bg-gold-hover;
+  }
+  .input-field {
+    @apply w-full px-3.5 py-2.5 rounded-lg border border-surface-border text-sm bg-surface text-parchment placeholder:text-silver-dim focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition;
+  }
+  .label-text {
+    @apply block text-sm font-medium text-silver-muted mb-1.5;
+  }
+  .card {
+    @apply bg-surface rounded-xl border border-surface-border;
+  }
+  .error-text {
+    @apply text-red-400 text-xs mt-1;
+  }
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Mobile drawer / sheet animations ────────────────────────────────────── */
+@keyframes drawer-in {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* ── Splash-screen animations ─────────────────────────────────────────────── */
+/* stroke draws in: dashoffset 1 → 0 (requires pathLength="1" on the element) */
+@keyframes sp-draw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+/* generic opacity fade-in (also used for S glyph and vertex dots) */
+@keyframes sp-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* per-letter entrance: rises 6 px and fades in */
+@keyframes sp-letter-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+/* whole-overlay fade out at the end */
+@keyframes sp-exit {
+  to { opacity: 0; }
+}

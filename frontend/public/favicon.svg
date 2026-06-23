@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="fg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F5E4A8"/>
+      <stop offset="50%"  stop-color="#C9A24B"/>
+      <stop offset="100%" stop-color="#8B6420"/>
+    </linearGradient>
+  </defs>
+  <!-- Dark background circle -->
+  <circle cx="16" cy="16" r="15" fill="#14130F"/>
+  <!-- Gold ring -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="url(#fg)" stroke-width="1.5"/>
+  <!-- Italic S centred -->
+  <text
+    x="16" y="22"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-style="italic"
+    font-size="20"
+    fill="url(#fg)"
+  >S</text>
+</svg>
