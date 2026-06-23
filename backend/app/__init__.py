@@ -8,6 +8,15 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Database: use DATABASE_URL (PostgreSQL, e.g. on Render) when set,
+    # otherwise fall back to the local MySQL URI from Config/.env.
+    database_url = os.environ.get("DATABASE_URL")
+    if database_url:
+        # Render provides postgres:// but SQLAlchemy needs postgresql://
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
     # Init extensions
     db.init_app(app)
     jwt.init_app(app)
@@ -30,6 +39,12 @@ def create_app():
 
     # Import models so SQLAlchemy is aware of them
     from app.models import user, category, product, cart, wishlist, order, order_item, review, address, coupon, return_request  # noqa: F401
+
+    # On PostgreSQL/Render, auto-create tables (local MySQL uses the SQL migrations).
+    with app.app_context():
+        if os.environ.get("DATABASE_URL"):
+            db.create_all()
+            print("Database tables created via create_all()")
 
     # Register blueprints
     from app.routes.auth_routes import auth_bp
