@@ -532,7 +532,7 @@ const Profile = () => {
                   </div>
                   <h2 className="text-lg font-bold text-parchment mb-1">No saved addresses yet</h2>
                   <p className="text-silver-muted mb-5">Add an address to speed up checkout.</p>
-                  <button onClick={() => setModalAddress(null)} className="btn-primary !rounded-lg !px-6">+ Add New Address</button>
+                  <button onClick={() => setModalAddress(null)} className="btn-primary !rounded-lg !px-6 w-full">+ Add New Address</button>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
