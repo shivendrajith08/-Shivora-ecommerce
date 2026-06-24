@@ -4,7 +4,11 @@ import Logo from './Logo'
 
 const Footer = () => {
   return (
-    <footer className="bg-base border-t border-surface-border text-silver mt-16">
+    <>
+    <div className="sm:hidden bg-base border-t border-surface-border text-silver-dim text-center py-4 text-xs mt-16">
+      © {new Date().getFullYear()} Shivora. All rights reserved.
+    </div>
+    <footer className="bg-base border-t border-surface-border text-silver mt-16 hidden sm:block">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
           <div className="mb-3">
@@ -44,6 +48,7 @@ const Footer = () => {
         © {new Date().getFullYear()} Shivora. All rights reserved.
       </div>
     </footer>
+    </>
   )
 }
 

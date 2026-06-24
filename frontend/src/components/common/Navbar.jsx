@@ -267,7 +267,7 @@ const Navbar = () => {
 
           {/* Panel */}
           <div
-            className="fixed inset-y-0 right-0 w-72 max-w-[85vw] bg-surface border-l border-surface-border z-50 flex flex-col lg:hidden"
+            className="fixed inset-y-0 right-0 w-80 max-w-[90vw] bg-surface border-l border-surface-border z-50 flex flex-col lg:hidden"
             style={{ animation: 'drawer-in 0.22s cubic-bezier(0.32,0.72,0,1)' }}
           >
             {/* Drawer header */}
