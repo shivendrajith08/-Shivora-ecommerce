@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
+import { useWishlist } from '../../context/WishlistContext'
 import { getCategories } from '../../api/categoryApi'
 import CategoryBar from './CategoryBar'
 import SearchBar from './SearchBar'
@@ -107,6 +108,7 @@ const Navbar = () => {
 
   const { user, isAuthenticated, logout } = useAuth()
   const { cartCount } = useCart()
+  const { wishlist, isWishlisted, toggleWishlist } = useWishlist()
   const navigate = useNavigate()
 
   // Categories for mobile drawer; CategoryBar fetches its own copy for tablet/desktop
@@ -236,6 +238,18 @@ const Navbar = () => {
           {/* ── Mobile + tablet icon strip (hidden on lg+) ────────────────── */}
           <div className="flex items-center gap-0.5 lg:hidden flex-shrink-0">
 
+            {/* Wishlist */}
+            <Link to="/wishlist" className="relative p-2 text-silver-dim hover:text-parchment transition-colors">
+              <svg className="w-5 h-5" fill={wishlist.length > 0 ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+              {wishlist.length > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
+
             {/* Cart */}
             <Link to="/cart" aria-label="Cart"
               className="relative p-2 text-silver-muted hover:text-gold transition-colors">
@@ -246,6 +260,19 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
+
+            {/* Profile */}
+            {isAuthenticated && (
+              <Link to="/profile" className="p-2 text-silver-dim hover:text-parchment transition-colors lg:hidden">
+                {user?.profile_image ? (
+                  <img src={user.profile_image} className="w-6 h-6 rounded-full object-cover" alt="profile" />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-gold text-xs font-bold">
+                    {user?.name?.[0]?.toUpperCase() || 'U'}
+                  </div>
+                )}
+              </Link>
+            )}
 
             {/* Hamburger */}
             <button

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { searchProductSuggestions } from '../../api/productApi'
 import { API_ORIGIN } from '../../api/axiosInstance'
 
-const SearchBar = ({ className = '', onNavigate }) => {
+const SearchBar = ({ className = '', onNavigate, placeholder = 'Search for products, brands and more' }) => {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [open, setOpen] = useState(false)
@@ -90,7 +90,7 @@ const SearchBar = ({ className = '', onNavigate }) => {
             onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1) }}
             onKeyDown={handleKeyDown}
             onFocus={() => { if (suggestions.length > 0 && query.trim().length >= 2) setOpen(true) }}
-            placeholder="Search for products, brands and more"
+            placeholder={placeholder}
             autoComplete="off"
             spellCheck="false"
             className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-surface-border bg-base text-parchment placeholder:text-silver-dim text-sm focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition"
