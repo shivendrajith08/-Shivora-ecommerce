@@ -106,10 +106,12 @@ const Navbar = () => {
   const closeMenu = () => setMenuOpen(false)
 
   const handleLogout = () => {
-    logout()
-    setUserMenuOpen(false)
-    closeMenu()
-    navigate('/')
+    if (window.confirm('Are you sure you want to logout?')) {
+      logout()
+      setUserMenuOpen(false)
+      closeMenu()
+      navigate('/')
+    }
   }
 
   const initials = user?.name?.charAt(0).toUpperCase() ?? '?'
