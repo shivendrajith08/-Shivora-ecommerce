@@ -106,13 +106,13 @@ const OrderHistory = () => {
         </div>
       ) : (
         <div className="space-y-5">
-          {orders.map((order) => (
+          {orders.map((order, index) => (
             <div key={order.id} className="card overflow-hidden">
               {/* Header */}
               <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-surface-border">
                 <div className="flex flex-wrap items-center gap-3">
                   <div>
-                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">Order #{order.id}</p>
+                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">Order #{orders.length - index}</p>
                     <p className="text-sm font-semibold text-parchment mt-0.5">
                       {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </p>
