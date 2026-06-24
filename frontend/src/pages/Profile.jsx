@@ -514,7 +514,7 @@ const Profile = () => {
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div><SectionHeading>My Addresses</SectionHeading></div>
                 {!addrLoading && addrList.length > 0 && (
-                  <button onClick={() => setModalAddress(null)} className="btn !rounded-lg !px-5 w-full sm:w-auto border border-yellow-600/40 text-yellow-500/80 hover:border-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/5 transition-colors">
+                  <button onClick={() => setModalAddress(null)} className="btn !rounded-lg !px-5 w-full sm:w-auto mb-4 border border-yellow-600/40 text-yellow-500/80 hover:border-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/5 transition-colors">
                     + Add New Address
                   </button>
                 )}
