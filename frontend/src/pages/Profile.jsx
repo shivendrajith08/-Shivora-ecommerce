@@ -162,6 +162,7 @@ const Profile = () => {
 
   const [wishItems, setWishItems] = useState([])
   const [wishLoading, setWishLoading] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const loadAddresses = async () => {
     setAddrLoading(true)
@@ -259,7 +260,8 @@ const Profile = () => {
     }
   }
 
-  const handleLogout = () => { logout(); navigate('/') }
+  const handleLogout = () => { setShowLogoutModal(true) }
+  const confirmLogout = () => { logout(); navigate('/') }
 
   const initial = user?.name?.charAt(0).toUpperCase() || '?'
   const firstName = user?.name?.split(' ')[0] || 'there'
@@ -399,7 +401,7 @@ const Profile = () => {
                   <p className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-4">Recent Orders</p>
                   {orderList.slice(0, 2).map((order) => {
                     const cfg = ORDER_STATUS[order.status] ?? ORDER_STATUS.pending
-                    const thumb = order.items?.[0]?.product_image ? `${API_ORIGIN}${order.items[0].product_image}` : null
+                    const thumb = order.items?.[0]?.product_image && !order.items[0].product_image.startsWith('/uploads/') ? (order.items[0].product_image.startsWith('http') ? order.items[0].product_image : `${API_ORIGIN}${order.items[0].product_image}`) : null
                     return (
                       <div key={order.id} onClick={() => setTab('orders')} className="flex items-center gap-4 py-3.5 border-b border-yellow-900/20 cursor-pointer hover:bg-yellow-500/5 rounded-lg px-2">
                         {thumb
@@ -600,7 +602,6 @@ const Profile = () => {
                         <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-surface-border">
                           <div className="flex flex-wrap items-center gap-3">
                             <div>
-                              <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">Order #{order.id}</p>
                               <p className="text-sm font-semibold text-parchment mt-0.5">
                                 {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                               </p>
@@ -708,6 +709,27 @@ const Profile = () => {
                 <button type="button" onClick={removePhoto} className="text-red-400/60 text-xs hover:text-red-400 transition-colors">Remove Photo</button>
               ) : <span />}
               <button type="button" onClick={closePhotoModal} className="text-white/40 text-xs hover:text-white/60 transition-colors">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-surface-raised border border-surface-border rounded-xl p-6 w-80 shadow-2xl">
+            <h2 className="text-lg font-semibold text-white mb-2">Logout</h2>
+            <p className="text-silver-dim text-sm mb-6">Are you sure you want to logout?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 px-4 py-2 rounded-lg border border-surface-border text-silver-dim hover:bg-surface-border transition-colors text-sm">
+                Cancel
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="flex-1 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-white font-semibold transition-colors text-sm">
+                Logout
+              </button>
             </div>
           </div>
         </div>
