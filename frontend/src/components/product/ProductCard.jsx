@@ -50,9 +50,9 @@ const ProductCard = ({ product }) => {
   const isBestseller = !hasDeal && product.id % 3 !== 2
 
   return (
-    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-gold/40 hover:shadow-lg transition-all flex flex-col rounded-none sm:rounded-lg border-0 sm:border border-surface-border bg-surface">
+    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-gold/40 hover:shadow-lg transition-all flex flex-col">
       {/* Image */}
-      <div className="relative aspect-[3/4] sm:aspect-square bg-surface-raised overflow-hidden">
+      <div className="relative aspect-square bg-surface-raised overflow-hidden">
         {imageSrc ? (
           <img
             src={imageSrc}
