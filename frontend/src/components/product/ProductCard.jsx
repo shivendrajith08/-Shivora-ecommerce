@@ -50,9 +50,9 @@ const ProductCard = ({ product }) => {
   const isBestseller = !hasDeal && product.id % 3 !== 2
 
   return (
-    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-gold/40 hover:shadow-lg transition-all flex flex-col">
+    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-gold/40 hover:shadow-lg transition-all flex flex-col rounded-none sm:rounded-lg border-0 sm:border border-surface-border bg-surface">
       {/* Image */}
-      <div className="relative aspect-square bg-surface-raised overflow-hidden">
+      <div className="relative aspect-[3/4] sm:aspect-square bg-surface-raised overflow-hidden">
         {imageSrc ? (
           <img
             src={imageSrc}
@@ -109,11 +109,11 @@ const ProductCard = ({ product }) => {
       )}
 
       {/* Info — slightly tighter padding on mobile so 2-col cards don't feel cramped */}
-      <div className="px-1.5 pt-1 pb-1.5 sm:px-2 sm:pt-1.5 sm:pb-2 flex flex-col flex-1">
+      <div className="px-2 pt-1.5 pb-2 sm:px-2 sm:pt-1.5 sm:pb-2 flex flex-col flex-1">
         {product.category_name && (
           <span className="text-[10px] font-medium text-gold uppercase tracking-wide mb-0.5">{product.category_name}</span>
         )}
-        <h3 className="text-xs font-semibold text-parchment line-clamp-2 mb-1 flex-1 leading-snug">{product.name}</h3>
+        <h3 className="text-xs sm:text-xs font-semibold text-parchment line-clamp-2 mb-1 flex-1 leading-snug">{product.name}</h3>
 
         {product.avg_rating != null && (
           <div className="flex items-center gap-1 mb-1.5">
@@ -127,7 +127,7 @@ const ProductCard = ({ product }) => {
         )}
 
         <div className="flex items-baseline gap-1.5 mb-2 flex-wrap">
-          <span className="text-sm font-bold text-parchment">
+          <span className="text-sm font-bold text-parchment sm:text-sm">
             ₹{(hasDiscount ? product.discount_price : product.price).toLocaleString('en-IN')}
           </span>
           {hasDiscount && (
