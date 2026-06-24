@@ -372,12 +372,12 @@ const Profile = () => {
                 {memberSince && <span className="text-white/40"> · Member since {memberSince}</span>}
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-3">
                 {statCards.map((card) => (
                   <button
                     key={card.label}
                     onClick={() => setTab(card.tab)}
-                    className="relative overflow-hidden min-h-[120px] p-6 rounded-xl border border-[rgba(197,160,72,0.15)] hover:border-[rgba(197,160,72,0.4)] hover:scale-[1.02] transition-all text-left"
+                    className="relative overflow-hidden min-h-[120px] p-3 sm:p-6 rounded-xl border border-[rgba(197,160,72,0.15)] hover:border-[rgba(197,160,72,0.4)] hover:scale-[1.02] transition-all text-left"
                     style={{ background: 'linear-gradient(135deg, rgba(197,160,72,0.06) 0%, rgba(197,160,72,0.02) 100%)' }}
                   >
                     <div className="relative">

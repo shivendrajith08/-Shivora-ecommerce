@@ -318,28 +318,6 @@ const Navbar = () => {
                 )}
               </nav>
 
-              <div className="mx-4 my-4 border-t border-surface-border" />
-
-              {/* Category grid */}
-              {drawerCats.length > 0 && (
-                <div className="px-4">
-                  <p className="text-[10px] font-extrabold text-silver-dim uppercase tracking-widest mb-3">
-                    Shop by Category
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {drawerCats.map(cat => (
-                      <Link
-                        key={cat.id}
-                        to={`/?category=${cat.slug}`}
-                        onClick={closeMenu}
-                        className="px-3 py-2.5 bg-surface-raised border border-surface-border rounded-lg text-xs font-medium text-silver-muted hover:text-parchment hover:bg-gold/10 hover:border-gold/30 transition-colors"
-                      >
-                        {cat.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Drawer footer — user summary */}
