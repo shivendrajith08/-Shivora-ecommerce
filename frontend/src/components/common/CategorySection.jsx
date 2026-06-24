@@ -25,19 +25,19 @@ const CategorySection = ({ categories = [], showViewAll = true }) => {
           <Link to="/" className="text-xs font-semibold text-gold hover:underline">View all</Link>
         )}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
         {categories.map((cat) => (
           <Link
             key={cat.id}
             to={`/?category=${cat.slug}`}
             className="card p-3 flex flex-col items-center text-center gap-2 hover:border-gold/50 hover:-translate-y-0.5 transition group"
           >
-            <div className="w-10 h-10 rounded-full bg-gold/10 text-gold group-hover:bg-gold/20 flex items-center justify-center transition-colors">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gold/10 text-gold group-hover:bg-gold/20 flex items-center justify-center transition-colors">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d={CATEGORY_ICONS[cat.slug] || DEFAULT_ICON} />
               </svg>
             </div>
-            <span className="text-xs font-semibold text-silver-muted group-hover:text-parchment leading-tight transition-colors">
+            <span className="text-[10px] sm:text-xs font-semibold text-silver-muted group-hover:text-parchment leading-tight transition-colors">
               {cat.name}
             </span>
           </Link>
