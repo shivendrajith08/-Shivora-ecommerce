@@ -83,6 +83,28 @@ const Navbar = () => {
   const [drawerCats, setDrawerCats]     = useState([])
   const [showLogoutModal, setShowLogoutModal] = useState(false)
 
+  const SEARCH_PLACEHOLDERS = [
+    'Search for mobiles & electronics...',
+    'Search for fashion & clothing...',
+    'Search for books & stationery...',
+    'Search for food & groceries...',
+    'Search for home & kitchen...',
+    'Search for sports & fitness...',
+  ]
+  const [placeholderIndex, setPlaceholderIndex] = useState(0)
+  const [mobileSearchPlaceholder, setMobileSearchPlaceholder] = useState(SEARCH_PLACEHOLDERS[0])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex(prev => {
+        const next = (prev + 1) % SEARCH_PLACEHOLDERS.length
+        setMobileSearchPlaceholder(SEARCH_PLACEHOLDERS[next])
+        return next
+      })
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
+
   const { user, isAuthenticated, logout } = useAuth()
   const { cartCount } = useCart()
   const navigate = useNavigate()
@@ -214,15 +236,6 @@ const Navbar = () => {
           {/* ── Mobile + tablet icon strip (hidden on lg+) ────────────────── */}
           <div className="flex items-center gap-0.5 lg:hidden flex-shrink-0">
 
-            {/* Search icon — mobile only (tablet has SearchBar inline) */}
-            <button
-              onClick={() => setSearchOpen(v => !v)}
-              className="md:hidden p-2 text-silver-muted hover:text-gold transition-colors"
-              aria-label={searchOpen ? 'Close search' : 'Search'}
-            >
-              {searchOpen ? <IconClose /> : <IconSearch />}
-            </button>
-
             {/* Cart */}
             <Link to="/cart" aria-label="Cart"
               className="relative p-2 text-silver-muted hover:text-gold transition-colors">
@@ -245,12 +258,10 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* ── Mobile expandable search (below top bar, hidden md+) ─────────── */}
-        {searchOpen && (
-          <div className="md:hidden pb-3 pt-1">
-            <SearchBar onNavigate={() => setSearchOpen(false)} />
-          </div>
-        )}
+        {/* ── Mobile search bar (always visible, hidden md+) ───────────────── */}
+        <div className="md:hidden px-3 pb-2">
+          <SearchBar placeholder={mobileSearchPlaceholder} />
+        </div>
       </div>
 
       {/* ── Category bar — tablet + desktop only ─────────────────────────────── */}
