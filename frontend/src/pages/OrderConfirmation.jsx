@@ -82,7 +82,7 @@ const OrderConfirmation = () => {
         <SuccessCheck />
         <h1 className="text-3xl font-bold text-gold mt-5 mb-2">Order Confirmed!</h1>
         <p className="text-silver-muted">Thank you for your order. Your order has been placed successfully.</p>
-        <p className="text-xl font-bold text-gold mt-4">Order #{order.id}</p>
+        <p className="text-xl font-bold text-gold mt-4">Order #1</p>
         <p className="text-sm text-silver-dim mt-1">Estimated delivery: 5–7 business days</p>
         {order.return_request && (
           <span className={`mt-3 inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${
