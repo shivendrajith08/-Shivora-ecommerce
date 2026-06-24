@@ -118,6 +118,7 @@ const Profile = () => {
   })
   const [formErrors, setFormErrors] = useState({})
   const [savingProfile, setSavingProfile] = useState(false)
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -236,6 +237,7 @@ const Profile = () => {
     try {
       const res = await updateProfile(form)
       updateUserInContext(res.data.user)
+      setIsEditingProfile(false)
       toast.success('Profile updated successfully')
     } catch (err) {
       if (err.response?.data?.errors) setFormErrors(err.response.data.errors)
@@ -431,36 +433,47 @@ const Profile = () => {
                 </div>
                 <div>
                   <label className="label-text">Full Name</label>
-                  <input name="name" value={form.name} onChange={handleProfileChange} className={inputCls} />
+                  <input name="name" value={form.name} onChange={handleProfileChange} disabled={!isEditingProfile} className={inputCls} />
                   {formErrors.name && <p className="error-text">{formErrors.name}</p>}
                 </div>
                 <div>
                   <label className="label-text">Phone Number</label>
-                  <input name="phone" value={form.phone} onChange={handleProfileChange} className={inputCls} placeholder="+91 98765 43210" />
+                  <input name="phone" value={form.phone} onChange={handleProfileChange} disabled={!isEditingProfile} className={inputCls} placeholder="+91 98765 43210" />
                   {formErrors.phone && <p className="error-text">{formErrors.phone}</p>}
                 </div>
                 <div>
                   <label className="label-text">Address</label>
-                  <textarea name="address" value={form.address} onChange={handleProfileChange} rows={2} className={inputCls} />
+                  <textarea name="address" value={form.address} onChange={handleProfileChange} rows={2} disabled={!isEditingProfile} className={inputCls} />
                 </div>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div>
                     <label className="label-text">City</label>
-                    <input name="city" value={form.city} onChange={handleProfileChange} className={inputCls} />
+                    <input name="city" value={form.city} onChange={handleProfileChange} disabled={!isEditingProfile} className={inputCls} />
                   </div>
                   <div>
                     <label className="label-text">State</label>
-                    <input name="state" value={form.state} onChange={handleProfileChange} className={inputCls} />
+                    <input name="state" value={form.state} onChange={handleProfileChange} disabled={!isEditingProfile} className={inputCls} />
                   </div>
                   <div>
                     <label className="label-text">Pincode</label>
-                    <input name="pincode" value={form.pincode} onChange={handleProfileChange} className={inputCls} />
+                    <input name="pincode" value={form.pincode} onChange={handleProfileChange} disabled={!isEditingProfile} className={inputCls} />
                   </div>
                 </div>
                 <div className="flex sm:justify-end">
-                  <button type="submit" disabled={savingProfile} className="btn-primary !rounded-lg !py-3 !px-8 w-full sm:w-auto">
-                    {savingProfile ? 'Saving...' : 'Save Changes'}
-                  </button>
+                  {!isEditingProfile ? (
+                    <button type="button" onClick={() => setIsEditingProfile(true)} className="btn-primary !rounded-lg !py-3 !px-8 w-full sm:w-auto">
+                      Edit
+                    </button>
+                  ) : (
+                    <div className="flex gap-3 w-full sm:w-auto">
+                      <button type="button" onClick={() => setIsEditingProfile(false)} className="btn !rounded-lg !py-3 !px-6 flex-1 sm:flex-none border border-surface-border text-silver-dim">
+                        Cancel
+                      </button>
+                      <button type="submit" disabled={savingProfile} className="btn-primary !rounded-lg !py-3 !px-8 flex-1 sm:flex-none">
+                        {savingProfile ? 'Saving...' : 'Save Changes'}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </form>
             </div>
@@ -501,7 +514,7 @@ const Profile = () => {
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div><SectionHeading>My Addresses</SectionHeading></div>
                 {!addrLoading && addrList.length > 0 && (
-                  <button onClick={() => setModalAddress(null)} className="btn !rounded-lg !px-5 border border-yellow-600/40 text-yellow-500/80 hover:border-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/5 transition-colors">
+                  <button onClick={() => setModalAddress(null)} className="btn !rounded-lg !px-5 w-full sm:w-auto border border-yellow-600/40 text-yellow-500/80 hover:border-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/5 transition-colors">
                     + Add New Address
                   </button>
                 )}
