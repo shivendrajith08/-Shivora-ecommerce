@@ -81,6 +81,7 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen]     = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [drawerCats, setDrawerCats]     = useState([])
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const { user, isAuthenticated, logout } = useAuth()
   const { cartCount } = useCart()
@@ -106,17 +107,21 @@ const Navbar = () => {
   const closeMenu = () => setMenuOpen(false)
 
   const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      logout()
-      setUserMenuOpen(false)
-      closeMenu()
-      navigate('/')
-    }
+    setShowLogoutModal(true)
+    setUserMenuOpen(false)
+  }
+
+  const confirmLogout = () => {
+    logout()
+    setShowLogoutModal(false)
+    closeMenu()
+    navigate('/')
   }
 
   const initials = user?.name?.charAt(0).toUpperCase() ?? '?'
 
   return (
+    <>
     <header className="bg-surface border-b border-surface-border sticky top-0 z-40 shadow-sm">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6">
 
@@ -192,10 +197,6 @@ const Navbar = () => {
                       <Link to="/profile/addresses" onClick={() => setUserMenuOpen(false)}
                         className="block px-4 py-2 text-sm text-silver-muted hover:bg-surface hover:text-parchment transition-colors">
                         My Addresses
-                      </Link>
-                      <Link to="/orders" onClick={() => setUserMenuOpen(false)}
-                        className="block px-4 py-2 text-sm text-silver-muted hover:bg-surface hover:text-parchment transition-colors">
-                        Order History
                       </Link>
                       <button onClick={handleLogout}
                         className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 transition-colors">
@@ -359,6 +360,28 @@ const Navbar = () => {
         </>
       )}
     </header>
+
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-surface-raised border border-surface-border rounded-xl p-6 w-80 shadow-2xl">
+            <h2 className="text-lg font-semibold text-white mb-2">Logout</h2>
+            <p className="text-silver-dim text-sm mb-6">Are you sure you want to logout?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 px-4 py-2 rounded-lg border border-surface-border text-silver-dim hover:bg-surface-border transition-colors text-sm">
+                Cancel
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="flex-1 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-white font-semibold transition-colors text-sm">
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
