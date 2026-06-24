@@ -337,7 +337,7 @@ const Profile = () => {
         {/* Mobile horizontal tab strip (sticky below the navbar) */}
         <div className="lg:hidden sticky top-16 z-20 bg-base px-4 pt-3">
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide border-b border-surface-border">
-            {NAV.map((item) => {
+            {NAV.filter(item => !['orders', 'wishlist'].includes(item.key)).map((item) => {
               const active = item.key === activeTab
               return (
                 <button
@@ -351,9 +351,6 @@ const Profile = () => {
                 </button>
               )
             })}
-            <button onClick={handleLogout} className="whitespace-nowrap py-2 px-3 text-xs font-medium border-b-2 border-transparent text-red-400/50 hover:text-red-400">
-              Logout
-            </button>
           </div>
         </div>
 
