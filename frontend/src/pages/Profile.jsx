@@ -325,7 +325,7 @@ const Profile = () => {
         </nav>
 
         <div className="border-t border-yellow-900/40 py-2">
-          <button onClick={handleLogout} className="w-full text-left flex items-center py-3 px-5 text-sm border-l-2 border-transparent text-red-400/50 hover:text-red-400 hover:bg-red-500/5 transition-all duration-200">
+          <button onClick={handleLogout} className="w-full text-left flex items-center py-3 px-5 text-sm border-l-2 border-transparent text-red-400 hover:text-red-400 hover:bg-red-500/5 transition-all duration-200">
             Logout
           </button>
         </div>
@@ -408,7 +408,6 @@ const Profile = () => {
                           ? <img src={thumb} alt="" className="w-10 h-10 rounded object-cover bg-white/10" />
                           : <div className="w-10 h-10 rounded bg-white/10" />}
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-white/80">Order #{order.id}</p>
                           <p className="text-xs text-white/30">{new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                         </div>
                         <span className={`inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full ${cfg.badge}`}>{cfg.label}</span>
