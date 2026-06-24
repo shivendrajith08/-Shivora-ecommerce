@@ -35,7 +35,8 @@ const StatusBadge = ({ status }) => {
 const Thumbnail = ({ src, alt }) => (
   <div className="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-surface-raised border border-surface-border">
     {src ? (
-      <img src={src} alt={alt} className="w-full h-full object-cover" />
+      <img src={src} alt={alt} className="w-full h-full object-cover"
+        onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-product.svg' }} />
     ) : (
       <div className="w-full h-full flex items-center justify-center text-silver-dim">
         <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -139,7 +140,7 @@ const OrderHistory = () => {
                   <div key={item.id} className="flex items-center gap-4 px-5 py-4">
                     <Link to={item.product_id ? `/products/${item.product_id}` : '#'} className="flex-shrink-0">
                       <Thumbnail
-                        src={item.product_image ? `${API_ORIGIN}${item.product_image}` : null}
+                        src={item.product_image?.startsWith('/uploads/') ? '/placeholder-product.svg' : (item.product_image ? `${API_ORIGIN}${item.product_image}` : '/placeholder-product.svg')}
                         alt={item.product_name}
                       />
                     </Link>
