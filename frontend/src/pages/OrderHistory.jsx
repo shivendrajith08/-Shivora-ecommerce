@@ -140,7 +140,7 @@ const OrderHistory = () => {
                   <div key={item.id} className="flex items-center gap-4 px-5 py-4">
                     <Link to={item.product_id ? `/products/${item.product_id}` : '#'} className="flex-shrink-0">
                       <Thumbnail
-                        src={item.product_image?.startsWith('/uploads/') ? '/placeholder-product.svg' : (item.product_image ? `${API_ORIGIN}${item.product_image}` : '/placeholder-product.svg')}
+                        src={!item.product_image || item.product_image.startsWith('/uploads/') ? '/placeholder-product.svg' : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`}
                         alt={item.product_name}
                       />
                     </Link>
