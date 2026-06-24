@@ -4,11 +4,13 @@ import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import { addToWishlist } from '../../api/wishlistApi'
+import { useWishlist } from '../../context/WishlistContext'
 import { API_ORIGIN } from '../../api/axiosInstance'
 
 const ProductCard = ({ product }) => {
   const { isAuthenticated } = useAuth()
   const { addItem } = useCart()
+  const { isWishlisted, toggleWishlist } = useWishlist()
   const [adding, setAdding] = useState(false)
   const [wishing, setWishing] = useState(false)
 
@@ -34,22 +36,14 @@ const ProductCard = ({ product }) => {
     setAdding(false)
   }
 
-  const handleAddToWishlist = async (e) => {
+  const handleWishlistToggle = async (e) => {
     e.preventDefault()
     e.stopPropagation()
     if (!isAuthenticated) {
       toast.error('Please log in to use your wishlist')
       return
     }
-    setWishing(true)
-    try {
-      await addToWishlist(product.id)
-      toast.success('Added to wishlist')
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Could not add to wishlist')
-    } finally {
-      setWishing(false)
-    }
+    await toggleWishlist(product.id)
   }
 
   const hasDeal = hasDiscount && discountPercent >= 20
@@ -80,13 +74,14 @@ const ProductCard = ({ product }) => {
         )}
 
         <button
-          onClick={handleAddToWishlist}
+          onClick={handleWishlistToggle}
           disabled={wishing}
-          className="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/90 hover:bg-surface-raised flex items-center justify-center shadow-sm text-silver-dim hover:text-red-400 transition"
-          title="Add to wishlist"
+          className={`absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/90 hover:bg-surface-raised flex items-center justify-center shadow-sm transition ${isWishlisted(product.id) ? 'text-red-400' : 'text-silver-dim hover:text-red-400'}`}
+          title={isWishlisted(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
+            fill={isWishlisted(product.id) ? 'currentColor' : 'none'}>
+            <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
           </svg>
         </button>
 
