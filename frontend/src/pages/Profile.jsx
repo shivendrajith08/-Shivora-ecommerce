@@ -626,7 +626,7 @@ const Profile = () => {
                         <div className="divide-y divide-surface-border">
                           {order.items?.map((item) => (
                             <div key={item.id} className="flex items-center gap-3 px-5 py-4">
-                              <OrderThumb src={item.product_image ? `${API_ORIGIN}${item.product_image}` : null} alt={item.product_name} />
+                              <OrderThumb src={!item.product_image || item.product_image.startsWith('/uploads/') ? null : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`} alt={item.product_name} />
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-parchment truncate">{item.product_name}</p>
                                 <p className="text-xs text-silver-dim mt-0.5">Qty: {item.quantity}</p>
