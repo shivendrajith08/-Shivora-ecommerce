@@ -259,8 +259,8 @@ const Checkout = () => {
         )}
       </div>
 
-      <div className="grid lg:grid-cols-[1fr_340px] gap-6">
-        <form onSubmit={handleSubmit} className="card p-6 space-y-4">
+      <div className="grid lg:grid-cols-[1fr_340px] gap-6 relative">
+        <form id="checkout-form" onSubmit={handleSubmit} className="card p-6 space-y-4">
 
           {/* ── DELIVERY ADDRESS — picker OR manual form ───────────────────── */}
           {mode === 'picker' ? (
@@ -365,7 +365,7 @@ const Checkout = () => {
                 <input name="shipping_address2" value={form.shipping_address2} onChange={handleChange} className="input-field" placeholder="Apartment, landmark, etc." />
               </div>
 
-              <div className="grid sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="label-text">City*</label>
                   <input name="shipping_city" value={form.shipping_city} onChange={handleChange} className="input-field" placeholder="Bengaluru" />
@@ -497,6 +497,12 @@ const Checkout = () => {
             <span>₹{finalTotal.toLocaleString('en-IN')}</span>
           </div>
         </div>
+      </div>
+
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
+        <button type="submit" form="checkout-form" className="btn-primary w-full !py-3 text-base font-semibold">
+          Place Order
+        </button>
       </div>
     </div>
   )
