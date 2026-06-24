@@ -282,21 +282,8 @@ const Navbar = () => {
             {/* Scrollable body */}
             <div className="flex-1 overflow-y-auto py-3">
               <nav className="flex flex-col px-3 gap-0.5">
-                <Link to="/products" onClick={closeMenu}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
-                  <IconGrid />Products
-                </Link>
-
                 {isAuthenticated ? (
                   <>
-                    <Link to="/orders" onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
-                      <IconOrders />My Orders
-                    </Link>
-                    <Link to="/wishlist" onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
-                      <IconHeart cls="w-4 h-4 flex-shrink-0" />Wishlist
-                    </Link>
                     <Link to="/profile" onClick={closeMenu}
                       className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
                       <IconProfile />Profile
@@ -305,16 +292,34 @@ const Navbar = () => {
                       className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
                       <IconMapPin />My Addresses
                     </Link>
+                    <Link to="/products" onClick={closeMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
+                      <IconGrid />Products
+                    </Link>
+                    <Link to="/orders" onClick={closeMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
+                      <IconOrders />My Orders
+                    </Link>
+                    <Link to="/wishlist" onClick={closeMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
+                      <IconHeart cls="w-4 h-4 flex-shrink-0" />Wishlist
+                    </Link>
                     <button onClick={handleLogout}
                       className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-400 hover:bg-red-900/20 rounded-lg transition-colors w-full text-left">
                       <IconLogout />Logout
                     </button>
                   </>
                 ) : (
-                  <Link to="/login" onClick={closeMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gold hover:bg-gold/10 rounded-lg transition-colors">
-                    <IconLoginIcon />Login / Register
-                  </Link>
+                  <>
+                    <Link to="/products" onClick={closeMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-silver-muted hover:bg-surface-raised hover:text-parchment rounded-lg transition-colors">
+                      <IconGrid />Products
+                    </Link>
+                    <Link to="/login" onClick={closeMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gold hover:bg-gold/10 rounded-lg transition-colors">
+                      <IconLoginIcon />Login / Register
+                    </Link>
+                  </>
                 )}
               </nav>
 
