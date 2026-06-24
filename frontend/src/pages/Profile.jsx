@@ -343,7 +343,7 @@ const Profile = () => {
                 <button
                   key={item.key}
                   onClick={() => setTab(item.key)}
-                  className={`whitespace-nowrap py-3 px-4 text-sm font-medium border-b-2 -mb-px transition-all duration-200 ${
+                  className={`whitespace-nowrap py-2 px-3 text-xs font-medium border-b-2 -mb-px transition-all duration-200 ${
                     active ? 'border-yellow-500 text-yellow-400' : 'border-transparent text-white/40 hover:text-yellow-300/80'
                   }`}
                 >
@@ -351,7 +351,7 @@ const Profile = () => {
                 </button>
               )
             })}
-            <button onClick={handleLogout} className="whitespace-nowrap py-3 px-4 text-sm font-medium border-b-2 border-transparent text-red-400/50 hover:text-red-400">
+            <button onClick={handleLogout} className="whitespace-nowrap py-2 px-3 text-xs font-medium border-b-2 border-transparent text-red-400/50 hover:text-red-400">
               Logout
             </button>
           </div>
