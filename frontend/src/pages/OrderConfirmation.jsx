@@ -7,7 +7,7 @@ import Loader from '../components/common/Loader'
 const Thumbnail = ({ src, alt }) => (
   <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-surface-raised border border-surface-border">
     {src ? (
-      <img src={src} alt={alt} className="w-full h-full object-cover" />
+      <img src={src} alt={alt} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-product.svg'; }} />
     ) : (
       <div className="w-full h-full flex items-center justify-center text-silver-dim">
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +102,7 @@ const OrderConfirmation = () => {
           <div className="divide-y divide-surface-border">
             {order.items?.map((item) => (
               <div key={item.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-                <Thumbnail src={item.product_image ? `${API_ORIGIN}${item.product_image}` : null} alt={item.product_name} />
+                <Thumbnail src={!item.product_image || item.product_image.startsWith('/uploads/') ? null : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`} alt={item.product_name} />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-parchment truncate">{item.product_name}</p>
                   <p className="text-xs text-silver-dim mt-0.5">Qty: {item.quantity} × ₹{item.price.toLocaleString('en-IN')}</p>
