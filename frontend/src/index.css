@@ -10,11 +10,11 @@
   --color-surface-raised: #2C2921;
   --color-surface-border: #3A3630;
 
-  --color-gold-light:  #F0D98A;
-  --color-gold-hover:  #E0BE6A;
-  --color-gold:        #C9A24B;
-  --color-gold-dark:   #B8932F;
-  --color-gold-deep:   #9A7A22;
+  --color-gold-light:  #F5E49C;
+  --color-gold-hover:  #E8C84A;
+  --color-gold:        #D4AF37;
+  --color-gold-dark:   #C49A28;
+  --color-gold-deep:   #A6821E;
 
   --color-silver-lightest: #E8EAED;
   --color-silver-light:    #D8DADE;
@@ -24,9 +24,9 @@
 
   --color-parchment: #F5F3EE;
 
-  --gold-shine:       linear-gradient(135deg, #E0BE6A 0%, #B8932F 100%);
-  --gold-shine-hover: linear-gradient(135deg, #F0D98A 0%, #C9A24B 100%);
-  --gold-shine-press: linear-gradient(135deg, #C9A24B 0%, #9A7A22 100%);
+  --gold-shine:       linear-gradient(135deg, #E8C84A 0%, #C49A28 100%);
+  --gold-shine-hover: linear-gradient(135deg, #F5E49C 0%, #D4AF37 100%);
+  --gold-shine-press: linear-gradient(135deg, #D4AF37 0%, #A6821E 100%);
 }
 
 html {
@@ -52,7 +52,7 @@ select option {
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-primary {
     @apply btn shadow-sm font-semibold;
@@ -111,6 +111,13 @@ select option {
 @keyframes slide-up {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
+}
+
+/* ── Promo carousel: warm luxury gradient on mobile ──────────────────────── */
+@media (max-width: 639px) {
+  .promo-slide-bg {
+    background: linear-gradient(135deg, #1a1008 0%, #2d1f0a 50%, #1a1008 100%) !important;
+  }
 }
 
 /* ── Splash-screen animations ─────────────────────────────────────────────── */

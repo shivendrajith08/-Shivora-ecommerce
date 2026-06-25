@@ -103,7 +103,7 @@ const PromoCarousel = () => {
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {SLIDES.map((slide) => (
-          <div key={slide.id} className={`min-w-full bg-gradient-to-br ${slide.bg} text-parchment`}>
+          <div key={slide.id} className={`promo-slide-bg min-w-full bg-gradient-to-br ${slide.bg} text-parchment`}>
             {/* Mobile: column (text then icon). sm+: row (text | icon). */}
             <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-9 lg:py-12 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 sm:gap-6">
               <div className="flex-1 min-w-0 text-center sm:text-left">
