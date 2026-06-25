@@ -59,11 +59,11 @@ const HScrollRow = ({ title, products }) => {
   return (
     <div className="mb-2">
       <h2 className="text-base font-bold text-white mb-2">{title}</h2>
-      <div
-        className="flex overflow-x-auto gap-3 pb-2 [&::-webkit-scrollbar]:hidden"
-        style={{ scrollbarWidth: 'none' }}
-      >
-        {products.map(p => <HScrollCard key={p.id} product={p} />)}
+      <div className="flex gap-4 overflow-hidden">
+        <div className="flex gap-3 animate-scroll">
+          {products.map(p => <HScrollCard key={p.id} product={p} />)}
+          {products.map(p => <HScrollCard key={`dup-${p.id}`} product={p} />)}
+        </div>
       </div>
     </div>
   )

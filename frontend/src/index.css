@@ -140,3 +140,17 @@ select option {
 @keyframes sp-exit {
   to { opacity: 0; }
 }
+
+/* ── Infinite horizontal auto-scroll ticker ──────────────────────────────── */
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
