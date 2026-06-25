@@ -219,6 +219,29 @@ const ProductList = () => {
                       </svg>
                     </button>
                   </div>
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-gold mb-2">Sort By</h4>
+                    <div className="bg-[#1a1408] border border-gold/20 rounded-xl overflow-hidden divide-y divide-gold/10">
+                      {SORT_OPTIONS.map((opt) => (
+                        <label
+                          key={opt.value}
+                          className={`flex items-center gap-3 px-3 py-2.5 cursor-pointer ${
+                            sortBy === opt.value ? 'text-gold font-semibold bg-gold/10' : 'text-white/70'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="mobile-sort"
+                            value={opt.value}
+                            checked={sortBy === opt.value}
+                            onChange={() => setSortBy(opt.value)}
+                            className="accent-gold"
+                          />
+                          {opt.label}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                   <ProductFilters categories={categories} filters={filtersForSidebar} onChange={handleFilterChange} onClear={clearFilters} sticky={false} showSort={false} />
                 </div>
               </div>

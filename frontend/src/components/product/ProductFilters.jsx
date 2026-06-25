@@ -26,7 +26,7 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
   return (
     <div className={`card p-4 space-y-6 ${sticky ? 'sticky top-20' : ''}`}>
       <div className="flex items-center justify-between">
-        <h3 className="font-bold text-parchment">Filters</h3>
+        <h3 className="font-bold text-gold">Filters</h3>
         <button onClick={onClear} className="text-xs text-gold font-medium hover:underline">
           Clear all
         </button>
