@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/common/Navbar'
 import Footer from './components/common/Footer'
 import BottomNav from './components/common/BottomNav'
-import SplashScreen from './components/common/SplashScreen'
+import SplashScreen, { shouldShow as splashWillShow } from './components/common/SplashScreen'
 import PrivateRoute from './components/common/PrivateRoute'
 import AdminRoute from './components/common/AdminRoute'
 import AdminLayout from './components/admin/AdminLayout'
@@ -47,17 +47,20 @@ const StorefrontLayout = ({ children }) => (
 )
 
 function App() {
-  return (
-    <>
-      <SplashScreen />
-      <Routes>
-      {/* Admin routes - only registered on localhost */}
+  const [routesReady, setRoutesReady] = useState(!splashWillShow)
+
+  useEffect(() => {
+    if (splashWillShow) {
+      const t = setTimeout(() => setRoutesReady(true), 4000)
+      return () => clearTimeout(t)
+    }
+  }, [])
+
+  const appRoutes = routesReady ? (
+    <Routes>
       {isLocalhost && (
         <>
-          {/* Admin login - no sidebar layout */}
           <Route path="/admin/login" element={<AdminLogin />} />
-
-          {/* Admin protected routes - with sidebar layout */}
           <Route
             path="/admin"
             element={
@@ -79,8 +82,6 @@ function App() {
           </Route>
         </>
       )}
-
-      {/* Storefront routes - with navbar/footer layout */}
       <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
       <Route path="/products" element={<StorefrontLayout><ProductList /></StorefrontLayout>} />
       <Route path="/products/:id" element={<StorefrontLayout><ProductDetails /></StorefrontLayout>} />
@@ -88,58 +89,20 @@ function App() {
       <Route path="/login" element={<StorefrontLayout><Login /></StorefrontLayout>} />
       <Route path="/register" element={<StorefrontLayout><Register /></StorefrontLayout>} />
       <Route path="/forgot-password" element={<StorefrontLayout><ForgotPassword /></StorefrontLayout>} />
-
-      <Route
-        path="/wishlist"
-        element={
-          <StorefrontLayout>
-            <PrivateRoute><Wishlist /></PrivateRoute>
-          </StorefrontLayout>
-        }
-      />
-      <Route
-        path="/checkout"
-        element={
-          <StorefrontLayout>
-            <PrivateRoute><Checkout /></PrivateRoute>
-          </StorefrontLayout>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <StorefrontLayout>
-            <PrivateRoute><Profile /></PrivateRoute>
-          </StorefrontLayout>
-        }
-      />
-      <Route
-        path="/orders"
-        element={
-          <StorefrontLayout>
-            <PrivateRoute><OrderHistory /></PrivateRoute>
-          </StorefrontLayout>
-        }
-      />
-      <Route
-        path="/order-confirmation/:orderId"
-        element={
-          <StorefrontLayout>
-            <PrivateRoute><OrderConfirmation /></PrivateRoute>
-          </StorefrontLayout>
-        }
-      />
-      <Route
-        path="/profile/addresses"
-        element={
-          <StorefrontLayout>
-            <PrivateRoute><AddressBook /></PrivateRoute>
-          </StorefrontLayout>
-        }
-      />
-
+      <Route path="/wishlist" element={<StorefrontLayout><PrivateRoute><Wishlist /></PrivateRoute></StorefrontLayout>} />
+      <Route path="/checkout" element={<StorefrontLayout><PrivateRoute><Checkout /></PrivateRoute></StorefrontLayout>} />
+      <Route path="/profile" element={<StorefrontLayout><PrivateRoute><Profile /></PrivateRoute></StorefrontLayout>} />
+      <Route path="/orders" element={<StorefrontLayout><PrivateRoute><OrderHistory /></PrivateRoute></StorefrontLayout>} />
+      <Route path="/order-confirmation/:orderId" element={<StorefrontLayout><PrivateRoute><OrderConfirmation /></PrivateRoute></StorefrontLayout>} />
+      <Route path="/profile/addresses" element={<StorefrontLayout><PrivateRoute><AddressBook /></PrivateRoute></StorefrontLayout>} />
       <Route path="*" element={<StorefrontLayout><NotFound /></StorefrontLayout>} />
     </Routes>
+  ) : null
+
+  return (
+    <>
+      <SplashScreen />
+      {appRoutes}
     </>
   )
 }

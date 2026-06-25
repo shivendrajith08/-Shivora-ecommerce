@@ -12,7 +12,7 @@ const SESSION_KEY = 'shivora_splash_v1'
 // Module-level IIFE — runs once on module load, outside React's render cycle,
 // so React 18 StrictMode double-invocation cannot corrupt the sessionStorage flag.
 // DEV mode always returns true so a hard-refresh re-triggers the splash.
-const shouldShow = (() => {
+export const shouldShow = (() => {
   if (typeof window === 'undefined') return false
   if (import.meta.env.DEV) return true
   if (sessionStorage.getItem(SESSION_KEY)) return false
