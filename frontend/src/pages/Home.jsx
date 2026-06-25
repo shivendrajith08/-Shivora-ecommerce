@@ -54,20 +54,6 @@ const HScrollCard = ({ product }) => {
   )
 }
 
-const HScrollRow = ({ title, products }) => {
-  if (!products || products.length === 0) return null
-  return (
-    <div className="mb-2">
-      <h2 className="text-base font-bold text-white mb-2">{title}</h2>
-      <div className="flex gap-4 overflow-hidden">
-        <div className="flex gap-3 animate-scroll">
-          {products.map(p => <HScrollCard key={p.id} product={p} />)}
-          {products.map(p => <HScrollCard key={`dup-${p.id}`} product={p} />)}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -92,6 +78,26 @@ const Home = () => {
   // Desktop sort dropdown
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const sortRef = useRef(null)
+
+  const trendingRef = useRef(null)
+  const trendingInterval = useRef(null)
+  const dealsRef = useRef(null)
+  const dealsInterval = useRef(null)
+
+  const startScroll = (ref, intervalRef) => {
+    intervalRef.current = setInterval(() => {
+      if (ref.current) {
+        ref.current.scrollLeft += 1
+        if (ref.current.scrollLeft >= ref.current.scrollWidth / 2) {
+          ref.current.scrollLeft = 0
+        }
+      }
+    }, 20)
+  }
+
+  const stopScroll = (intervalRef) => {
+    clearInterval(intervalRef.current)
+  }
 
   const filters = {
     search:      searchParams.get('search') || '',
@@ -148,6 +154,18 @@ const Home = () => {
       setRecentlyViewed(stored)
     } catch {}
   }, [])
+
+  useEffect(() => {
+    if (trendingProducts.length === 0) return
+    startScroll(trendingRef, trendingInterval)
+    return () => stopScroll(trendingInterval)
+  }, [trendingProducts])
+
+  useEffect(() => {
+    if (dealProducts.length === 0) return
+    startScroll(dealsRef, dealsInterval)
+    return () => stopScroll(dealsInterval)
+  }, [dealProducts])
 
   // Lock body scroll when 2-panel filter is open
   useEffect(() => {
@@ -306,8 +324,40 @@ const Home = () => {
         {/* Horizontal scroll rows — only on unfiltered home view */}
         {showHomeSections && (trendingProducts.length > 0 || dealProducts.length > 0) && (
           <div className="space-y-5">
-            <HScrollRow title="Trending Now" products={trendingProducts} />
-            <HScrollRow title="Best Deals" products={dealProducts} />
+            {trendingProducts.length > 0 && (
+              <div className="mb-2">
+                <h2 className="text-base font-bold text-white mb-2">Trending Now</h2>
+                <div
+                  ref={trendingRef}
+                  onMouseEnter={() => stopScroll(trendingInterval)}
+                  onMouseLeave={() => startScroll(trendingRef, trendingInterval)}
+                  onTouchStart={() => stopScroll(trendingInterval)}
+                  onTouchEnd={() => startScroll(trendingRef, trendingInterval)}
+                  style={{display:'flex', gap:'16px', overflowX:'auto', scrollbarWidth:'none', cursor:'grab'}}
+                >
+                  {[...trendingProducts, ...trendingProducts].map((product, i) => (
+                    <HScrollCard key={i} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+            {dealProducts.length > 0 && (
+              <div className="mb-2">
+                <h2 className="text-base font-bold text-white mb-2">Best Deals</h2>
+                <div
+                  ref={dealsRef}
+                  onMouseEnter={() => stopScroll(dealsInterval)}
+                  onMouseLeave={() => startScroll(dealsRef, dealsInterval)}
+                  onTouchStart={() => stopScroll(dealsInterval)}
+                  onTouchEnd={() => startScroll(dealsRef, dealsInterval)}
+                  style={{display:'flex', gap:'16px', overflowX:'auto', scrollbarWidth:'none', cursor:'grab'}}
+                >
+                  {[...dealProducts, ...dealProducts].map((product, i) => (
+                    <HScrollCard key={i} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
