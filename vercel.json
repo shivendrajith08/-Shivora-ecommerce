@@ -1,7 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/admin", "destination": "/404" },
-    { "source": "/admin/login", "destination": "/404" },
-    { "source": "/admin/(.*)", "destination": "/404" }
+  "routes": [
+    { "src": "/admin", "status": 404, "dest": "/404" },
+    { "src": "/admin/login", "status": 404, "dest": "/404" },
+    { "src": "/admin/(.*)", "status": 404, "dest": "/404" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
