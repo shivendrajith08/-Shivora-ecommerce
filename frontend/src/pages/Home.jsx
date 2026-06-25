@@ -434,7 +434,7 @@ const Home = () => {
 
         {/* Recently Viewed */}
         {recentlyViewed.length > 0 && (
-          <div className="mb-2">
+          <div className="w-full mb-2">
             <h2 className="text-base font-bold text-white mb-2">Recently Viewed</h2>
             <div className="flex overflow-x-auto gap-4 pb-2 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
               {recentlyViewed.map(p => {

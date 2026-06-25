@@ -271,7 +271,7 @@ const ProductList = () => {
 
             {/* Desktop-only sort dropdown */}
             <div className="hidden lg:flex items-center gap-2">
-              <span className="text-sm text-white/60">Sort By</span>
+              <span className="text-sm text-white/60 mr-2">Sort By</span>
               <div className="relative" ref={sortRef}>
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
