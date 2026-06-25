@@ -19,6 +19,8 @@ const AdminSidebar = ({ onNavigate }) => {
   const navigate = useNavigate()
 
   const [pendingReturns, setPendingReturns] = useState(0)
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+
   useEffect(() => {
     getReturns()
       .then((r) => setPendingReturns((r.data.returns || []).filter((x) => x.status === 'Requested').length))
@@ -69,7 +71,7 @@ const AdminSidebar = ({ onNavigate }) => {
 
       <div className="p-3 border-t border-surface-border">
         <button
-          onClick={handleLogout}
+          onClick={() => setShowLogoutConfirm(true)}
           className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-surface-raised transition"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,6 +80,32 @@ const AdminSidebar = ({ onNavigate }) => {
           Logout
         </button>
       </div>
+
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setShowLogoutConfirm(false)} />
+          <div className="relative w-full max-w-sm bg-surface rounded-xl border border-surface-border shadow-2xl p-6">
+            <h3 className="text-base font-bold text-parchment mb-2">Confirm Logout</h3>
+            <p className="text-sm text-silver-muted mb-6">
+              Are you sure you want to logout from admin panel?
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="text-sm font-semibold px-4 py-2 rounded-lg bg-surface-raised text-parchment hover:bg-surface-border transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="text-sm font-semibold px-4 py-2 rounded-lg bg-red-900/40 text-red-400 hover:bg-red-900/60 transition-colors"
+              >
+                Yes, Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
