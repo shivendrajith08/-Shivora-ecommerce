@@ -52,7 +52,12 @@ const ReturnRequestModal = ({ order, onClose, onSubmitted }) => {
                 {order.items?.slice(0, 5).map((item) => (
                   <div key={item.id} className="w-12 h-12 rounded-lg overflow-hidden bg-surface border border-surface-border flex-shrink-0" title={item.product_name}>
                     {item.product_image ? (
-                      <img src={`${API_ORIGIN}${item.product_image}`} alt={item.product_name} className="w-full h-full object-cover" />
+                      <img
+                        src={item.product_image.startsWith('/uploads/') ? '/placeholder-product.svg' : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`}
+                        alt={item.product_name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-product.svg' }}
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-silver-dim text-[10px]">N/A</div>
                     )}

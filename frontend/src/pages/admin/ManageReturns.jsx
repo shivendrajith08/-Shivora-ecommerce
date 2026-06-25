@@ -17,6 +17,7 @@ const ManageReturns = () => {
   const [actingId, setActingId] = useState(null)
   const [rejectingId, setRejectingId] = useState(null)   // row showing the inline reject input
   const [rejectNote, setRejectNote] = useState('')
+  const [confirmTarget, setConfirmTarget] = useState(null)
 
   const loadReturns = async () => {
     setLoading(true)
@@ -33,8 +34,13 @@ const ManageReturns = () => {
 
   useEffect(() => { loadReturns() }, [])
 
-  const handleApprove = async (rr) => {
-    if (!window.confirm(`Approve return for Order #${rr.order_id}?`)) return
+  const handleApprove = (rr) => {
+    setConfirmTarget(rr)
+  }
+
+  const confirmApprove = async () => {
+    const rr = confirmTarget
+    setConfirmTarget(null)
     setActingId(rr.id)
     try {
       await approveReturn(rr.id, {})
@@ -161,6 +167,32 @@ const ManageReturns = () => {
         )}
       </div>
     </div>
+
+    {confirmTarget && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/70" onClick={() => setConfirmTarget(null)} />
+        <div className="relative w-full max-w-sm bg-surface rounded-xl border border-surface-border shadow-2xl p-6">
+          <h3 className="text-base font-bold text-parchment mb-2">Approve Return</h3>
+          <p className="text-sm text-silver-muted mb-6">
+            Approve return for <span className="text-parchment font-semibold">Order #{confirmTarget.order_id}</span>?
+          </p>
+          <div className="flex gap-3 justify-end">
+            <button
+              onClick={() => setConfirmTarget(null)}
+              className="text-sm font-semibold px-4 py-2 rounded-lg bg-surface-raised text-silver-muted hover:text-parchment transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={confirmApprove}
+              className="text-sm font-semibold px-4 py-2 rounded-lg bg-green-900/40 text-green-400 hover:bg-green-900/60 transition-colors"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
   )
 }
 
