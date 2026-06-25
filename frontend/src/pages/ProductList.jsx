@@ -174,7 +174,7 @@ const ProductList = () => {
   return (
     <>
       {showMobileFilter && (
-        <div style={{position:'fixed',inset:0,zIndex:100,display:'flex',flexDirection:'column',background:'#0A0A0B'}}>
+        <div style={{position:'fixed',inset:0,zIndex:100,display:'flex',flexDirection:'column',background:'#020818'}}>
 
           {/* Header */}
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px',borderBottom:'1px solid rgba(212,175,55,0.2)',flexShrink:0}}>
@@ -187,10 +187,10 @@ const ProductList = () => {
           <div style={{display:'flex',flex:1,overflow:'hidden'}}>
 
             {/* Left tabs */}
-            <div style={{width:'110px',background:'#111114',overflowY:'auto',flexShrink:0}}>
+            <div style={{width:'110px',background:'#060D22',overflowY:'auto',flexShrink:0}}>
               {['Sort','Category','Price'].map(tab => (
                 <div key={tab} onClick={() => setActiveFilterTab(tab)}
-                  style={{padding:'16px 12px',fontSize:'13px',cursor:'pointer',borderLeft: activeFilterTab===tab ? '3px solid #D4AF37' : '3px solid transparent',color: activeFilterTab===tab ? '#D4AF37' : 'rgba(255,255,255,0.6)',fontWeight: activeFilterTab===tab ? '600' : '400',background: activeFilterTab===tab ? '#0A0A0B' : 'transparent'}}>
+                  style={{padding:'16px 12px',fontSize:'13px',cursor:'pointer',borderLeft: activeFilterTab===tab ? '3px solid #D4AF37' : '3px solid transparent',color: activeFilterTab===tab ? '#D4AF37' : 'rgba(255,255,255,0.6)',fontWeight: activeFilterTab===tab ? '600' : '400',background: activeFilterTab===tab ? '#020818' : 'transparent'}}>
                   {tab}
                 </div>
               ))}
@@ -235,11 +235,11 @@ const ProductList = () => {
                   <div style={{marginTop:'12px',display:'flex',flexDirection:'column',gap:'10px'}}>
                     <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
                       <label style={{color:'rgba(255,255,255,0.5)',fontSize:'11px',fontWeight:'500'}}>Min Price</label>
-                      <input type="number" placeholder="Min" value={tempMin} onChange={e=>setTempMin(e.target.value)} style={{width:'100%',background:'#111114',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                      <input type="number" placeholder="Min" value={tempMin} onChange={e=>setTempMin(e.target.value)} style={{width:'100%',background:'#060D22',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
                     </div>
                     <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
                       <label style={{color:'rgba(255,255,255,0.5)',fontSize:'11px',fontWeight:'500'}}>Max Price</label>
-                      <input type="number" placeholder="Max" value={tempMax} onChange={e=>setTempMax(e.target.value)} style={{width:'100%',background:'#111114',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                      <input type="number" placeholder="Max" value={tempMax} onChange={e=>setTempMax(e.target.value)} style={{width:'100%',background:'#060D22',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
                     </div>
                   </div>
                 </div>
@@ -249,7 +249,7 @@ const ProductList = () => {
           </div>
 
           {/* Bottom bar */}
-          <div style={{display:'flex',gap:'12px',padding:'12px 16px',borderTop:'1px solid rgba(212,175,55,0.2)',paddingBottom:'70px',flexShrink:0,background:'#0A0A0B'}}>
+          <div style={{display:'flex',gap:'12px',padding:'12px 16px',borderTop:'1px solid rgba(212,175,55,0.2)',paddingBottom:'70px',flexShrink:0,background:'#020818'}}>
             <button onClick={handleClearFilters} style={{flex:1,border:'1px solid rgba(255,255,255,0.2)',color:'rgba(255,255,255,0.7)',borderRadius:'999px',padding:'12px',fontSize:'14px',background:'transparent'}}>Clear All</button>
             <button onClick={handleApplyFilters} style={{flex:2,background:'#D4AF37',color:'black',fontWeight:'bold',borderRadius:'999px',padding:'12px',fontSize:'14px',border:'none'}}>Show Products</button>
           </div>
@@ -287,7 +287,7 @@ const ProductList = () => {
                 </button>
 
                 {showSortDropdown && (
-                  <div className="absolute right-0 top-full mt-1 w-48 bg-[#111114] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
+                  <div className="absolute right-0 top-full mt-1 w-48 bg-[#060D22] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
                     {SORT_OPTIONS.map((opt) => (
                       <button
                         key={opt.value}
@@ -308,10 +308,10 @@ const ProductList = () => {
           </div>
 
           {/* Mobile filter trigger bar */}
-          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#0A0A0B]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
+          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#020818]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
             <button
               onClick={() => setShowMobileFilter(true)}
-              className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#111114] hover:border-gold/40 transition-colors"
+              className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#060D22] hover:border-gold/40 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />

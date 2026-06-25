@@ -2,14 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Obsidian Royale design tokens ──────────────────────────────────────── */
+/* ── Midnight Navy & Gold design tokens ─────────────────────────────────── */
 :root {
-  --color-bg:             #0A0A0B;
-  --color-base:           #0A0A0B;
-  --color-base-soft:      #111114;
-  --color-surface:        #111114;
-  --color-surface-raised: #1A1A1F;
+  --color-bg:             #020818;
+  --color-base:           #020818;
+  --color-base-soft:      #060D22;
+  --color-surface:        #060D22;
+  --color-surface-raised: #0D1A3A;
   --color-surface-border: rgba(212,175,55,0.15);
+  --color-surface-border-blue: rgba(30,58,138,0.4);
+
+  --color-primary:       #1E3A8A;
+  --color-primary-hover: #2547B0;
+  --color-primary-light: #3B5FD4;
 
   --color-gold-light:  #F5E49C;
   --color-gold-hover:  #E8C84A;
@@ -20,8 +25,8 @@
   --color-silver-lightest: #E8EAED;
   --color-silver-light:    #D8DADE;
   --color-silver:          #A09080;
-  --color-silver-muted:    #A8AAAD;
-  --color-silver-dim:      #605548;
+  --color-silver-muted:    #A0AABF;
+  --color-silver-dim:      #4A5568;
 
   --color-parchment: #F5F0E8;
 
@@ -36,7 +41,7 @@ html {
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
-  background-color: #0A0A0B;
+  background-color: #020818;
   color: #F5F0E8;
   line-height: 1.6;
 }
@@ -47,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Dark-friendly native select options */
 select option {
-  background-color: #111114;
+  background-color: #060D22;
   color: #F5F0E8;
 }
 
@@ -58,7 +63,7 @@ select option {
   .btn-primary {
     @apply btn shadow-sm font-semibold;
     background-image: var(--gold-shine);
-    color: #0A0A0B;
+    color: #020818;
   }
   .btn-primary:hover:not(:disabled) {
     background-image: var(--gold-shine-hover);
@@ -117,7 +122,7 @@ select option {
 /* ── Promo carousel: warm luxury gradient on mobile ──────────────────────── */
 @media (max-width: 639px) {
   .promo-slide-bg {
-    background: linear-gradient(135deg, #111114 0%, #1A1A1F 50%, #111114 100%) !important;
+    background: linear-gradient(135deg, #060D22 0%, #0D1A3A 50%, #060D22 100%) !important;
   }
 }
 
