@@ -120,7 +120,7 @@ const ProductFilters = ({ categories, filters, onChange, onClear, onApply, stick
       </div>
 
       {/* Always-visible bottom buttons */}
-      <div className="flex-shrink-0 sticky bottom-0 bg-[#0f0d0a] flex gap-3 p-4 border-t border-gold/20 z-10">
+      <div className="flex-shrink-0 sticky bottom-16 bg-[#0f0d0a] flex gap-3 p-4 border-t border-gold/20 z-10">
         <button
           onClick={handleReset}
           className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
