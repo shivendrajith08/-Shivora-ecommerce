@@ -157,7 +157,11 @@ const Home = () => {
       {!filters.category && <PromoCarousel />}
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 space-y-6">
-        {!filters.category && <CategorySection categories={categories} showViewAll={false} />}
+        {!filters.category && (
+          <div className="hidden md:block">
+            <CategorySection categories={categories} showViewAll={false} />
+          </div>
+        )}
 
         {/* Horizontal scroll rows — only on unfiltered home view */}
         {showHomeSections && (trendingProducts.length > 0 || dealProducts.length > 0) && (

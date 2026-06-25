@@ -24,11 +24,11 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
   }
 
   return (
-    <div className={`card p-4 space-y-6 ${sticky ? 'sticky top-20' : ''}`}>
+    <div className={`bg-[#1a1408] border border-gold/20 rounded-xl p-4 space-y-6 ${sticky ? 'sticky top-20' : ''}`}>
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-gold">Filters</h3>
-        <button onClick={onClear} className="text-xs text-gold font-medium hover:underline">
-          Clear all
+        <button onClick={onClear} className="text-xs text-gold font-medium border border-gold/30 rounded-lg px-2.5 py-1 hover:bg-gold/10 transition-colors">
+          Reset
         </button>
       </div>
 
@@ -73,10 +73,10 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
             <button
               key={cat.id}
               onClick={() => handleCategoryClick(cat)}
-              className={`w-full text-left px-2.5 py-1.5 rounded-md text-sm transition ${
+              className={`w-full text-left px-2 py-3 min-h-[44px] rounded-lg text-sm transition ${
                 filters.category === cat.slug
-                  ? 'bg-gold/10 text-gold font-semibold border border-gold/30'
-                  : 'text-silver-muted hover:bg-surface-raised hover:text-parchment'
+                  ? 'bg-gold/10 text-gold font-semibold'
+                  : 'text-white/70 hover:bg-white/5 hover:text-parchment'
               }`}
             >
               {cat.name}
@@ -94,7 +94,7 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
             placeholder="Min"
             value={filters.min_price || ''}
             onChange={(e) => handlePriceChange('min_price', e.target.value)}
-            className="input-field !py-1.5 text-sm"
+            className="input-field !py-1.5 text-sm flex-1 focus:!border-gold/60"
           />
           <span className="text-silver-dim">-</span>
           <input
@@ -103,7 +103,7 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
             placeholder="Max"
             value={filters.max_price || ''}
             onChange={(e) => handlePriceChange('max_price', e.target.value)}
-            className="input-field !py-1.5 text-sm"
+            className="input-field !py-1.5 text-sm flex-1 focus:!border-gold/60"
           />
         </div>
       </div>
