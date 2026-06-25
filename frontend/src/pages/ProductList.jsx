@@ -270,37 +270,40 @@ const ProductList = () => {
             </div>
 
             {/* Desktop-only sort dropdown */}
-            <div className="hidden lg:block relative" ref={sortRef}>
-              <button
-                onClick={() => setShowSortDropdown(!showSortDropdown)}
-                className="input-field !py-1.5 !w-auto text-sm flex items-center gap-1.5 cursor-pointer"
-              >
-                {currentSortLabel}
-                <svg
-                  className={`w-3.5 h-3.5 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`}
-                  fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            <div className="hidden lg:flex items-center gap-2">
+              <span className="text-sm text-white/60">Sort By</span>
+              <div className="relative" ref={sortRef}>
+                <button
+                  onClick={() => setShowSortDropdown(!showSortDropdown)}
+                  className="input-field !py-1.5 !w-auto text-sm flex items-center gap-1.5 cursor-pointer"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                  {currentSortLabel}
+                  <svg
+                    className={`w-3.5 h-3.5 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
 
-              {showSortDropdown && (
-                <div className="absolute right-0 top-full mt-1 w-48 bg-[#1a1408] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
-                  {SORT_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      onClick={() => { setSortBy(opt.value); setShowSortDropdown(false) }}
-                      className={`w-full text-left px-3 py-2 text-sm transition ${
-                        sortBy === opt.value
-                          ? 'text-gold font-semibold bg-gold/10'
-                          : 'text-white/70 bg-transparent hover:bg-gold/5 hover:text-white'
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+                {showSortDropdown && (
+                  <div className="absolute right-0 top-full mt-1 w-48 bg-[#1a1408] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
+                    {SORT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setSortBy(opt.value); setShowSortDropdown(false) }}
+                        className={`w-full text-left px-3 py-2 text-sm transition ${
+                          sortBy === opt.value
+                            ? 'text-gold font-semibold bg-gold/10'
+                            : 'text-white/70 bg-transparent hover:bg-gold/5 hover:text-white'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -321,7 +324,7 @@ const ProductList = () => {
           </div>
 
           <div className="grid lg:grid-cols-[260px_1fr] gap-6 items-start">
-            <div className="hidden lg:block">
+            <div className="hidden lg:block min-h-screen">
               <div className="sticky top-24">
                 <ProductFilters
                   categories={categories}

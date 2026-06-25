@@ -434,7 +434,33 @@ const Home = () => {
 
         {/* Recently Viewed */}
         {recentlyViewed.length > 0 && (
-          <HScrollRow title="Recently Viewed" products={recentlyViewed} />
+          <div className="mb-2">
+            <h2 className="text-base font-bold text-white mb-2">Recently Viewed</h2>
+            <div className="flex overflow-x-auto gap-4 pb-2 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
+              {recentlyViewed.map(p => {
+                const img = p.image_url
+                  ? (p.image_url.startsWith('http') ? p.image_url : `${API_ORIGIN}${p.image_url}`)
+                  : null
+                const price = p.discount_price && p.discount_price < p.price ? p.discount_price : p.price
+                return (
+                  <Link key={p.id} to={`/products/${p.id}`} className="w-36 flex-shrink-0">
+                    {img ? (
+                      <img src={img} alt={p.name} className="w-full h-28 object-cover rounded-lg" loading="lazy" />
+                    ) : (
+                      <div className="w-full h-28 bg-surface-raised rounded-lg flex items-center justify-center text-silver-dim">
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+                            d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" />
+                        </svg>
+                      </div>
+                    )}
+                    <p className="text-xs text-white/80 truncate mt-1">{p.name}</p>
+                    <p className="text-xs text-gold">₹{price.toLocaleString('en-IN')}</p>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
         )}
 
         <section className="grid sm:grid-cols-3 gap-3 pt-2 border-t border-surface-border">
