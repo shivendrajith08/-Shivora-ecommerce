@@ -53,12 +53,12 @@ const ProductFilters = ({
   }
 
   return (
-    <div className={`bg-[#0f0d0a] border border-gold/20 rounded-xl ${sticky ? 'sticky top-20' : ''}`}>
+    <div className="bg-[#0f0d0a] border border-gold/20 rounded-xl flex flex-col">
       <div className="px-4 pt-4 pb-3 border-b border-gold/10">
         <h3 className="font-bold text-gold">Filters</h3>
       </div>
 
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 overflow-y-auto max-h-[70vh]">
         {showSort && (
           <div className="pt-4">
             <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Sort By</p>
@@ -99,21 +99,21 @@ const ProductFilters = ({
             />
           </div>
         </div>
+      </div>
 
-        <div className="flex gap-3 pt-4 mt-4 border-t border-gold/20">
-          <button
-            onClick={reset}
-            className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
-          >
-            Reset
-          </button>
-          <button
-            onClick={apply}
-            className="bg-gold text-black font-bold rounded-full py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
-          >
-            Apply
-          </button>
-        </div>
+      <div className="px-4 py-3 border-t border-gold/20 flex gap-3">
+        <button
+          onClick={reset}
+          className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
+        >
+          Reset
+        </button>
+        <button
+          onClick={apply}
+          className="bg-gold text-black font-bold rounded-full py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
+        >
+          Apply
+        </button>
       </div>
     </div>
   )
