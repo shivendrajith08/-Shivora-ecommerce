@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
     setAdding(false)
   }
 
-  const handleWishlistToggle = async (e) => {
+  const handleWishlistToggle = (e) => {
     e.preventDefault()
     e.stopPropagation()
     if (!isAuthenticated) {
@@ -44,13 +44,12 @@ const ProductCard = ({ product }) => {
       return
     }
     const prev = isWishlisted(product.id)
+    // Flip instantly in the synchronous event-handler phase so React flushes
+    // the paint before any network work starts — this is the optimistic update.
     setLocalWishlisted(!prev)
-    try {
-      await toggleWishlist(product.id)
-      setLocalWishlisted(null)
-    } catch {
-      setLocalWishlisted(prev)
-    }
+    toggleWishlist(product.id)
+      .then(() => setLocalWishlisted(null))   // API succeeded — let context take over
+      .catch(() => setLocalWishlisted(prev))  // API failed — revert the icon
   }
 
   const wishlisted = localWishlisted !== null ? localWishlisted : isWishlisted(product.id)
