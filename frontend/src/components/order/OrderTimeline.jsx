@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 
 // Flipkart-style horizontal stepper for an order's progress.
 // Frontend-only: derived entirely from the existing order `status` value.
@@ -60,7 +60,7 @@ const OrderTimeline = ({ status }) => {
               <div
                 className={[
                   'flex items-center justify-center rounded-full w-7 h-7 sm:w-8 sm:h-8 text-[11px] sm:text-xs font-bold transition-colors',
-                  st === 'complete' ? 'bg-gold text-[#14130F]' : '',
+                  st === 'complete' ? 'bg-gold text-[#0d0000]' : '',
                   st === 'current' ? 'bg-surface text-gold ring-2 ring-gold animate-pulse' : '',
                   st === 'upcoming' ? 'bg-surface border border-surface-border text-silver-dim' : '',
                 ].join(' ')}

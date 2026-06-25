@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useCart } from '../context/CartContext'
@@ -295,7 +295,7 @@ const Checkout = () => {
                               {a.full_name} <span className="text-silver-dim font-normal">• {a.phone}</span>
                             </p>
                             {a.is_default && (
-                              <span className="flex-shrink-0 inline-flex items-center bg-gold text-[#14130F] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
+                              <span className="flex-shrink-0 inline-flex items-center bg-gold text-[#0d0000] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
                                 Default
                               </span>
                             )}

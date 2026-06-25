@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
 import { getDashboardStats } from '../../api/adminApi'
@@ -15,7 +15,7 @@ const STATUS_STYLES = {
 }
 
 const CHART_TOOLTIP_STYLE = {
-  contentStyle: { backgroundColor: '#2C2921', border: '1px solid #3A3630', borderRadius: 8, color: '#F5F3EE', fontSize: 12 },
+  contentStyle: { backgroundColor: '#2a0000', border: '1px solid #3a1010', borderRadius: 8, color: '#F5F3EE', fontSize: 12 },
   labelStyle: { color: '#A8AAAD' },
 }
 
@@ -75,9 +75,9 @@ const Dashboard = () => {
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#3A3630" />
-                <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3A3630" />
-                <YAxis tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3A3630" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#3a1010" />
+                <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
+                <YAxis tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
                 <Tooltip formatter={(value) => [`₹${value.toLocaleString('en-IN')}`, 'Revenue']} {...CHART_TOOLTIP_STYLE} />
                 <Line type="monotone" dataKey="revenue" stroke="#C9A24B" strokeWidth={2.5} dot={{ r: 4, fill: '#C9A24B' }} />
               </LineChart>
@@ -92,9 +92,9 @@ const Dashboard = () => {
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={stats.top_products} layout="vertical" margin={{ left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#3A3630" />
-                <XAxis type="number" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3A3630" />
-                <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 11, fill: '#8A8C8F' }} stroke="#3A3630" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#3a1010" />
+                <XAxis type="number" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
+                <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 11, fill: '#8A8C8F' }} stroke="#3a1010" />
                 <Tooltip formatter={(value) => [value, 'Units Sold']} {...CHART_TOOLTIP_STYLE} />
                 <Bar dataKey="total_sold" fill="#C9A24B" radius={[0, 4, 4, 0]} />
               </BarChart>

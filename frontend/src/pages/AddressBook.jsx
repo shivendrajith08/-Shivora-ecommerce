@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { getAddresses, deleteAddress, setDefaultAddress } from '../api/addressApi'
 import AddressFormModal from '../components/AddressFormModal'
@@ -101,7 +101,7 @@ const AddressBook = () => {
               <div className="flex items-start justify-between gap-2">
                 <p className="font-semibold text-parchment">{addr.full_name}</p>
                 {addr.is_default && (
-                  <span className="flex-shrink-0 inline-flex items-center bg-gold text-[#14130F] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
+                  <span className="flex-shrink-0 inline-flex items-center bg-gold text-[#0d0000] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
                     Default
                   </span>
                 )}

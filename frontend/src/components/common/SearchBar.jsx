@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+﻿import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { searchProductSuggestions } from '../../api/productApi'
 import { API_ORIGIN } from '../../api/axiosInstance'
@@ -136,7 +136,7 @@ const SearchBar = ({ className = '', onNavigate }) => {
       </form>
 
       {showDropdown && (
-        <div className="absolute top-[calc(100%+6px)] left-0 right-0 rounded-xl border border-gold/20 bg-[#1a1408] shadow-xl z-50 overflow-hidden">
+        <div className="absolute top-[calc(100%+6px)] left-0 right-0 rounded-xl border border-gold/20 bg-[#1a0000] shadow-xl z-50 overflow-hidden">
           {suggestions.length === 0 ? (
             <p className="px-4 py-5 text-sm text-center text-silver-dim">
               No results for &ldquo;<span className="text-silver-muted">{query}</span>&rdquo;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 
 const G0 = '#F5E4A8'
 const G1 = '#C9A24B'
@@ -55,7 +55,7 @@ const SplashScreen = () => {
         alignItems: 'center',
         justifyContent: 'center',
         gap: '32px',
-        backgroundColor: '#14130F',
+        backgroundColor: '#0d0000',
         // hold 1s, then fade 0.8s starting at 3.1s
         animation: 'sp-exit 0.8s ease-in 3.1s forwards',
       }}

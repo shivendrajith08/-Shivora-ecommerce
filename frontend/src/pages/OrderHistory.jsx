@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { getOrderHistory, cancelOrder } from '../api/orderApi'
@@ -237,7 +237,7 @@ const OrderHistory = () => {
           onClick={() => setCancelTarget(null)}
         >
           <div
-            className="bg-[#1a1408] border border-gold/20 rounded-xl p-6 max-w-sm mx-4"
+            className="bg-[#1a0000] border border-gold/20 rounded-xl p-6 max-w-sm mx-4"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-gold font-semibold text-lg mb-2">Cancel Order</h2>

@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
 
@@ -41,7 +41,7 @@ const BottomNav = () => {
   const isActive = (to, exact) => exact ? pathname === to : pathname.startsWith(to)
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 bg-[#1a1408] border-t border-yellow-500/20 flex">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 bg-[#1a0000] border-t border-yellow-500/20 flex">
       {TABS.map(({ to, label, Icon, exact }) => {
         const active = isActive(to, exact)
         const badge = to === '/cart' ? cartCount : 0
@@ -56,7 +56,7 @@ const BottomNav = () => {
             <div className="relative">
               <Icon />
               {badge > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-yellow-500 text-[#14130F] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                <span className="absolute -top-1.5 -right-1.5 bg-yellow-500 text-[#0d0000] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
                   {badge > 99 ? '99+' : badge}
                 </span>
               )}

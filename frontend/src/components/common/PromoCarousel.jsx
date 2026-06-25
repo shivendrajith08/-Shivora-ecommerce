@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+﻿import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 const SLIDES = [
@@ -124,7 +124,7 @@ const PromoCarousel = () => {
                 <Link
                   to={slide.link}
                   className="flex sm:inline-flex items-center justify-center gap-1.5 font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-lg shadow-md transition-all active:scale-95"
-                  style={{ background: 'var(--gold-shine)', color: '#14130F' }}
+                  style={{ background: 'var(--gold-shine)', color: '#0d0000' }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold-shine-hover)' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--gold-shine)' }}
                 >

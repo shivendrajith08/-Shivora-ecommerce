@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { getProductById, getProducts } from '../api/productApi'
@@ -333,7 +333,7 @@ const ProductDetails = () => {
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="btn !px-8 !py-3 border border-gold text-gold font-semibold hover:bg-gold hover:text-[#14130F] active:bg-gold-dark transition-colors"
+                className="btn !px-8 !py-3 border border-gold text-gold font-semibold hover:bg-gold hover:text-[#0d0000] active:bg-gold-dark transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -495,7 +495,7 @@ const ProductDetails = () => {
             </button>
             <button
               onClick={handleBuyNow}
-              className="btn flex-1 min-h-[52px] text-base border border-gold text-gold font-semibold hover:bg-gold hover:text-[#14130F] transition-colors"
+              className="btn flex-1 min-h-[52px] text-base border border-gold text-gold font-semibold hover:bg-gold hover:text-[#0d0000] transition-colors"
             >
               Buy Now
             </button>

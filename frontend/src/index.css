@@ -1,14 +1,14 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ── Dark gold-and-silver design tokens ──────────────────────────────────── */
 :root {
-  --color-base:           #14130F;
-  --color-base-soft:      #1A1916;
-  --color-surface:        #22201B;
-  --color-surface-raised: #2C2921;
-  --color-surface-border: #3A3630;
+  --color-base:           #0d0000;
+  --color-base-soft:      #110000;
+  --color-surface:        #1a0000;
+  --color-surface-raised: #2a0000;
+  --color-surface-border: #3a1010;
 
   --color-gold-light:  #F5E49C;
   --color-gold-hover:  #E8C84A;
@@ -35,7 +35,7 @@ html {
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
-  background-color: #14130F;
+  background-color: #0d0000;
   color: #F5F3EE;
   line-height: 1.6;
 }
@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Dark-friendly native select options */
 select option {
-  background-color: #22201B;
+  background-color: #1a0000;
   color: #F5F3EE;
 }
 
@@ -57,7 +57,7 @@ select option {
   .btn-primary {
     @apply btn shadow-sm font-semibold;
     background-image: var(--gold-shine);
-    color: #14130F;
+    color: #0d0000;
   }
   .btn-primary:hover:not(:disabled) {
     background-image: var(--gold-shine-hover);
@@ -116,7 +116,7 @@ select option {
 /* ── Promo carousel: warm luxury gradient on mobile ──────────────────────── */
 @media (max-width: 639px) {
   .promo-slide-bg {
-    background: linear-gradient(135deg, #1a1008 0%, #2d1f0a 50%, #1a1008 100%) !important;
+    background: linear-gradient(135deg, #1a0000 0%, #2a0000 50%, #1a0000 100%) !important;
   }
 }
 
