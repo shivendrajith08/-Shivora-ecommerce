@@ -4,12 +4,16 @@ import { searchProductSuggestions } from '../../api/productApi'
 import { API_ORIGIN } from '../../api/axiosInstance'
 
 const SEARCH_PLACEHOLDERS = [
-  'Search products...',
   'Search sarees...',
   'Search kurtis...',
-  'Search electronics...',
   'Search jewellery...',
-  'Search sports...',
+  'Search electronics...',
+  'Search cricket bat...',
+  'Search dumbbells...',
+  'Search face wash...',
+  'Search hair dryer...',
+  'Search books...',
+  'Search toys...',
 ]
 
 const SearchBar = ({ className = '', onNavigate }) => {
