@@ -53,12 +53,12 @@ const ProductFilters = ({
   }
 
   return (
-    <div className={`bg-[#0f0d0a] border border-gold/20 rounded-xl flex flex-col h-full ${sticky ? 'sticky top-20' : ''}`}>
-      <div className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-gold/10">
+    <div className={`bg-[#0f0d0a] border border-gold/20 rounded-xl ${sticky ? 'sticky top-20' : ''}`}>
+      <div className="px-4 pt-4 pb-3 border-b border-gold/10">
         <h3 className="font-bold text-gold">Filters</h3>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
+      <div className="px-4 pb-4">
         {showSort && (
           <div className="pt-4">
             <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Sort By</p>
@@ -86,13 +86,12 @@ const ProductFilters = ({
 
         <div className="border-t border-gold/10 pt-4 mt-4">
           <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Price Range (₹)</p>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-2">
             <input
               type="number" min="0" placeholder="Min" value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
               className="bg-[#1a1408] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
             />
-            <span className="text-white/50 flex-shrink-0">—</span>
             <input
               type="number" min="0" placeholder="Max" value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
@@ -100,21 +99,21 @@ const ProductFilters = ({
             />
           </div>
         </div>
-      </div>
 
-      <div className="flex-shrink-0 bg-[#0f0d0a] flex gap-3 p-4 border-t border-gold/20">
-        <button
-          onClick={reset}
-          className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
-        >
-          Reset
-        </button>
-        <button
-          onClick={apply}
-          className="bg-gold text-black font-bold rounded-full py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
-        >
-          Apply
-        </button>
+        <div className="flex gap-3 pt-4 mt-4 border-t border-gold/20">
+          <button
+            onClick={reset}
+            className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
+          >
+            Reset
+          </button>
+          <button
+            onClick={apply}
+            className="bg-gold text-black font-bold rounded-full py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
+          >
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   )
