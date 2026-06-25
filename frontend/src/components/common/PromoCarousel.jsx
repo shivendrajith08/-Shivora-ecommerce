@@ -9,7 +9,7 @@ const SLIDES = [
     subtitle: 'Headphones, Smartphones & more — Limited time',
     cta: 'Shop Electronics',
     link: '/?category=electronics',
-    bg: 'from-[#10131A] via-[#1A2030] to-[#243050]',
+    bg: 'from-[#020818] via-[#060D22] to-[#0D1A3A]',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-10 h-10 sm:w-32 sm:h-32 opacity-90">
         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3" />
@@ -51,7 +51,7 @@ const SLIDES = [
     subtitle: 'Yoga mats, dumbbells & sports equipment',
     cta: 'Shop Fitness',
     link: '/?category=sports-fitness',
-    bg: 'from-[#1A1208] via-[#2A1E08] to-gold-deep',
+    bg: 'from-[#020818] via-[#060D22] to-[#0D1A3A]',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-10 h-10 sm:w-32 sm:h-32 opacity-90">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
@@ -124,7 +124,7 @@ const PromoCarousel = () => {
                 <Link
                   to={slide.link}
                   className="flex sm:inline-flex items-center justify-center gap-1.5 font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-lg shadow-md transition-all active:scale-95"
-                  style={{ background: 'var(--gold-shine)', color: '#0d0000' }}
+                  style={{ background: 'var(--gold-shine)', color: '#020818' }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold-shine-hover)' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--gold-shine)' }}
                 >
