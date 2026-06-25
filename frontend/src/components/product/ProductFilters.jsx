@@ -19,8 +19,8 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
     onChange({ ...filters, [field]: value, page: 1 })
   }
 
-  const handleSortChange = (e) => {
-    onChange({ ...filters, sort: e.target.value, page: 1 })
+  const handleSortChange = (value) => {
+    onChange({ ...filters, sort: value, page: 1 })
   }
 
   return (
@@ -35,11 +35,34 @@ const ProductFilters = ({ categories, filters, onChange, onClear, sticky = true,
       {showSort && (
         <div>
           <label className="label-text">Sort By</label>
-          <select value={filters.sort || 'newest'} onChange={handleSortChange} className="input-field">
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
+          <div className="bg-[#1a1408] border border-gold/20 rounded-xl overflow-hidden divide-y divide-gold/10 mt-1.5">
+            {SORT_OPTIONS.map((opt) => {
+              const selected = (filters.sort || 'newest') === opt.value
+              return (
+                <label
+                  key={opt.value}
+                  className={`flex items-center justify-between px-4 py-3 cursor-pointer ${selected ? 'bg-gold/10' : ''}`}
+                >
+                  <input
+                    type="radio"
+                    name="sort"
+                    value={opt.value}
+                    checked={selected}
+                    onChange={() => handleSortChange(opt.value)}
+                    className="hidden"
+                  />
+                  <span className={`text-sm ${selected ? 'text-gold font-semibold' : 'text-white/70'}`}>
+                    {opt.label}
+                  </span>
+                  <span
+                    className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ${
+                      selected ? 'border-gold bg-gold' : 'border-white/30'
+                    }`}
+                  />
+                </label>
+              )
+            })}
+          </div>
         </div>
       )}
 
