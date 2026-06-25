@@ -387,7 +387,7 @@ const Home = () => {
               </button>
 
               {showSortDropdown && (
-                <div className="absolute right-0 top-full mt-1 w-48 bg-[#1a0000] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
+                <div className="absolute right-0 top-full mt-1 w-48 bg-[#060D22] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
@@ -407,10 +407,10 @@ const Home = () => {
           </div>
 
           {/* Mobile filter trigger bar */}
-          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#0d0000]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
+          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#020818]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
             <button
               onClick={() => setShowMobileFilter(true)}
-              className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#1a0000] hover:border-gold/40 transition-colors"
+              className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#060D22] hover:border-gold/40 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />
