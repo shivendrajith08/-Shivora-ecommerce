@@ -211,7 +211,7 @@ const ProductList = () => {
             {showMobileFilters && (
               <div className="fixed inset-0 z-50 lg:hidden">
                 <div className="fixed inset-0 bg-black/60" onClick={() => setShowMobileFilters(false)} />
-                <div className="fixed inset-y-0 left-0 w-80 max-w-[85vw] bg-surface p-4 overflow-hidden border-r border-surface-border max-h-[85vh] flex flex-col">
+                <div className="fixed inset-x-0 bottom-0 w-full bg-[#0f0d0a] overflow-hidden border-t border-gold/20 max-h-[85vh] flex flex-col rounded-t-2xl pb-14">
                   <div className="flex justify-end mb-2">
                     <button onClick={() => setShowMobileFilters(false)} className="text-silver-muted hover:text-parchment">
                       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
