@@ -46,15 +46,12 @@ const ProductList = () => {
   const [priceMin, setPriceMin] = useState('')
   const [priceMax, setPriceMax] = useState('')
 
-  // Mobile 2-panel filter overlay state
   const [showMobileFilter, setShowMobileFilter] = useState(false)
-  const [mobileTab, setMobileTab] = useState('sort')
-  const [mobileSort, setMobileSort] = useState('newest')
-  const [mobileCategorySlug, setMobileCategorySlug] = useState('')
-  const [mobileCategoryId, setMobileCategoryId] = useState('')
-  const [mobilePricePreset, setMobilePricePreset] = useState(null)
-  const [mobilePriceMin, setMobilePriceMin] = useState('')
-  const [mobilePriceMax, setMobilePriceMax] = useState('')
+  const [activeFilterTab, setActiveFilterTab] = useState('Sort')
+  const [tempSort, setTempSort] = useState('newest')
+  const [tempCategory, setTempCategory] = useState('')
+  const [tempMin, setTempMin] = useState('')
+  const [tempMax, setTempMax] = useState('')
 
   const urlFilters = {
     search: searchParams.get('search') || '',
@@ -148,54 +145,27 @@ const ProductList = () => {
     setSortBy('newest')
   }
 
-  // Mobile overlay handlers
-  const openMobileFilter = () => {
-    setMobileSort(sortBy)
-    setMobileCategorySlug(urlFilters.category)
-    setMobileCategoryId(urlFilters.category_id || '')
-    setMobilePriceMin(priceMin)
-    setMobilePriceMax(priceMax)
-    const matchedPreset = PRICE_PRESETS.find((p) => p.min === String(priceMin) && p.max === String(priceMax))
-    setMobilePricePreset(matchedPreset ? matchedPreset.key : null)
-    setMobileTab('sort')
-    setShowMobileFilter(true)
-  }
-
-  const closeMobileFilter = () => setShowMobileFilter(false)
-
-  const applyMobileFilter = () => {
-    setSortBy(mobileSort)
-    setPriceMin(mobilePriceMin)
-    setPriceMax(mobilePriceMax)
+  const handleApplyFilters = () => {
+    setSortBy(tempSort)
+    setPriceMin(tempMin)
+    setPriceMax(tempMax)
     const params = {}
     if (urlFilters.search) params.search = urlFilters.search
-    if (mobileCategorySlug) {
-      params.category = mobileCategorySlug
-      if (mobileCategoryId) params.category_id = mobileCategoryId
-    }
+    if (tempCategory) params.category = tempCategory
     setSearchParams(params)
     setShowMobileFilter(false)
   }
 
-  const clearMobileFilter = () => {
-    setMobileSort('newest')
-    setMobileCategorySlug('')
-    setMobileCategoryId('')
-    setMobilePricePreset(null)
-    setMobilePriceMin('')
-    setMobilePriceMax('')
-  }
-
-  const handleMobilePricePreset = (preset) => {
-    if (mobilePricePreset === preset.key) {
-      setMobilePricePreset(null)
-      setMobilePriceMin('')
-      setMobilePriceMax('')
-    } else {
-      setMobilePricePreset(preset.key)
-      setMobilePriceMin(preset.min)
-      setMobilePriceMax(preset.max)
-    }
+  const handleClearFilters = () => {
+    setTempSort('newest')
+    setTempCategory('')
+    setTempMin('')
+    setTempMax('')
+    setSortBy('newest')
+    setPriceMin('')
+    setPriceMax('')
+    setSearchParams({})
+    setShowMobileFilter(false)
   }
 
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortBy)?.label ?? 'Sort'
@@ -203,159 +173,82 @@ const ProductList = () => {
 
   return (
     <>
-      {/* Mobile 2-panel full-screen filter overlay */}
       {showMobileFilter && (
-        <div className="lg:hidden fixed inset-0 z-50 flex flex-col bg-[#0f0d0a]">
-          {/* Top bar: back arrow + title + Clear All */}
-          <div className="flex-shrink-0 flex items-center h-12 px-4 bg-[#1a1408] border-b border-gold/20">
-            <button onClick={closeMobileFilter} className="-ml-1 p-1 text-white/70 hover:text-white">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <span className="flex-1 text-center font-bold text-white text-base">Filters</span>
-            <button onClick={clearMobileFilter} className="text-xs font-semibold text-gold hover:text-gold/80 transition-colors">
-              Clear All
-            </button>
+        <div style={{position:'fixed',inset:0,zIndex:100,display:'flex',flexDirection:'column',background:'#0f0d0a'}}>
+
+          {/* Header */}
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px',borderBottom:'1px solid rgba(212,175,55,0.2)',flexShrink:0}}>
+            <button onClick={() => setShowMobileFilter(false)} style={{color:'white',background:'none',border:'none',fontSize:'20px'}}>←</button>
+            <span style={{color:'white',fontWeight:'bold',fontSize:'16px'}}>Filters</span>
+            <button onClick={handleClearFilters} style={{color:'#D4AF37',background:'none',border:'none',fontSize:'13px'}}>Clear All</button>
           </div>
 
-          {/* Body: left col (w-28) + right col (flex-1), pb-28 so content clears fixed bottom bar */}
-          <div className="flex flex-1 overflow-hidden">
-            {/* Left column — w-28, filter type list */}
-            <div className="w-28 flex-shrink-0 bg-[#1a1408] overflow-y-auto pb-28">
-              {LEFT_TABS.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setMobileTab(tab.key)}
-                  className={`w-full text-left py-4 px-3 text-sm transition-colors ${
-                    mobileTab === tab.key
-                      ? 'border-l-[3px] border-gold text-gold font-semibold bg-[#0f0d0a]'
-                      : 'border-l-[3px] border-transparent text-white/60'
-                  }`}
-                >
-                  {tab.label}
-                </button>
+          {/* Body */}
+          <div style={{display:'flex',flex:1,overflow:'hidden'}}>
+
+            {/* Left tabs */}
+            <div style={{width:'110px',background:'#1a1408',overflowY:'auto',flexShrink:0}}>
+              {['Sort','Category','Price'].map(tab => (
+                <div key={tab} onClick={() => setActiveFilterTab(tab)}
+                  style={{padding:'16px 12px',fontSize:'13px',cursor:'pointer',borderLeft: activeFilterTab===tab ? '3px solid #D4AF37' : '3px solid transparent',color: activeFilterTab===tab ? '#D4AF37' : 'rgba(255,255,255,0.6)',fontWeight: activeFilterTab===tab ? '600' : '400',background: activeFilterTab===tab ? '#0f0d0a' : 'transparent'}}>
+                  {tab}
+                </div>
               ))}
             </div>
 
-            {/* Right column — flex-1, options for selected filter type */}
-            <div className="flex-1 bg-[#0f0d0a] overflow-y-auto px-3 py-2 pb-28">
-              {/* Sort — radio list */}
-              {mobileTab === 'sort' && (
-                <div>
-                  {SORT_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      onClick={() => setMobileSort(opt.value)}
-                      className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
-                    >
-                      <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                        mobileSort === opt.value ? 'border-gold' : 'border-white/30'
-                      }`}>
-                        {mobileSort === opt.value && <span className="w-2 h-2 rounded-full bg-gold" />}
-                      </span>
-                      <span className={`text-sm ${mobileSort === opt.value ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                        {opt.label}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              )}
+            {/* Right content */}
+            <div style={{flex:1,overflowY:'auto',padding:'16px'}}>
 
-              {/* Category — radio list */}
-              {mobileTab === 'category' && (
-                <div>
-                  <button
-                    onClick={() => { setMobileCategorySlug(''); setMobileCategoryId('') }}
-                    className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
-                  >
-                    <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                      !mobileCategorySlug ? 'border-gold' : 'border-white/30'
-                    }`}>
-                      {!mobileCategorySlug && <span className="w-2 h-2 rounded-full bg-gold" />}
-                    </span>
-                    <span className={`text-sm ${!mobileCategorySlug ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                      All Categories
-                    </span>
-                  </button>
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => { setMobileCategorySlug(cat.slug); setMobileCategoryId(cat.id) }}
-                      className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
-                    >
-                      <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                        mobileCategorySlug === cat.slug ? 'border-gold' : 'border-white/30'
-                      }`}>
-                        {mobileCategorySlug === cat.slug && <span className="w-2 h-2 rounded-full bg-gold" />}
-                      </span>
-                      <span className={`text-sm ${mobileCategorySlug === cat.slug ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                        {cat.name}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Price — preset checkboxes + custom inputs */}
-              {mobileTab === 'price' && (
-                <div>
-                  {PRICE_PRESETS.map((preset) => (
-                    <button
-                      key={preset.key}
-                      onClick={() => handleMobilePricePreset(preset)}
-                      className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
-                    >
-                      <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                        mobilePricePreset === preset.key ? 'border-gold bg-gold' : 'border-white/30'
-                      }`}>
-                        {mobilePricePreset === preset.key && (
-                          <svg className="w-2.5 h-2.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </span>
-                      <span className={`text-sm ${mobilePricePreset === preset.key ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                        {preset.label}
-                      </span>
-                    </button>
-                  ))}
-                  <div className="pt-4 px-1">
-                    <p className="text-xs text-white/40 mb-2">Custom Range (₹)</p>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="number" min="0" placeholder="Min" value={mobilePriceMin}
-                        onChange={(e) => { setMobilePriceMin(e.target.value); setMobilePricePreset(null) }}
-                        className="bg-[#1a1408] border border-gold/30 rounded-lg px-2 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
-                      />
-                      <span className="text-white/40 flex-shrink-0">—</span>
-                      <input
-                        type="number" min="0" placeholder="Max" value={mobilePriceMax}
-                        onChange={(e) => { setMobilePriceMax(e.target.value); setMobilePricePreset(null) }}
-                        className="bg-[#1a1408] border border-gold/30 rounded-lg px-2 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
-                      />
+              {activeFilterTab === 'Sort' && (
+                <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+                  {[{v:'newest',l:'Newest First'},{v:'price_asc',l:'Price: Low to High'},{v:'price_desc',l:'Price: High to Low'},{v:'name_asc',l:'Name: A to Z'}].map(opt => (
+                    <div key={opt.v} onClick={() => setTempSort(opt.v)}
+                      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempSort===opt.v ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
+                      <span style={{color: tempSort===opt.v ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{opt.l}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempSort===opt.v ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
                     </div>
+                  ))}
+                </div>
+              )}
+
+              {activeFilterTab === 'Category' && (
+                <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+                  {categories.map(cat => (
+                    <div key={cat.id} onClick={() => setTempCategory(tempCategory===cat.slug ? '' : cat.slug)}
+                      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempCategory===cat.slug ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
+                      <span style={{color: tempCategory===cat.slug ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{cat.name}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempCategory===cat.slug ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeFilterTab === 'Price' && (
+                <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+                  {[{l:'Below ₹500',min:'',max:'500'},{l:'₹500 - ₹1,000',min:'500',max:'1000'},{l:'₹1,000 - ₹5,000',min:'1000',max:'5000'},{l:'₹5,000 and Above',min:'5000',max:''}].map(range => (
+                    <div key={range.l} onClick={() => { setTempMin(range.min); setTempMax(range.max) }}
+                      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempMin===range.min && tempMax===range.max ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
+                      <span style={{color: tempMin===range.min && tempMax===range.max ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{range.l}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempMin===range.min && tempMax===range.max ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                    </div>
+                  ))}
+                  <div style={{marginTop:'12px',display:'flex',gap:'8px',alignItems:'center'}}>
+                    <input type="number" placeholder="Min" value={tempMin} onChange={e=>setTempMin(e.target.value)} style={{flex:1,background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                    <span style={{color:'rgba(255,255,255,0.4)'}}>—</span>
+                    <input type="number" placeholder="Max" value={tempMax} onChange={e=>setTempMax(e.target.value)} style={{flex:1,background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
                   </div>
                 </div>
               )}
+
             </div>
           </div>
 
-          {/* Bottom bar — fixed above bottom nav (bottom-14) */}
-          <div className="fixed bottom-14 left-0 right-0 z-[51] flex items-center gap-3 px-4 h-14 bg-[#0f0d0a] border-t border-gold/20">
-            <button
-              onClick={clearMobileFilter}
-              className="flex-1 h-10 rounded-full border border-white/20 text-sm text-white/70 hover:text-white hover:border-white/40 transition-colors"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={applyMobileFilter}
-              className="flex-1 h-10 rounded-full bg-gold text-black font-bold text-sm hover:brightness-110 transition-all"
-            >
-              Show Products
-            </button>
+          {/* Bottom bar */}
+          <div style={{display:'flex',gap:'12px',padding:'12px 16px',borderTop:'1px solid rgba(212,175,55,0.2)',paddingBottom:'70px',flexShrink:0,background:'#0f0d0a'}}>
+            <button onClick={handleClearFilters} style={{flex:1,border:'1px solid rgba(255,255,255,0.2)',color:'rgba(255,255,255,0.7)',borderRadius:'999px',padding:'12px',fontSize:'14px',background:'transparent'}}>Clear All</button>
+            <button onClick={handleApplyFilters} style={{flex:2,background:'#D4AF37',color:'black',fontWeight:'bold',borderRadius:'999px',padding:'12px',fontSize:'14px',border:'none'}}>Show Products</button>
           </div>
+
         </div>
       )}
 
@@ -409,7 +302,7 @@ const ProductList = () => {
           {/* Mobile filter trigger bar */}
           <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#0f0d0a]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
             <button
-              onClick={openMobileFilter}
+              onClick={() => setShowMobileFilter(true)}
               className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#1a1408] hover:border-gold/40 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
