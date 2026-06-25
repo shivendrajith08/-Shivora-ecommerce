@@ -83,7 +83,7 @@ const ProductCard = ({ product }) => {
 
         <button
           onClick={handleWishlistToggle}
-          className={`absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-surface/90 hover:bg-surface-raised flex items-center justify-center shadow-sm transition ${wishlisted ? 'text-red-400' : 'text-silver-dim hover:text-red-400'}`}
+          className={`absolute top-1.5 right-1.5 w-7 h-7 rounded-full flex items-center justify-center shadow-sm transition ${wishlisted ? 'bg-red-400/20 hover:bg-red-400/30 text-red-400' : 'bg-surface/90 hover:bg-surface-raised text-silver-dim hover:text-red-400'}`}
           title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
