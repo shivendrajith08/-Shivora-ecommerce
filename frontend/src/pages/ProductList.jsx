@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getProducts } from '../api/productApi'
 import { getCategories } from '../api/categoryApi'
@@ -26,6 +26,8 @@ const ProductList = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [showMobileFilters, setShowMobileFilters] = useState(false)
+  const [showSortDropdown, setShowSortDropdown] = useState(false)
+  const sortRef = useRef(null)
 
   // Sort + price are applied CLIENT-SIDE on the fetched list (category + search stay server-side).
   const [sortBy, setSortBy] = useState('relevance')
@@ -68,6 +70,29 @@ const ProductList = () => {
     loadProducts()
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [loadProducts])
+
+  // Close sort dropdown when user clicks outside it
+  useEffect(() => {
+    if (!showSortDropdown) return
+    const handler = (e) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) {
+        setShowSortDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [showSortDropdown])
+
+  const openMobileFilters = () => {
+    setShowSortDropdown(false)
+    setShowMobileFilters(true)
+  }
+
+  const toggleSortDropdown = () => {
+    const opening = !showSortDropdown
+    if (opening) setShowMobileFilters(false)
+    setShowSortDropdown(opening)
+  }
 
   // Client-side: filter by price range, then sort.
   const visibleProducts = useMemo(() => {
@@ -138,20 +163,39 @@ const ProductList = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Sort — top-right, client-side, visible above the grid on all sizes */}
-              <label className="sr-only" htmlFor="sort-select">Sort by</label>
-              <select
-                id="sort-select"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="input-field !py-1.5 !w-auto text-sm"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
+              {/* Custom sort dropdown — z-40 keeps it below the z-50 mobile filter overlay */}
+              <div className="relative" ref={sortRef}>
+                <button
+                  onClick={toggleSortDropdown}
+                  className="input-field !py-1.5 !w-auto text-sm flex items-center gap-1.5 cursor-pointer"
+                >
+                  {SORT_OPTIONS.find((o) => o.value === sortBy)?.label ?? 'Sort'}
+                  <svg
+                    className={`w-3.5 h-3.5 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
 
-              <button onClick={() => setShowMobileFilters(true)} className="lg:hidden btn-secondary !py-1.5 !px-3 text-xs">
+                {showSortDropdown && (
+                  <div className="absolute right-0 top-full mt-1 w-48 bg-surface border border-surface-border rounded-lg shadow-lg z-40 overflow-hidden">
+                    {SORT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setSortBy(opt.value); setShowSortDropdown(false) }}
+                        className={`w-full text-left px-3 py-2 text-sm transition hover:bg-surface-raised ${
+                          sortBy === opt.value ? 'text-gold font-semibold' : 'text-silver-muted hover:text-parchment'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button onClick={openMobileFilters} className="lg:hidden btn-secondary !py-1.5 !px-3 text-xs">
                 Filters
               </button>
             </div>
