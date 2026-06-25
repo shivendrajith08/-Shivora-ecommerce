@@ -58,7 +58,7 @@ const ProductFilters = ({
         <h3 className="font-bold text-gold">Filters</h3>
       </div>
 
-      <div className="px-4 pb-4 overflow-y-auto max-h-[70vh]">
+      <div className="px-4 pb-4">
         <div className="border-t border-gold/10 pt-4 mt-4">
           <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Category</p>
           <div className="flex flex-wrap gap-2">
