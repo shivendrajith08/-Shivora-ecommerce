@@ -3,15 +3,32 @@ import { useNavigate } from 'react-router-dom'
 import { searchProductSuggestions } from '../../api/productApi'
 import { API_ORIGIN } from '../../api/axiosInstance'
 
-const SearchBar = ({ className = '', onNavigate, placeholder = 'Search for products, brands and more' }) => {
+const SEARCH_PLACEHOLDERS = [
+  'Search products...',
+  'Search sarees...',
+  'Search kurtis...',
+  'Search electronics...',
+  'Search jewellery...',
+  'Search sports...',
+]
+
+const SearchBar = ({ className = '', onNavigate }) => {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
+  const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const containerRef = useRef(null)
   const timerRef = useRef(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex((i) => (i + 1) % SEARCH_PLACEHOLDERS.length)
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     clearTimeout(timerRef.current)
@@ -90,7 +107,7 @@ const SearchBar = ({ className = '', onNavigate, placeholder = 'Search for produ
             onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1) }}
             onKeyDown={handleKeyDown}
             onFocus={() => { if (suggestions.length > 0 && query.trim().length >= 2) setOpen(true) }}
-            placeholder={placeholder}
+            placeholder={SEARCH_PLACEHOLDERS[placeholderIndex]}
             autoComplete="off"
             spellCheck="false"
             className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-surface-border bg-base text-parchment placeholder:text-silver-dim text-sm focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition"
