@@ -271,7 +271,7 @@ const ProductList = () => {
 
             {/* Desktop-only sort dropdown */}
             <div className="hidden lg:flex items-center gap-2">
-              <span className="text-sm text-white/60">Sort By</span>
+              <span style={{color:'rgba(255,255,255,0.6)', fontSize:'14px', marginRight:'8px'}}>Sort By</span>
               <div className="relative" ref={sortRef}>
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
@@ -323,17 +323,15 @@ const ProductList = () => {
             </button>
           </div>
 
-          <div className="grid lg:grid-cols-[260px_1fr] gap-6 items-start">
-            <div className="hidden lg:block min-h-screen">
-              <div className="sticky top-24">
-                <ProductFilters
-                  categories={categories}
-                  filters={filtersForSidebar}
-                  onChange={handleFilterChange}
-                  onClear={clearFilters}
-                  showSort={false}
-                />
-              </div>
+          <div style={{display:'grid', gridTemplateColumns:'260px 1fr', gap:'24px', alignItems:'start'}}>
+            <div style={{position:'sticky', top:'96px'}}>
+              <ProductFilters
+                categories={categories}
+                filters={filtersForSidebar}
+                onChange={handleFilterChange}
+                onClear={clearFilters}
+                showSort={false}
+              />
             </div>
 
             <div>
