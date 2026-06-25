@@ -205,29 +205,32 @@ const ProductList = () => {
     <>
       {/* Mobile 2-panel full-screen filter overlay */}
       {showMobileFilter && (
-        <div className="lg:hidden fixed inset-0 z-50 flex flex-col">
-          {/* Header */}
-          <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-[#1a1408] border-b border-gold/20">
-            <span className="text-white font-bold text-base">Filters</span>
-            <button onClick={closeMobileFilter} className="text-white/60 hover:text-white p-1">
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col bg-[#0f0d0a]">
+          {/* Top bar: back arrow + title + Clear All */}
+          <div className="flex-shrink-0 flex items-center h-12 px-4 bg-[#1a1408] border-b border-gold/20">
+            <button onClick={closeMobileFilter} className="-ml-1 p-1 text-white/70 hover:text-white">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
+            </button>
+            <span className="flex-1 text-center font-bold text-white text-base">Filters</span>
+            <button onClick={clearMobileFilter} className="text-xs font-semibold text-gold hover:text-gold/80 transition-colors">
+              Clear All
             </button>
           </div>
 
-          {/* Body */}
+          {/* Body: left col (w-28) + right col (flex-1), pb-28 so content clears fixed bottom bar */}
           <div className="flex flex-1 overflow-hidden">
-            {/* Left panel — 30% */}
-            <div className="w-[30%] bg-[#1a1408] flex flex-col overflow-y-auto">
+            {/* Left column — w-28, filter type list */}
+            <div className="w-28 flex-shrink-0 bg-[#1a1408] overflow-y-auto pb-28">
               {LEFT_TABS.map((tab) => (
                 <button
                   key={tab.key}
                   onClick={() => setMobileTab(tab.key)}
-                  className={`py-4 px-3 text-sm text-left w-full transition-colors ${
+                  className={`w-full text-left py-4 px-3 text-sm transition-colors ${
                     mobileTab === tab.key
-                      ? 'border-l-2 border-gold text-gold font-semibold bg-[#0f0d0a]'
-                      : 'border-l-2 border-transparent text-white/70'
+                      ? 'border-l-[3px] border-gold text-gold font-semibold bg-[#0f0d0a]'
+                      : 'border-l-[3px] border-transparent text-white/60'
                   }`}
                 >
                   {tab.label}
@@ -235,23 +238,21 @@ const ProductList = () => {
               ))}
             </div>
 
-            {/* Right panel — 70% */}
-            <div className="w-[70%] bg-[#0f0d0a] overflow-y-auto p-3">
-              {/* Sort */}
+            {/* Right column — flex-1, options for selected filter type */}
+            <div className="flex-1 bg-[#0f0d0a] overflow-y-auto px-3 py-2 pb-28">
+              {/* Sort — radio list */}
               {mobileTab === 'sort' && (
-                <div className="space-y-0.5">
+                <div>
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
                       onClick={() => setMobileSort(opt.value)}
-                      className="flex items-center gap-3 w-full py-3 px-1"
+                      className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
                     >
                       <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                         mobileSort === opt.value ? 'border-gold' : 'border-white/30'
                       }`}>
-                        {mobileSort === opt.value && (
-                          <span className="w-2 h-2 rounded-full bg-gold" />
-                        )}
+                        {mobileSort === opt.value && <span className="w-2 h-2 rounded-full bg-gold" />}
                       </span>
                       <span className={`text-sm ${mobileSort === opt.value ? 'text-gold font-semibold' : 'text-white/70'}`}>
                         {opt.label}
@@ -261,21 +262,17 @@ const ProductList = () => {
                 </div>
               )}
 
-              {/* Category */}
+              {/* Category — radio list */}
               {mobileTab === 'category' && (
-                <div className="space-y-0.5">
+                <div>
                   <button
                     onClick={() => { setMobileCategorySlug(''); setMobileCategoryId('') }}
-                    className="flex items-center gap-3 w-full py-3 px-1"
+                    className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
                   >
-                    <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      !mobileCategorySlug ? 'border-gold bg-gold' : 'border-white/30'
+                    <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                      !mobileCategorySlug ? 'border-gold' : 'border-white/30'
                     }`}>
-                      {!mobileCategorySlug && (
-                        <svg className="w-2.5 h-2.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
+                      {!mobileCategorySlug && <span className="w-2 h-2 rounded-full bg-gold" />}
                     </span>
                     <span className={`text-sm ${!mobileCategorySlug ? 'text-gold font-semibold' : 'text-white/70'}`}>
                       All Categories
@@ -285,16 +282,12 @@ const ProductList = () => {
                     <button
                       key={cat.id}
                       onClick={() => { setMobileCategorySlug(cat.slug); setMobileCategoryId(cat.id) }}
-                      className="flex items-center gap-3 w-full py-3 px-1"
+                      className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
                     >
-                      <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                        mobileCategorySlug === cat.slug ? 'border-gold bg-gold' : 'border-white/30'
+                      <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                        mobileCategorySlug === cat.slug ? 'border-gold' : 'border-white/30'
                       }`}>
-                        {mobileCategorySlug === cat.slug && (
-                          <svg className="w-2.5 h-2.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
+                        {mobileCategorySlug === cat.slug && <span className="w-2 h-2 rounded-full bg-gold" />}
                       </span>
                       <span className={`text-sm ${mobileCategorySlug === cat.slug ? 'text-gold font-semibold' : 'text-white/70'}`}>
                         {cat.name}
@@ -304,48 +297,40 @@ const ProductList = () => {
                 </div>
               )}
 
-              {/* Price Range */}
+              {/* Price — preset checkboxes + custom inputs */}
               {mobileTab === 'price' && (
                 <div>
-                  <div className="space-y-0.5 mb-4">
-                    {PRICE_PRESETS.map((preset) => (
-                      <button
-                        key={preset.key}
-                        onClick={() => handleMobilePricePreset(preset)}
-                        className="flex items-center gap-3 w-full py-3 px-1"
-                      >
-                        <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                          mobilePricePreset === preset.key ? 'border-gold bg-gold' : 'border-white/30'
-                        }`}>
-                          {mobilePricePreset === preset.key && (
-                            <svg className="w-2.5 h-2.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </span>
-                        <span className={`text-sm ${mobilePricePreset === preset.key ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                          {preset.label}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="border-t border-white/10 pt-4">
+                  {PRICE_PRESETS.map((preset) => (
+                    <button
+                      key={preset.key}
+                      onClick={() => handleMobilePricePreset(preset)}
+                      className="flex items-center gap-3 w-full py-3 px-1 border-b border-white/5"
+                    >
+                      <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                        mobilePricePreset === preset.key ? 'border-gold bg-gold' : 'border-white/30'
+                      }`}>
+                        {mobilePricePreset === preset.key && (
+                          <svg className="w-2.5 h-2.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </span>
+                      <span className={`text-sm ${mobilePricePreset === preset.key ? 'text-gold font-semibold' : 'text-white/70'}`}>
+                        {preset.label}
+                      </span>
+                    </button>
+                  ))}
+                  <div className="pt-4 px-1">
                     <p className="text-xs text-white/40 mb-2">Custom Range (₹)</p>
                     <div className="flex items-center gap-2">
                       <input
-                        type="number"
-                        min="0"
-                        placeholder="Min"
-                        value={mobilePriceMin}
+                        type="number" min="0" placeholder="Min" value={mobilePriceMin}
                         onChange={(e) => { setMobilePriceMin(e.target.value); setMobilePricePreset(null) }}
                         className="bg-[#1a1408] border border-gold/30 rounded-lg px-2 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
                       />
                       <span className="text-white/40 flex-shrink-0">—</span>
                       <input
-                        type="number"
-                        min="0"
-                        placeholder="Max"
-                        value={mobilePriceMax}
+                        type="number" min="0" placeholder="Max" value={mobilePriceMax}
                         onChange={(e) => { setMobilePriceMax(e.target.value); setMobilePricePreset(null) }}
                         className="bg-[#1a1408] border border-gold/30 rounded-lg px-2 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
                       />
@@ -356,20 +341,17 @@ const ProductList = () => {
             </div>
           </div>
 
-          {/* Bottom bar — always visible, fixed height 56px */}
-          <div
-            className="flex-shrink-0 flex items-center bg-[#0f0d0a] border-t border-gold/20 px-4 gap-3"
-            style={{ height: 56 }}
-          >
+          {/* Bottom bar — fixed above bottom nav (bottom-14) */}
+          <div className="fixed bottom-14 left-0 right-0 z-[51] flex items-center gap-3 px-4 h-14 bg-[#0f0d0a] border-t border-gold/20">
             <button
               onClick={clearMobileFilter}
-              className="text-sm text-white/70 hover:text-white transition-colors"
+              className="flex-1 h-10 rounded-full border border-white/20 text-sm text-white/70 hover:text-white hover:border-white/40 transition-colors"
             >
               Clear All
             </button>
             <button
               onClick={applyMobileFilter}
-              className="ml-auto bg-gold text-black font-bold rounded-lg px-6 py-2.5 text-sm hover:brightness-110 transition-all"
+              className="flex-1 h-10 rounded-full bg-gold text-black font-bold text-sm hover:brightness-110 transition-all"
             >
               Show Products
             </button>
