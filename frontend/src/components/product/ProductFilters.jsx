@@ -58,12 +58,15 @@ const ProductFilters = ({ categories, filters, onChange, onClear, onApply, stick
 
   return (
     <div className={`bg-[#0f0d0a] border border-gold/20 rounded-xl flex flex-col h-full ${sticky ? 'sticky top-20' : ''}`}>
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        <h3 className="font-bold text-gold mb-4">Filters</h3>
+      {/* Header - always visible */}
+      <div className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-gold/10">
+        <h3 className="font-bold text-gold">Filters</h3>
+      </div>
 
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto px-4 pb-4">
         {showSort && (
-          <div className="border-t border-gold/10 pt-4 mt-4 first:border-0 first:pt-0 first:mt-0">
+          <div className="pt-4">
             <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Sort By</p>
             <div className="flex flex-wrap gap-2">
               {SORT_OPTIONS.map((opt) => (
@@ -117,7 +120,7 @@ const ProductFilters = ({ categories, filters, onChange, onClear, onApply, stick
       </div>
 
       {/* Always-visible bottom buttons */}
-      <div className="flex-shrink-0 flex gap-3 p-4 border-t border-gold/20">
+      <div className="flex-shrink-0 sticky bottom-0 bg-[#0f0d0a] flex gap-3 p-4 border-t border-gold/20 z-10">
         <button
           onClick={handleReset}
           className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
