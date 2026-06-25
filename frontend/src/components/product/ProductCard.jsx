@@ -83,10 +83,10 @@ const ProductCard = ({ product }) => {
 
         <button
           onClick={handleWishlistToggle}
-          className={`absolute top-1.5 right-1.5 w-7 h-7 rounded-full flex items-center justify-center shadow-sm transition ${wishlisted ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400' : 'bg-transparent hover:bg-black/30 text-white/60'}`}
+          className={`absolute top-1.5 right-1.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition ${wishlisted ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400' : 'bg-black/20 hover:bg-black/40 text-white/80'}`}
           title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <svg className={`w-3.5 h-3.5 ${wishlisted ? 'text-red-400 fill-red-400' : 'text-white/60 fill-none'}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <svg className={`w-4 h-4 ${wishlisted ? 'text-red-400 fill-red-400' : 'text-white/80 fill-none'}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
           </svg>
         </button>
@@ -154,7 +154,7 @@ const ProductCard = ({ product }) => {
         <button
           onClick={handleAddToCart}
           disabled={adding || !product.in_stock}
-          className="btn-primary w-full !py-1.5 sm:!py-2 text-xs mt-auto"
+          className="btn-primary w-full !py-2 min-h-[40px] text-xs mt-auto"
         >
           {adding ? 'Adding...' : product.in_stock ? 'Add to Cart' : 'Out of Stock'}
         </button>

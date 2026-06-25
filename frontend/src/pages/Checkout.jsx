@@ -246,7 +246,7 @@ const Checkout = () => {
   const finalTotal = discountedSubtotal + shippingFee
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 lg:pb-8">
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold text-parchment">Checkout</h1>
         {buyNow && (
@@ -260,7 +260,7 @@ const Checkout = () => {
       </div>
 
       <div className="grid lg:grid-cols-[1fr_340px] gap-6 relative">
-        <form id="checkout-form" onSubmit={handleSubmit} className="card p-6 space-y-4">
+        <form id="checkout-form" onSubmit={handleSubmit} className="card p-4 sm:p-6 space-y-4">
 
           {/* ── DELIVERY ADDRESS — picker OR manual form ───────────────────── */}
           {mode === 'picker' ? (
@@ -344,41 +344,41 @@ const Checkout = () => {
 
               <div>
                 <label className="label-text">Full Name*</label>
-                <input name="shipping_name" value={form.shipping_name} onChange={handleChange} className="input-field" placeholder="John Doe" />
+                <input name="shipping_name" value={form.shipping_name} onChange={handleChange} className="input-field !text-base" placeholder="John Doe" />
                 {errors.shipping_name && <p className="error-text">{errors.shipping_name}</p>}
               </div>
 
               <div>
                 <label className="label-text">Phone Number*</label>
-                <input name="shipping_phone" value={form.shipping_phone} onChange={handleChange} className="input-field" placeholder="10-digit mobile number" maxLength={10} />
+                <input name="shipping_phone" value={form.shipping_phone} onChange={handleChange} className="input-field !text-base" placeholder="10-digit mobile number" maxLength={10} />
                 {errors.shipping_phone && <p className="error-text">{errors.shipping_phone}</p>}
               </div>
 
               <div>
                 <label className="label-text">Address Line 1*</label>
-                <input name="shipping_address" value={form.shipping_address} onChange={handleChange} className="input-field" placeholder="House no., street, locality" />
+                <input name="shipping_address" value={form.shipping_address} onChange={handleChange} className="input-field !text-base" placeholder="House no., street, locality" />
                 {errors.shipping_address && <p className="error-text">{errors.shipping_address}</p>}
               </div>
 
               <div>
                 <label className="label-text">Address Line 2 <span className="text-silver-dim font-normal">(optional)</span></label>
-                <input name="shipping_address2" value={form.shipping_address2} onChange={handleChange} className="input-field" placeholder="Apartment, landmark, etc." />
+                <input name="shipping_address2" value={form.shipping_address2} onChange={handleChange} className="input-field !text-base" placeholder="Apartment, landmark, etc." />
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="label-text">City*</label>
-                  <input name="shipping_city" value={form.shipping_city} onChange={handleChange} className="input-field" placeholder="Bengaluru" />
+                  <input name="shipping_city" value={form.shipping_city} onChange={handleChange} className="input-field !text-base" placeholder="Bengaluru" />
                   {errors.shipping_city && <p className="error-text">{errors.shipping_city}</p>}
                 </div>
                 <div>
                   <label className="label-text">State*</label>
-                  <input name="shipping_state" value={form.shipping_state} onChange={handleChange} className="input-field" placeholder="Karnataka" />
+                  <input name="shipping_state" value={form.shipping_state} onChange={handleChange} className="input-field !text-base" placeholder="Karnataka" />
                   {errors.shipping_state && <p className="error-text">{errors.shipping_state}</p>}
                 </div>
                 <div>
                   <label className="label-text">Pincode*</label>
-                  <input name="shipping_pincode" value={form.shipping_pincode} onChange={handleChange} className="input-field" placeholder="560001" maxLength={6} />
+                  <input name="shipping_pincode" value={form.shipping_pincode} onChange={handleChange} className="input-field !text-base" placeholder="560001" maxLength={6} />
                   {errors.shipping_pincode && <p className="error-text">{errors.shipping_pincode}</p>}
                 </div>
               </div>
@@ -457,7 +457,7 @@ const Checkout = () => {
         </form>
 
         {/* ── Order Summary (UNCHANGED) ────────────────────────────────────── */}
-        <div className="card p-5 h-fit sticky top-20">
+        <div className="card p-5 h-fit lg:sticky lg:top-20">
           <h3 className="font-bold text-parchment mb-4">Order Summary</h3>
           <div className="space-y-3 mb-4 max-h-72 overflow-y-auto">
             {buyNow ? (
@@ -500,7 +500,7 @@ const Checkout = () => {
       </div>
 
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
-        <button type="submit" form="checkout-form" className="btn-primary w-full !py-3 text-base font-semibold">
+        <button type="submit" form="checkout-form" className="btn-primary w-full min-h-[52px] !py-3 text-base font-semibold">
           Place Order
         </button>
       </div>

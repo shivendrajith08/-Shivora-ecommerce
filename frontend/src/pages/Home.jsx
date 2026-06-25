@@ -99,7 +99,7 @@ const Home = () => {
             {/* Filters toggle — hidden on desktop where sidebar is always visible */}
             <button
               onClick={() => setShowFilters(v => !v)}
-              className="lg:hidden btn-secondary !py-1.5 !px-3 text-xs flex items-center gap-1.5"
+              className="lg:hidden btn-secondary !py-2 !px-3 text-xs flex items-center gap-1.5 min-h-[40px]"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}

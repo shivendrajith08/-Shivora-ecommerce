@@ -339,13 +339,13 @@ const Profile = () => {
         {/* Mobile horizontal tab strip (sticky below the navbar) */}
         <div className="lg:hidden sticky top-16 z-20 bg-base px-4 pt-3">
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide border-b border-surface-border">
-            {NAV.filter(item => !['orders', 'wishlist'].includes(item.key)).map((item) => {
+            {NAV.map((item) => {
               const active = item.key === activeTab
               return (
                 <button
                   key={item.key}
                   onClick={() => setTab(item.key)}
-                  className={`whitespace-nowrap py-2 px-3 text-xs font-medium border-b-2 -mb-px transition-all duration-200 ${
+                  className={`whitespace-nowrap py-3 px-3 text-xs font-medium border-b-2 -mb-px transition-all duration-200 min-h-[44px] ${
                     active ? 'border-yellow-500 text-yellow-400' : 'border-transparent text-white/40 hover:text-yellow-300/80'
                   }`}
                 >
@@ -365,6 +365,21 @@ const Profile = () => {
           {/* ── MY ACCOUNT (overview) ───────────────────────────────────────── */}
           {activeTab === 'overview' && (
             <div>
+              {/* Mobile profile header — desktop shows this in sidebar */}
+              <div className="lg:hidden flex flex-col items-center text-center mb-6 pb-6 border-b border-yellow-900/20">
+                <div className="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center bg-gold ring-2 ring-offset-2 ring-yellow-600/50 ring-offset-[#0a0800] shadow-[0_0_16px_rgba(197,160,72,0.25)]">
+                  {savedPhoto ? (
+                    <img src={savedPhoto} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-white font-bold text-3xl" style={FRAUNCES}>{initial}</span>
+                  )}
+                </div>
+                <button onClick={openPhotoModal} className="mt-2 text-xs font-medium text-yellow-700 hover:text-yellow-500 transition-colors min-h-[44px] flex items-center">
+                  Change Photo
+                </button>
+                <p className="text-base font-semibold text-white/90 truncate max-w-full" style={FRAUNCES}>{user?.name}</p>
+                <p className="text-xs text-yellow-600/60 truncate max-w-full">{user?.email}</p>
+              </div>
               <SectionHeading>My Account</SectionHeading>
               <p className="text-silver-muted -mt-4 mb-6">
                 Welcome back, {firstName}!
@@ -381,7 +396,7 @@ const Profile = () => {
                   >
                     <div className="relative">
                       <div className="text-gold opacity-80">{card.icon}</div>
-                      <p className="text-4xl font-bold text-gold mt-2" style={FRAUNCES}>{card.value == null ? '—' : card.value}</p>
+                      <p className="text-3xl md:text-4xl font-bold text-gold mt-2" style={FRAUNCES}>{card.value == null ? '—' : card.value}</p>
                       <p className="text-sm text-white/35 mt-1">{card.label}</p>
                     </div>
                   </button>

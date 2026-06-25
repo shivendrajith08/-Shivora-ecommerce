@@ -39,6 +39,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1)
   const [adding, setAdding] = useState(false)
   const [wishing, setWishing] = useState(false)
+  const [descExpanded, setDescExpanded] = useState(false)
 
   const [reviews, setReviews] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
@@ -51,7 +52,6 @@ const ProductDetails = () => {
   const [lightboxSrc, setLightboxSrc] = useState(null)
   const [related, setRelated] = useState([])
 
-  // "You may also like" — up to 4 OTHER products from the same category.
   useEffect(() => {
     if (!product?.category_id) { setRelated([]); return }
     let active = true
@@ -122,6 +122,7 @@ const ProductDetails = () => {
     setSubmitError(null)
     setReviewForm({ rating: 0, comment: '' })
     clearImage()
+    setDescExpanded(false)
     window.scrollTo({ top: 0 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
@@ -146,6 +147,7 @@ const ProductDetails = () => {
   const hasDiscount = product.discount_price && product.discount_price < product.price
   const effectivePrice = hasDiscount ? product.discount_price : product.price
   const discountPercent = hasDiscount ? Math.round(((product.price - product.discount_price) / product.price) * 100) : 0
+  const isLongDesc = product.description && product.description.length > 200
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) { toast.error('Please log in to add items to your cart'); return }
@@ -156,18 +158,12 @@ const ProductDetails = () => {
 
   const handleBuyNow = () => {
     if (!isAuthenticated) {
-      // Redirect to login; login page will bounce back here after success
       navigate('/login', { state: { from: { pathname: `/products/${id}` } } })
       return
     }
     navigate('/checkout', {
       state: {
-        buyNow: {
-          productId: product.id,
-          quantity,
-          name: product.name,
-          price: effectivePrice,
-        },
+        buyNow: { productId: product.id, quantity, name: product.name, price: effectivePrice },
       },
     })
   }
@@ -207,7 +203,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 md:pb-8">
       <nav className="text-sm text-silver-dim mb-6">
         <Link to="/" className="hover:text-gold transition-colors">Home</Link>
         <span className="mx-2">/</span>
@@ -220,24 +216,33 @@ const ProductDetails = () => {
         )}
       </nav>
 
-      <div className="grid md:grid-cols-2 gap-10">
-        <div className="aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border">
-          {imageSrc ? (
-            <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-silver-dim">
-              <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 11.25V19.5a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 19.5V11.25m-18 0V8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v3M3 11.25h18M8.25 6V4.5a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25V6" />
-              </svg>
-            </div>
-          )}
+      <div className="grid md:grid-cols-2 gap-6 md:gap-10">
+        {/* Image column */}
+        <div>
+          <button
+            type="button"
+            onClick={() => imageSrc && setLightboxSrc(imageSrc)}
+            className="block w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border cursor-zoom-in md:cursor-default"
+          >
+            {imageSrc ? (
+              <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-silver-dim">
+                <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 11.25V19.5a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 19.5V11.25m-18 0V8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v3M3 11.25h18M8.25 6V4.5a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25V6" />
+                </svg>
+              </div>
+            )}
+          </button>
+          {imageSrc && <p className="md:hidden text-center text-xs text-silver-dim mt-2">Tap image to view full size</p>}
         </div>
 
+        {/* Details column */}
         <div>
           {product.category_name && (
             <span className="text-xs font-semibold text-gold uppercase tracking-wide">{product.category_name}</span>
           )}
-          <h1 className="text-3xl font-bold text-parchment mt-1 mb-1.5">{product.name}</h1>
+          <h1 className="text-xl md:text-3xl font-bold text-parchment mt-1 mb-1.5 leading-tight">{product.name}</h1>
 
           {product.avg_rating != null ? (
             <div className="flex items-center gap-2 mb-3">
@@ -253,10 +258,10 @@ const ProductDetails = () => {
           ) : <div className="mb-3" />}
 
           <div className="flex items-center gap-3 mb-1">
-            <span className="text-3xl font-bold text-parchment">₹{effectivePrice.toLocaleString('en-IN')}</span>
+            <span className="text-2xl md:text-3xl font-bold text-parchment">₹{effectivePrice.toLocaleString('en-IN')}</span>
             {hasDiscount && (
               <>
-                <span className="text-lg text-silver-dim line-through">₹{product.price.toLocaleString('en-IN')}</span>
+                <span className="text-base md:text-lg text-silver-dim line-through">₹{product.price.toLocaleString('en-IN')}</span>
                 <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">-{discountPercent}%</span>
               </>
             )}
@@ -281,7 +286,17 @@ const ProductDetails = () => {
           {product.description && (
             <div className="mb-6">
               <h3 className="font-semibold text-parchment mb-2">Description</h3>
-              <p className="text-silver-muted text-sm leading-relaxed whitespace-pre-line">{product.description}</p>
+              <p className={`text-silver-muted text-sm leading-relaxed whitespace-pre-line ${!descExpanded && isLongDesc ? 'line-clamp-3' : ''}`}>
+                {product.description}
+              </p>
+              {isLongDesc && (
+                <button
+                  onClick={() => setDescExpanded(v => !v)}
+                  className="text-gold text-sm font-medium mt-1.5 hover:underline"
+                >
+                  {descExpanded ? 'Show less ↑' : 'Read more ↓'}
+                </button>
+              )}
             </div>
           )}
 
@@ -291,19 +306,19 @@ const ProductDetails = () => {
             <div className="flex items-center gap-4 mb-6">
               <span className="text-sm font-medium text-silver-muted">Quantity</span>
               <div className="flex items-center border border-surface-border rounded-lg">
-                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-9 h-9 flex items-center justify-center text-silver-muted hover:text-parchment">−</button>
+                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-10 h-10 flex items-center justify-center text-silver-muted hover:text-parchment">−</button>
                 <span className="w-10 text-center text-sm font-semibold text-parchment">{quantity}</span>
-                <button onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))} className="w-9 h-9 flex items-center justify-center text-silver-muted hover:text-parchment">+</button>
+                <button onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))} className="w-10 h-10 flex items-center justify-center text-silver-muted hover:text-parchment">+</button>
               </div>
             </div>
           )}
 
-          {/* Mobile: Add to Cart + Buy Now stack full-width; Wishlist sits inline */}
-          <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+          {/* Desktop action buttons */}
+          <div className="hidden md:flex flex-wrap gap-3">
             <button
               onClick={handleAddToCart}
               disabled={adding || !product.in_stock}
-              className="btn-primary !px-8 !py-3 w-full sm:w-auto"
+              className="btn-primary !px-8 !py-3 flex-1"
             >
               {adding ? 'Adding...' : product.in_stock ? 'Add to Cart' : 'Out of Stock'}
             </button>
@@ -311,7 +326,7 @@ const ProductDetails = () => {
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="btn !px-8 !py-3 w-full sm:w-auto border border-gold text-gold font-semibold hover:bg-gold hover:text-[#14130F] active:bg-gold-dark active:text-[#14130F] transition-colors"
+                className="btn !px-8 !py-3 border border-gold text-gold font-semibold hover:bg-gold hover:text-[#14130F] active:bg-gold-dark transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -320,30 +335,40 @@ const ProductDetails = () => {
               </button>
             )}
 
-            <button onClick={handleAddToWishlist} disabled={wishing} className="btn-secondary !px-6 !py-3 w-full sm:w-auto">
+            <button onClick={handleAddToWishlist} disabled={wishing} className="btn-secondary !px-6 !py-3">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
               Wishlist
             </button>
           </div>
+
+          {/* Mobile: wishlist button only — Add to Cart + Buy Now are in the sticky bar */}
+          <div className="md:hidden">
+            <button onClick={handleAddToWishlist} disabled={wishing} className="btn-secondary w-full !py-3 min-h-[44px]">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+              Save to Wishlist
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Reviews */}
-      <div className="mt-14">
-        <h2 className="text-2xl font-bold text-parchment mb-6">Customer Reviews</h2>
+      <div className="mt-10 md:mt-14">
+        <h2 className="text-xl md:text-2xl font-bold text-parchment mb-6">Customer Reviews</h2>
 
-        <div className="space-y-4 mb-10">
+        <div className="space-y-3 mb-10">
           {reviewsLoading ? (
             <p className="text-silver-dim text-sm">Loading reviews…</p>
           ) : reviews.length === 0 ? (
             <p className="text-silver-muted">No reviews yet. Be the first to review this product!</p>
           ) : (
             reviews.map((review) => (
-              <div key={review.id} className="border border-surface-border rounded-xl p-5 bg-surface">
+              <div key={review.id} className="border border-surface-border rounded-xl p-3 sm:p-5 bg-surface">
                 <div className="flex items-start justify-between mb-1">
-                  <span className="font-semibold text-parchment">{review.reviewer_name}</span>
+                  <span className="font-semibold text-parchment text-sm sm:text-base">{review.reviewer_name}</span>
                   <span className="text-xs text-silver-dim shrink-0 ml-4">
                     {new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
@@ -355,7 +380,7 @@ const ProductDetails = () => {
                     <img
                       src={`${API_ORIGIN}${review.photo_url}`}
                       alt="Review photo"
-                      className="w-36 h-36 object-cover rounded-lg border border-surface-border cursor-zoom-in hover:opacity-80 transition-opacity"
+                      className="w-24 h-24 sm:w-36 sm:h-36 object-cover rounded-lg border border-surface-border cursor-zoom-in hover:opacity-80 transition-opacity"
                     />
                   </button>
                 )}
@@ -365,7 +390,7 @@ const ProductDetails = () => {
         </div>
 
         {isAuthenticated && (
-          <div className="border border-surface-border rounded-xl p-6 max-w-xl bg-surface">
+          <div className="border border-surface-border rounded-xl p-4 sm:p-6 max-w-xl bg-surface">
             <h3 className="text-lg font-semibold text-parchment mb-4">Write a Review</h3>
 
             {submitSuccess ? (
@@ -390,6 +415,7 @@ const ProductDetails = () => {
                     onChange={(e) => setReviewForm((f) => ({ ...f, comment: e.target.value }))}
                     placeholder="Share your experience with this product…"
                     className="input-field resize-none"
+                    style={{ fontSize: '16px' }}
                   />
                 </div>
 
@@ -427,11 +453,11 @@ const ProductDetails = () => {
         )}
       </div>
 
-      {/* You may also like — same category, current product excluded */}
+      {/* You may also like */}
       {related.length > 0 && (
-        <div className="mt-14">
-          <h2 className="text-2xl font-bold text-gold mb-6">You may also like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+        <div className="mt-10 md:mt-14">
+          <h2 className="text-xl md:text-2xl font-bold text-gold mb-6">You may also like</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -439,10 +465,35 @@ const ProductDetails = () => {
         </div>
       )}
 
+      {/* Mobile sticky Add to Cart / Buy Now bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
+        {product.in_stock ? (
+          <div className="flex gap-3">
+            <button
+              onClick={handleAddToCart}
+              disabled={adding}
+              className="btn-primary flex-1 min-h-[52px] text-base font-semibold"
+            >
+              {adding ? 'Adding...' : 'Add to Cart'}
+            </button>
+            <button
+              onClick={handleBuyNow}
+              className="btn flex-1 min-h-[52px] text-base border border-gold text-gold font-semibold hover:bg-gold hover:text-[#14130F] transition-colors"
+            >
+              Buy Now
+            </button>
+          </div>
+        ) : (
+          <button disabled className="btn w-full min-h-[52px] text-base bg-surface-raised text-silver-dim cursor-not-allowed border border-surface-border">
+            Out of Stock
+          </button>
+        )}
+      </div>
+
       {lightboxSrc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setLightboxSrc(null)}>
           <button type="button" onClick={() => setLightboxSrc(null)} className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white text-2xl leading-none hover:bg-white/20 transition-colors">×</button>
-          <img src={lightboxSrc} alt="Full-size review photo" className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+          <img src={lightboxSrc} alt="Full-size photo" className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
     </div>

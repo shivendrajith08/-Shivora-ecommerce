@@ -29,7 +29,7 @@ const Cart = () => {
   const finalTotal = cartTotal + shippingFee
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 lg:pb-8">
       <h1 className="text-2xl font-bold text-parchment mb-6">Shopping Cart</h1>
 
       <div className="grid lg:grid-cols-[1fr_340px] gap-6">
@@ -39,7 +39,7 @@ const Cart = () => {
           ))}
         </div>
 
-        <div className="card p-5 h-fit sticky top-20">
+        <div className="card p-5 h-fit lg:sticky lg:top-20">
           <h3 className="font-bold text-parchment mb-4">Order Summary</h3>
           <div className="space-y-2.5 text-sm mb-4">
             <div className="flex justify-between text-silver-muted">
@@ -58,13 +58,24 @@ const Cart = () => {
             <span>Total</span>
             <span>₹{finalTotal.toLocaleString('en-IN')}</span>
           </div>
-          <button onClick={() => navigate('/checkout')} className="btn-primary w-full !py-3">
+          <button onClick={() => navigate('/checkout')} className="btn-primary w-full !py-3 min-h-[52px]">
             Proceed to Checkout
           </button>
           <Link to="/products" className="block text-center text-sm text-gold font-medium mt-4 hover:underline">
             Continue Shopping
           </Link>
         </div>
+      </div>
+
+      {/* Mobile sticky checkout bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-silver-muted">Total ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})</span>
+          <span className="font-bold text-parchment">₹{finalTotal.toLocaleString('en-IN')}</span>
+        </div>
+        <button onClick={() => navigate('/checkout')} className="btn-primary w-full min-h-[52px] text-base font-semibold">
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   )

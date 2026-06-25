@@ -94,13 +94,13 @@ const Wishlist = () => {
                     <button
                       onClick={() => handleMoveToCart(product.id, item.id)}
                       disabled={!product.in_stock}
-                      className="btn-primary flex-1 !py-2 text-xs"
+                      className="btn-primary flex-1 !py-2.5 text-xs min-h-[44px]"
                     >
                       {product.in_stock ? 'Add to Cart' : 'Out of Stock'}
                     </button>
                     <button
                       onClick={() => handleRemove(item.id)}
-                      className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg border border-surface-border text-silver-dim hover:text-red-400 hover:border-red-700/50"
+                      className="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-lg border border-surface-border text-silver-dim hover:text-red-400 hover:border-red-700/50"
                       title="Remove"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

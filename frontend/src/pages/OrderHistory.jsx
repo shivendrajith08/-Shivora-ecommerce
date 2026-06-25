@@ -192,7 +192,7 @@ const OrderHistory = () => {
                   <button
                     onClick={() => setCancelTarget(order.id)}
                     disabled={cancellingId === order.id}
-                    className="btn-danger !py-1.5 !px-4 text-sm w-full sm:w-auto"
+                    className="btn-danger !py-2.5 !px-4 text-sm w-full sm:w-auto min-h-[44px]"
                   >
                     {cancellingId === order.id ? 'Cancelling…' : 'Cancel Order'}
                   </button>
@@ -211,7 +211,7 @@ const OrderHistory = () => {
                   ) : (
                     <button
                       onClick={() => setReturnOrder(order)}
-                      className="btn !py-1.5 !px-4 text-sm border border-gold text-gold hover:bg-gold/10 transition-colors w-full sm:w-auto"
+                      className="btn !py-2.5 !px-4 text-sm border border-gold text-gold hover:bg-gold/10 transition-colors w-full sm:w-auto min-h-[44px]"
                     >
                       Request Return
                     </button>
