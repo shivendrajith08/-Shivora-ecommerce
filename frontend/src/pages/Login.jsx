@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
@@ -87,7 +87,7 @@ const Login = () => {
             </div>
             {errors.password && <p className="error-text">{errors.password}</p>}
             <div className="text-right mt-1.5">
-              <Link to="/forgot-password" className="text-xs text-gold hover:underline">Forgot password?</Link>
+              <Link to="/forgot-password" className="text-xs text-[#C0C0C0] hover:underline">Forgot password?</Link>
             </div>
           </div>
 
@@ -98,7 +98,7 @@ const Login = () => {
 
         <p className="text-center text-sm text-silver-muted mt-6">
           Don't have an account?{' '}
-          <Link to="/register" className="text-gold font-semibold hover:underline">Create one</Link>
+          <Link to="/register" className="text-[#C0C0C0] font-semibold hover:underline">Create one</Link>
         </p>
       </div>
     </div>

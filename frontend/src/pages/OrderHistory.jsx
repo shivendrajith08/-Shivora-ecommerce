@@ -18,7 +18,7 @@ const STATUS_CONFIG = {
   pending:    { label: 'Pending',   dot: 'bg-silver-dim',  badge: 'bg-surface-raised text-silver-muted' },
   processing: { label: 'Confirmed', dot: 'bg-amber-400',   badge: 'bg-amber-900/30 text-amber-300' },
   shipped:    { label: 'Shipped',   dot: 'bg-blue-400',    badge: 'bg-blue-900/30 text-blue-300' },
-  delivered:  { label: 'Delivered', dot: 'bg-gold',        badge: 'bg-gold/10 text-gold' },
+  delivered:  { label: 'Delivered', dot: 'bg-[#C0C0C0]',        badge: 'bg-[#C0C0C0]/10 text-[#C0C0C0]' },
   cancelled:  { label: 'Cancelled', dot: 'bg-red-500',     badge: 'bg-red-900/30 text-red-400' },
 }
 
@@ -94,8 +94,8 @@ const OrderHistory = () => {
 
       {orders.length === 0 ? (
         <div className="text-center py-20">
-          <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-gold/10 flex items-center justify-center">
-            <svg className="w-10 h-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-[#C0C0C0]/10 flex items-center justify-center">
+            <svg className="w-10 h-10 text-[#C0C0C0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
             </svg>
@@ -122,7 +122,7 @@ const OrderHistory = () => {
                 <div className="text-right flex-shrink-0">
                   <p className="text-sm sm:text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
                   {order.discount_amount > 0 && (
-                    <p className="text-[11px] font-semibold text-gold mt-0.5">
+                    <p className="text-[11px] font-semibold text-[#C0C0C0] mt-0.5">
                       Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}
                     </p>
                   )}
@@ -148,7 +148,7 @@ const OrderHistory = () => {
                     <div className="flex-1 min-w-0">
                       <Link
                         to={item.product_id ? `/products/${item.product_id}` : '#'}
-                        className="text-sm font-medium text-parchment hover:text-gold truncate block transition-colors"
+                        className="text-sm font-medium text-parchment hover:text-[#C0C0C0] truncate block transition-colors"
                       >
                         {item.product_name}
                       </Link>
@@ -165,7 +165,7 @@ const OrderHistory = () => {
                     {order.status === 'delivered' && item.product_id && (
                       <Link
                         to={`/products/${item.product_id}`}
-                        className="flex-shrink-0 ml-1 text-xs font-semibold text-gold border border-gold/50 rounded-lg px-3 py-1.5 hover:bg-gold/10 transition-colors whitespace-nowrap"
+                        className="flex-shrink-0 ml-1 text-xs font-semibold text-[#C0C0C0] border border-[#C0C0C0]/50 rounded-lg px-3 py-1.5 hover:bg-[#C0C0C0]/10 transition-colors whitespace-nowrap"
                       >
                         Rate &amp; Review
                       </Link>
@@ -211,7 +211,7 @@ const OrderHistory = () => {
                   ) : (
                     <button
                       onClick={() => setReturnOrder(order)}
-                      className="btn !py-2.5 !px-4 text-sm border border-gold text-gold hover:bg-gold/10 transition-colors w-full sm:w-auto min-h-[44px]"
+                      className="btn !py-2.5 !px-4 text-sm border border-[#C0C0C0] text-[#C0C0C0] hover:bg-[#C0C0C0]/10 transition-colors w-full sm:w-auto min-h-[44px]"
                     >
                       Request Return
                     </button>
@@ -237,17 +237,17 @@ const OrderHistory = () => {
           onClick={() => setCancelTarget(null)}
         >
           <div
-            className="bg-[#1a0000] border border-gold/20 rounded-xl p-6 max-w-sm mx-4"
+            className="bg-[#1a0000] border border-[#C0C0C0]/20 rounded-xl p-6 max-w-sm mx-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-gold font-semibold text-lg mb-2">Cancel Order</h2>
+            <h2 className="text-[#C0C0C0] font-semibold text-lg mb-2">Cancel Order</h2>
             <p className="text-white/70 text-sm mb-6">
               Are you sure you want to cancel this order? This cannot be undone.
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setCancelTarget(null)}
-                className="border border-gold/30 text-white rounded-xl px-4 py-2 text-sm hover:bg-gold/5 transition-colors"
+                className="border border-[#C0C0C0]/30 text-white rounded-xl px-4 py-2 text-sm hover:bg-[#C0C0C0]/5 transition-colors"
               >
                 Keep Order
               </button>

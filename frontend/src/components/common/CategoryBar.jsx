@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import { getCategories } from '../../api/categoryApi'
 
@@ -66,16 +66,16 @@ const CategoryBar = () => {
         <Link
           to="/"
           className={`flex flex-col items-center gap-0.5 px-3 py-2 flex-shrink-0 transition-colors group ${
-            isHomeActive ? 'text-gold' : 'text-silver-muted hover:text-gold'
+            isHomeActive ? 'text-[#C0C0C0]' : 'text-silver-muted hover:text-[#C0C0C0]'
           }`}
         >
           <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
-            isHomeActive ? 'bg-gold/15 text-gold' : 'bg-surface-raised text-silver-muted group-hover:bg-gold/10 group-hover:text-gold'
+            isHomeActive ? 'bg-[#C0C0C0]/15 text-[#C0C0C0]' : 'bg-surface-raised text-silver-muted group-hover:bg-[#C0C0C0]/10 group-hover:text-[#C0C0C0]'
           }`}>
             {ALL_ICON}
           </div>
           <span className="text-[10px] font-bold whitespace-nowrap">Home</span>
-          {isHomeActive && <span className="w-4 h-0.5 rounded-full bg-gold mt-0.5" />}
+          {isHomeActive && <span className="w-4 h-0.5 rounded-full bg-[#C0C0C0] mt-0.5" />}
         </Link>
 
         <span className="h-8 w-px bg-surface-border mx-1 flex-shrink-0" />
@@ -87,16 +87,16 @@ const CategoryBar = () => {
               key={cat.id}
               to={`/?category=${cat.slug}`}
               className={`flex flex-col items-center gap-0.5 px-3 py-2 flex-shrink-0 transition-colors group ${
-                isActive ? 'text-gold' : 'text-silver-muted hover:text-gold'
+                isActive ? 'text-[#C0C0C0]' : 'text-silver-muted hover:text-[#C0C0C0]'
               }`}
             >
               <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
-                isActive ? 'bg-gold/15 text-gold' : 'bg-surface-raised text-silver-muted group-hover:bg-gold/10 group-hover:text-gold'
+                isActive ? 'bg-[#C0C0C0]/15 text-[#C0C0C0]' : 'bg-surface-raised text-silver-muted group-hover:bg-[#C0C0C0]/10 group-hover:text-[#C0C0C0]'
               }`}>
                 {ICONS[cat.slug] || DEFAULT_ICON}
               </div>
               <span className="text-[10px] font-bold whitespace-nowrap">{cat.name}</span>
-              {isActive && <span className="w-4 h-0.5 rounded-full bg-gold mt-0.5" />}
+              {isActive && <span className="w-4 h-0.5 rounded-full bg-[#C0C0C0] mt-0.5" />}
             </Link>
           )
         })}

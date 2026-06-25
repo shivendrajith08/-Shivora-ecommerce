@@ -1,8 +1,8 @@
-import React from 'react'
+﻿import React from 'react'
 
 const COLOR_MAP = {
   blue:   'bg-blue-900/30 text-blue-300',
-  green:  'bg-gold/15 text-gold',
+  green:  'bg-[#C0C0C0]/15 text-[#C0C0C0]',
   orange: 'bg-amber-900/30 text-amber-300',
   purple: 'bg-purple-900/30 text-purple-300',
   red:    'bg-red-900/30 text-red-400',

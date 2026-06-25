@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
 
@@ -21,19 +21,19 @@ const Footer = () => {
         <div>
           <h4 className="text-parchment font-semibold mb-3 text-sm uppercase tracking-wide">Shop</h4>
           <ul className="space-y-2 text-sm text-silver-muted">
-            <li><Link to="/products" className="hover:text-gold transition-colors">All Products</Link></li>
-            <li><Link to="/products?sort=newest" className="hover:text-gold transition-colors">New Arrivals</Link></li>
-            <li><Link to="/wishlist" className="hover:text-gold transition-colors">Wishlist</Link></li>
-            <li><Link to="/cart" className="hover:text-gold transition-colors">Cart</Link></li>
+            <li><Link to="/products" className="hover:text-[#C0C0C0] transition-colors">All Products</Link></li>
+            <li><Link to="/products?sort=newest" className="hover:text-[#C0C0C0] transition-colors">New Arrivals</Link></li>
+            <li><Link to="/wishlist" className="hover:text-[#C0C0C0] transition-colors">Wishlist</Link></li>
+            <li><Link to="/cart" className="hover:text-[#C0C0C0] transition-colors">Cart</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-parchment font-semibold mb-3 text-sm uppercase tracking-wide">Account</h4>
           <ul className="space-y-2 text-sm text-silver-muted">
-            <li><Link to="/profile" className="hover:text-gold transition-colors">My Profile</Link></li>
-            <li><Link to="/orders" className="hover:text-gold transition-colors">Order History</Link></li>
-            <li><Link to="/login" className="hover:text-gold transition-colors">Login</Link></li>
-            <li><Link to="/register" className="hover:text-gold transition-colors">Register</Link></li>
+            <li><Link to="/profile" className="hover:text-[#C0C0C0] transition-colors">My Profile</Link></li>
+            <li><Link to="/orders" className="hover:text-[#C0C0C0] transition-colors">Order History</Link></li>
+            <li><Link to="/login" className="hover:text-[#C0C0C0] transition-colors">Login</Link></li>
+            <li><Link to="/register" className="hover:text-[#C0C0C0] transition-colors">Register</Link></li>
           </ul>
         </div>
         <div>

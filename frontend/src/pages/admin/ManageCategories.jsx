@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { getCategories, createCategory, updateCategory, deleteCategory } from '../../api/categoryApi'
 import Loader from '../../components/common/Loader'
@@ -127,7 +127,7 @@ const ManageCategories = () => {
                     <td className="px-4 py-3 text-silver-muted">{cat.product_count}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-3">
-                        <button onClick={() => openEditForm(cat)} className="text-gold hover:underline text-xs font-semibold">Edit</button>
+                        <button onClick={() => openEditForm(cat)} className="text-[#C0C0C0] hover:underline text-xs font-semibold">Edit</button>
                         <button onClick={() => handleDelete(cat)} disabled={deletingId === cat.id} className="text-red-400 hover:underline text-xs font-semibold">
                           {deletingId === cat.id ? 'Deleting...' : 'Delete'}
                         </button>

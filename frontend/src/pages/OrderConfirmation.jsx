@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getOrderDetail } from '../api/orderApi'
 import { API_ORIGIN } from '../api/axiosInstance'
@@ -26,7 +26,7 @@ const SuccessCheck = () => (
       @keyframes oc-draw { to { stroke-dashoffset: 0; } }
     `}</style>
     <div
-      className="w-20 h-20 rounded-full border-4 border-gold flex items-center justify-center bg-gold/5"
+      className="w-20 h-20 rounded-full border-4 border-[#C0C0C0] flex items-center justify-center bg-[#C0C0C0]/5"
       style={{ animation: 'oc-pop 0.45s cubic-bezier(0.22,1,0.36,1)' }}
     >
       <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="#4CAF50" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
@@ -80,7 +80,7 @@ const OrderConfirmation = () => {
       {/* Success header */}
       <div className="flex flex-col items-center text-center mb-8">
         <SuccessCheck />
-        <h1 className="text-3xl font-bold text-gold mt-5 mb-2">Order Confirmed!</h1>
+        <h1 className="text-3xl font-bold text-[#C0C0C0] mt-5 mb-2">Order Confirmed!</h1>
         <p className="text-silver-muted">Thank you for your order. Your order has been placed successfully.</p>
         <p className="text-sm text-silver-dim mt-1">Estimated delivery: 5–7 business days</p>
         {order.return_request && (
@@ -138,7 +138,7 @@ const OrderConfirmation = () => {
             <span>₹{subtotal.toLocaleString('en-IN')}</span>
           </div>
           {discount > 0 && (
-            <div className="flex justify-between text-gold font-medium">
+            <div className="flex justify-between text-[#C0C0C0] font-medium">
               <span>Discount{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}</span>
               <span>−₹{discount.toLocaleString('en-IN')}</span>
             </div>

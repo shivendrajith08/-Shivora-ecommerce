@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { resetPassword } from '../api/authApi'
@@ -86,7 +86,7 @@ const ForgotPassword = () => {
 
         <p className="text-center text-sm text-silver-muted mt-6">
           Remembered it?{' '}
-          <Link to="/login" className="text-gold font-semibold hover:underline">Back to login</Link>
+          <Link to="/login" className="text-[#C0C0C0] font-semibold hover:underline">Back to login</Link>
         </p>
       </div>
     </div>

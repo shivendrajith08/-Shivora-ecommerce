@@ -9,18 +9,18 @@
   --color-base-soft:      #060D22;
   --color-surface:        #060D22;
   --color-surface-raised: #0D1A3A;
-  --color-surface-border: rgba(212,175,55,0.15);
+  --color-surface-border: rgba(192,192,192,0.15);
   --color-surface-border-blue: rgba(30,58,138,0.4);
 
   --color-primary:       #1E3A8A;
   --color-primary-hover: #2547B0;
   --color-primary-light: #3B5FD4;
 
-  --color-gold-light:  #F5E49C;
-  --color-gold-hover:  #E8C84A;
-  --color-gold:        #D4AF37;
-  --color-gold-dark:   #A6821E;
-  --color-gold-deep:   #8B6914;
+  --color-gold-light:  #E8E8E8;
+  --color-gold-hover:  #D4D4D4;
+  --color-gold:        #C0C0C0;
+  --color-gold-dark:   #A0A0A0;
+  --color-gold-deep:   #808080;
 
   --color-silver-lightest: #E8EAED;
   --color-silver-light:    #D8DADE;
@@ -30,9 +30,9 @@
 
   --color-parchment: #F5F0E8;
 
-  --gold-shine:       linear-gradient(135deg, #E8C84A 0%, #C49A28 100%);
-  --gold-shine-hover: linear-gradient(135deg, #F5E49C 0%, #D4AF37 100%);
-  --gold-shine-press: linear-gradient(135deg, #D4AF37 0%, #A6821E 100%);
+  --gold-shine:       linear-gradient(135deg, #D4D4D4 0%, #A0A0A0 100%);
+  --gold-shine-hover: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%);
+  --gold-shine-press: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%);
 }
 
 html {

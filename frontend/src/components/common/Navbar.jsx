@@ -176,16 +176,16 @@ const Navbar = () => {
 
             {isAuthenticated && (
               <Link to="/wishlist" title="Wishlist"
-                className="text-silver-muted hover:text-gold transition-colors">
+                className="text-silver-muted hover:text-[#C0C0C0] transition-colors">
                 <IconHeart cls="w-6 h-6" />
               </Link>
             )}
 
             <Link to="/cart" title="Cart"
-              className="relative text-silver-muted hover:text-gold transition-colors">
+              className="relative text-silver-muted hover:text-[#C0C0C0] transition-colors">
               <IconCart cls="w-6 h-6" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gold text-[#020818] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#C0C0C0] text-[#020818] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -198,7 +198,7 @@ const Navbar = () => {
                   {avatarUrl ? (
                     <img src={avatarUrl} alt="avatar" className="w-8 h-8 rounded-full object-cover ring-1 ring-yellow-500/50" />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-surface-raised border border-gold/40 text-gold flex items-center justify-center font-bold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-surface-raised border border-[#C0C0C0]/40 text-[#C0C0C0] flex items-center justify-center font-bold text-sm">
                       {initials}
                     </div>
                   )}
@@ -251,9 +251,9 @@ const Navbar = () => {
             {isAuthenticated && (
               <Link to="/profile" className="min-w-[44px] min-h-[44px] flex items-center justify-center">
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt="avatar" className="w-7 h-7 rounded-full object-cover border border-gold/40" />
+                  <img src={avatarUrl} alt="avatar" className="w-7 h-7 rounded-full object-cover border border-[#C0C0C0]/40" />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-gold text-black text-xs font-bold flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-full bg-[#C0C0C0] text-black text-xs font-bold flex items-center justify-center">
                     {initials}
                   </div>
                 )}
@@ -262,10 +262,10 @@ const Navbar = () => {
 
             {/* Cart */}
             <Link to="/cart" aria-label="Cart"
-              className="relative min-w-[44px] min-h-[44px] hidden md:flex items-center justify-center text-silver-muted hover:text-gold transition-colors">
+              className="relative min-w-[44px] min-h-[44px] hidden md:flex items-center justify-center text-silver-muted hover:text-[#C0C0C0] transition-colors">
               <IconCart />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-0.5 bg-gold text-[#020818] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                <span className="absolute top-1 right-0.5 bg-[#C0C0C0] text-[#020818] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -274,7 +274,7 @@ const Navbar = () => {
             {/* Hamburger */}
             <button
               onClick={() => setMenuOpen(v => !v)}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-silver-muted hover:text-gold transition-colors"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-silver-muted hover:text-[#C0C0C0] transition-colors"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             >
               <IconMenu />
@@ -351,7 +351,7 @@ const Navbar = () => {
                       <IconGrid />Products
                     </Link>
                     <Link to="/login" onClick={closeMenu}
-                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gold hover:bg-gold/10 rounded-lg transition-colors">
+                      className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-[#C0C0C0] hover:bg-[#C0C0C0]/10 rounded-lg transition-colors">
                       <IconLoginIcon />Login / Register
                     </Link>
                   </>
@@ -364,7 +364,7 @@ const Navbar = () => {
             {isAuthenticated && (
               <div className="flex-shrink-0 px-4 py-3 border-t border-surface-border bg-surface-raised">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-surface border border-gold/40 text-gold flex items-center justify-center font-bold text-sm flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-surface border border-[#C0C0C0]/40 text-[#C0C0C0] flex items-center justify-center font-bold text-sm flex-shrink-0">
                     {initials}
                   </div>
                   <div className="min-w-0">

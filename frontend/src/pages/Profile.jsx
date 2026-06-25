@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+﻿import React, { useState, useEffect, useRef } from 'react'
 import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
@@ -14,7 +14,7 @@ import OrderTimeline from '../components/order/OrderTimeline'
 const FRAUNCES = { fontFamily: "'Fraunces', Georgia, serif" }
 
 // Warm-gold form input styling (overrides the base .input-field colors only)
-const inputCls = 'input-field !py-3 !px-4 !text-base !bg-white/[0.03] !border-[rgba(197,160,72,0.15)] !text-white/80 placeholder:!text-white/20 focus:!border-[rgba(197,160,72,0.5)]'
+const inputCls = 'input-field !py-3 !px-4 !text-base !bg-white/[0.03] !border-[rgba(192,192,192,0.15)] !text-white/80 placeholder:!text-white/20 focus:!border-[rgba(192,192,192,0.5)]'
 
 // All sidebar entries render inline now (no navigating away).
 const NAV = [
@@ -30,7 +30,7 @@ const ORDER_STATUS = {
   pending:    { label: 'Pending',   badge: 'bg-surface-raised text-silver-muted', dot: 'bg-silver-dim' },
   processing: { label: 'Confirmed', badge: 'bg-amber-900/30 text-amber-300',      dot: 'bg-amber-400' },
   shipped:    { label: 'Shipped',   badge: 'bg-blue-900/30 text-blue-300',        dot: 'bg-blue-400' },
-  delivered:  { label: 'Delivered', badge: 'bg-gold/10 text-gold',                dot: 'bg-gold' },
+  delivered:  { label: 'Delivered', badge: 'bg-[#C0C0C0]/10 text-[#C0C0C0]',                dot: 'bg-[#C0C0C0]' },
   cancelled:  { label: 'Cancelled', badge: 'bg-red-900/30 text-red-400',          dot: 'bg-red-500' },
 }
 
@@ -54,7 +54,7 @@ const Spinner = () => (
 // Section heading + gold gradient accent underline
 const SectionHeading = ({ children }) => (
   <>
-    <h1 className="text-2xl font-bold text-gold" style={FRAUNCES}>{children}</h1>
+    <h1 className="text-2xl font-bold text-[#C0C0C0]" style={FRAUNCES}>{children}</h1>
     <div className="w-24 h-px mt-1 mb-6 bg-gradient-to-r from-yellow-600 to-transparent" />
   </>
 )
@@ -283,10 +283,10 @@ const Profile = () => {
       {/* ── Desktop sidebar (sticky — fix preserved: self-start + max-h + top-16) */}
       <aside
         className="hidden lg:flex flex-col w-72 flex-shrink-0 self-start sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-r-2xl pt-6 px-4"
-        style={{ background: 'linear-gradient(180deg, #1c1500 0%, #110e00 100%)', borderRight: '1px solid rgba(197,160,72,0.15)' }}
+        style={{ background: 'linear-gradient(180deg, #1c1500 0%, #110e00 100%)', borderRight: '1px solid rgba(192,192,192,0.15)' }}
       >
         <div className="flex flex-col items-center text-center px-6 py-7">
-          <div className="w-24 h-24 rounded-full overflow-hidden flex items-center justify-center bg-gold ring-2 ring-offset-2 ring-yellow-600/50 ring-offset-[#110e00] shadow-[0_0_20px_rgba(197,160,72,0.3)]">
+          <div className="w-24 h-24 rounded-full overflow-hidden flex items-center justify-center bg-[#C0C0C0] ring-2 ring-offset-2 ring-yellow-600/50 ring-offset-[#110e00] shadow-[0_0_20px_rgba(192,192,192,0.3)]">
             {savedPhoto ? (
               <img src={savedPhoto} alt="Profile" className="w-full h-full object-cover" />
             ) : (
@@ -359,7 +359,7 @@ const Profile = () => {
         {/* Content area — warm gradient + faint gold vignette top */}
         <div
           className="relative p-5 sm:p-8 lg:p-10 max-w-[1100px]"
-          style={{ background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(197,160,72,0.06) 0%, transparent 70%), linear-gradient(135deg, #0d0b00 0%, #0a0800 50%, #0d0b00 100%)' }}
+          style={{ background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(192,192,192,0.06) 0%, transparent 70%), linear-gradient(135deg, #0d0b00 0%, #0a0800 50%, #0d0b00 100%)' }}
         >
 
           {/* ── MY ACCOUNT (overview) ───────────────────────────────────────── */}
@@ -367,7 +367,7 @@ const Profile = () => {
             <div>
               {/* Mobile profile header — desktop shows this in sidebar */}
               <div className="lg:hidden flex flex-col items-center text-center mb-6 pb-6 border-b border-yellow-900/20">
-                <div className="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center bg-gold ring-2 ring-offset-2 ring-yellow-600/50 ring-offset-[#0a0800] shadow-[0_0_16px_rgba(197,160,72,0.25)]">
+                <div className="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center bg-[#C0C0C0] ring-2 ring-offset-2 ring-yellow-600/50 ring-offset-[#0a0800] shadow-[0_0_16px_rgba(192,192,192,0.25)]">
                   {savedPhoto ? (
                     <img src={savedPhoto} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
@@ -391,12 +391,12 @@ const Profile = () => {
                   <button
                     key={card.label}
                     onClick={() => setTab(card.tab)}
-                    className="relative overflow-hidden min-h-[120px] p-3 sm:p-6 rounded-xl border border-[rgba(197,160,72,0.15)] hover:border-[rgba(197,160,72,0.4)] hover:scale-[1.02] transition-all text-left"
-                    style={{ background: 'linear-gradient(135deg, rgba(197,160,72,0.06) 0%, rgba(197,160,72,0.02) 100%)' }}
+                    className="relative overflow-hidden min-h-[120px] p-3 sm:p-6 rounded-xl border border-[rgba(192,192,192,0.15)] hover:border-[rgba(192,192,192,0.4)] hover:scale-[1.02] transition-all text-left"
+                    style={{ background: 'linear-gradient(135deg, rgba(192,192,192,0.06) 0%, rgba(192,192,192,0.02) 100%)' }}
                   >
                     <div className="relative">
-                      <div className="text-gold opacity-80">{card.icon}</div>
-                      <p className="text-3xl md:text-4xl font-bold text-gold mt-2" style={FRAUNCES}>{card.value == null ? '—' : card.value}</p>
+                      <div className="text-[#C0C0C0] opacity-80">{card.icon}</div>
+                      <p className="text-3xl md:text-4xl font-bold text-[#C0C0C0] mt-2" style={FRAUNCES}>{card.value == null ? '—' : card.value}</p>
                       <p className="text-sm text-white/35 mt-1">{card.label}</p>
                     </div>
                   </button>
@@ -404,7 +404,7 @@ const Profile = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                <Link to="/products" className="btn !rounded-lg !py-3 !px-8 font-semibold justify-center text-black hover:opacity-90 transition-opacity" style={{ background: 'linear-gradient(135deg, #C9A24B, #8B6420)' }}>Continue Shopping</Link>
+                <Link to="/products" className="btn !rounded-lg !py-3 !px-8 font-semibold justify-center text-black hover:opacity-90 transition-opacity" style={{ background: 'linear-gradient(135deg, #C0C0C0, #808080)' }}>Continue Shopping</Link>
                 <button onClick={() => setTab('orders')} className="btn !rounded-lg !py-3 !px-8 font-semibold border border-yellow-600/40 text-yellow-500/80 hover:border-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/5 transition-colors justify-center">View My Orders</button>
               </div>
 
@@ -539,8 +539,8 @@ const Profile = () => {
                 <Spinner />
               ) : addrList.length === 0 ? (
                 <div className="text-center py-16">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#C0C0C0]/10 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-[#C0C0C0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                     </svg>
@@ -552,7 +552,7 @@ const Profile = () => {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {addrList.map((addr) => (
-                    <div key={addr.id} className="card p-4 flex flex-col gap-3 !border-[rgba(197,160,72,0.15)]" style={{ background: 'rgba(197,160,72,0.04)' }}>
+                    <div key={addr.id} className="card p-4 flex flex-col gap-3 !border-[rgba(192,192,192,0.15)]" style={{ background: 'rgba(192,192,192,0.04)' }}>
                       <div className="flex items-start justify-between gap-2">
                         <p className="font-semibold text-parchment">{addr.full_name} <span className="text-silver-dim font-normal">• {addr.phone}</span></p>
                         {addr.is_default && (
@@ -576,7 +576,7 @@ const Profile = () => {
                       ) : (
                         <div className="flex items-center gap-4 pt-2 border-t border-surface-border text-xs font-semibold">
                           {!addr.is_default && (
-                            <button onClick={() => handleSetDefault(addr.id)} disabled={settingDefaultId === addr.id} className="text-gold hover:underline disabled:opacity-50">
+                            <button onClick={() => handleSetDefault(addr.id)} disabled={settingDefaultId === addr.id} className="text-[#C0C0C0] hover:underline disabled:opacity-50">
                               {settingDefaultId === addr.id ? 'Updating…' : 'Set as Default'}
                             </button>
                           )}
@@ -608,8 +608,8 @@ const Profile = () => {
                 <Spinner />
               ) : orderList.length === 0 ? (
                 <div className="text-center py-16">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gold/10 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#C0C0C0]/10 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-[#C0C0C0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
                     </svg>
                   </div>
@@ -622,7 +622,7 @@ const Profile = () => {
                   {orderList.map((order) => {
                     const cfg = ORDER_STATUS[order.status] ?? ORDER_STATUS.pending
                     return (
-                      <div key={order.id} className="card overflow-hidden !border-[rgba(197,160,72,0.12)]" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <div key={order.id} className="card overflow-hidden !border-[rgba(192,192,192,0.12)]" style={{ background: 'rgba(255,255,255,0.02)' }}>
                         <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-surface-border">
                           <div className="flex flex-wrap items-center gap-3">
                             <div>
@@ -637,7 +637,7 @@ const Profile = () => {
                           <div className="text-right">
                             <p className="text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
                             {order.discount_amount > 0 && (
-                              <p className="text-[11px] font-semibold text-gold mt-0.5">Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}</p>
+                              <p className="text-[11px] font-semibold text-[#C0C0C0] mt-0.5">Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}</p>
                             )}
                           </div>
                         </div>
@@ -704,13 +704,13 @@ const Profile = () => {
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={closePhotoModal}>
           <div className="bg-[#1a1507] border border-yellow-900/40 rounded-2xl p-6 w-80 max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg text-gold" style={FRAUNCES}>Update Profile Photo</h3>
+              <h3 className="text-lg text-[#C0C0C0]" style={FRAUNCES}>Update Profile Photo</h3>
               <button type="button" onClick={closePhotoModal} aria-label="Close" className="text-white/40 hover:text-white/70 transition-colors">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
 
-            <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-2 border-yellow-500/40 flex items-center justify-center bg-gold">
+            <div className="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-2 border-yellow-500/40 flex items-center justify-center bg-[#C0C0C0]">
               {previewUrl ? (
                 <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
               ) : (
@@ -718,7 +718,7 @@ const Profile = () => {
               )}
             </div>
 
-            <button type="button" onClick={() => fileInputRef.current?.click()} className="btn w-full !py-2 !rounded-lg text-sm border border-gold text-gold hover:bg-gold/10 transition-colors">
+            <button type="button" onClick={() => fileInputRef.current?.click()} className="btn w-full !py-2 !rounded-lg text-sm border border-[#C0C0C0] text-[#C0C0C0] hover:bg-[#C0C0C0]/10 transition-colors">
               Choose Photo
             </button>
             <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />

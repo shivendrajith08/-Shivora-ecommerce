@@ -140,7 +140,7 @@ const ProductDetails = () => {
     return (
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-16">
         <ErrorAlert message={error || 'Product not found.'} />
-        <Link to="/products" className="inline-block mt-6 text-gold font-semibold hover:underline">
+        <Link to="/products" className="inline-block mt-6 text-[#C0C0C0] font-semibold hover:underline">
           ← Back to products
         </Link>
       </div>
@@ -212,9 +212,9 @@ const ProductDetails = () => {
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 md:pb-8">
       <nav className="text-sm text-silver-dim mb-6">
-        <Link to="/" className="hover:text-gold transition-colors">Home</Link>
+        <Link to="/" className="hover:text-[#C0C0C0] transition-colors">Home</Link>
         <span className="mx-2">/</span>
-        <Link to="/products" className="hover:text-gold transition-colors">Products</Link>
+        <Link to="/products" className="hover:text-[#C0C0C0] transition-colors">Products</Link>
         {product.category_name && (
           <>
             <span className="mx-2">/</span>
@@ -247,7 +247,7 @@ const ProductDetails = () => {
         {/* Details column */}
         <div>
           {product.category_name && (
-            <span className="text-xs font-semibold text-gold uppercase tracking-wide">{product.category_name}</span>
+            <span className="text-xs font-semibold text-[#C0C0C0] uppercase tracking-wide">{product.category_name}</span>
           )}
           <h1 className="text-xl md:text-3xl font-bold text-parchment mt-1 mb-1.5 leading-tight">{product.name}</h1>
 
@@ -277,8 +277,8 @@ const ProductDetails = () => {
 
           <div className="mb-5">
             {product.in_stock ? (
-              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-gold bg-gold/10 px-3 py-1 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-gold" /> In Stock ({product.stock} available)
+              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#C0C0C0] bg-[#C0C0C0]/10 px-3 py-1 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-[#C0C0C0]" /> In Stock ({product.stock} available)
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5 text-sm font-medium text-red-400 bg-red-900/20 px-3 py-1 rounded-full">
@@ -299,7 +299,7 @@ const ProductDetails = () => {
               {isLongDesc && (
                 <button
                   onClick={() => setDescExpanded(v => !v)}
-                  className="text-gold text-sm font-medium mt-1.5 hover:underline"
+                  className="text-[#C0C0C0] text-sm font-medium mt-1.5 hover:underline"
                 >
                   {descExpanded ? 'Show less ↑' : 'Read more ↓'}
                 </button>
@@ -333,7 +333,7 @@ const ProductDetails = () => {
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="btn !px-8 !py-3 border border-gold text-gold font-semibold hover:bg-gold hover:text-[#0d0000] active:bg-gold-dark transition-colors"
+                className="btn !px-8 !py-3 border border-[#C0C0C0] text-[#C0C0C0] font-semibold hover:bg-[#C0C0C0] hover:text-[#0d0000] active:bg-[#C0C0C0]-dark transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -411,7 +411,7 @@ const ProductDetails = () => {
             <h3 className="text-lg font-semibold text-parchment mb-4">Write a Review</h3>
 
             {submitSuccess ? (
-              <p className="text-gold font-medium">Thanks for your review!</p>
+              <p className="text-[#C0C0C0] font-medium">Thanks for your review!</p>
             ) : (
               <form onSubmit={handleSubmitReview} noValidate>
                 {submitError && <p className="text-red-400 text-sm mb-4">{submitError}</p>}
@@ -451,7 +451,7 @@ const ProductDetails = () => {
                       >×</button>
                     </div>
                   ) : (
-                    <label className="inline-flex items-center gap-1.5 cursor-pointer border border-dashed border-surface-border rounded-lg px-3 py-2 text-xs text-silver-dim hover:border-gold hover:text-gold transition-colors">
+                    <label className="inline-flex items-center gap-1.5 cursor-pointer border border-dashed border-surface-border rounded-lg px-3 py-2 text-xs text-silver-dim hover:border-[#C0C0C0] hover:text-[#C0C0C0] transition-colors">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                       </svg>
@@ -473,7 +473,7 @@ const ProductDetails = () => {
       {/* You may also like */}
       {related.length > 0 && (
         <div className="mt-10 md:mt-14">
-          <h2 className="text-xl md:text-2xl font-bold text-gold mb-6">You may also like</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-[#C0C0C0] mb-6">You may also like</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
@@ -495,7 +495,7 @@ const ProductDetails = () => {
             </button>
             <button
               onClick={handleBuyNow}
-              className="btn flex-1 min-h-[52px] text-base border border-gold text-gold font-semibold hover:bg-gold hover:text-[#0d0000] transition-colors"
+              className="btn flex-1 min-h-[52px] text-base border border-[#C0C0C0] text-[#C0C0C0] font-semibold hover:bg-[#C0C0C0] hover:text-[#0d0000] transition-colors"
             >
               Buy Now
             </button>

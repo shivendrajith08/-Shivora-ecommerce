@@ -10,7 +10,7 @@ const STATUS_STYLES = {
   pending:    'bg-amber-900/30 text-amber-300',
   processing: 'bg-blue-900/30 text-blue-300',
   shipped:    'bg-purple-900/30 text-purple-300',
-  delivered:  'bg-gold/10 text-gold',
+  delivered:  'bg-[#C0C0C0]/10 text-[#C0C0C0]',
   cancelled:  'bg-red-900/30 text-red-400',
 }
 
@@ -79,7 +79,7 @@ const Dashboard = () => {
                 <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
                 <YAxis tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
                 <Tooltip formatter={(value) => [`₹${value.toLocaleString('en-IN')}`, 'Revenue']} {...CHART_TOOLTIP_STYLE} />
-                <Line type="monotone" dataKey="revenue" stroke="#C9A24B" strokeWidth={2.5} dot={{ r: 4, fill: '#C9A24B' }} />
+                <Line type="monotone" dataKey="revenue" stroke="#C0C0C0" strokeWidth={2.5} dot={{ r: 4, fill: '#C0C0C0' }} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -96,7 +96,7 @@ const Dashboard = () => {
                 <XAxis type="number" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
                 <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 11, fill: '#8A8C8F' }} stroke="#3a1010" />
                 <Tooltip formatter={(value) => [value, 'Units Sold']} {...CHART_TOOLTIP_STYLE} />
-                <Bar dataKey="total_sold" fill="#C9A24B" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="total_sold" fill="#C0C0C0" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -106,7 +106,7 @@ const Dashboard = () => {
       <div className="card p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold text-parchment">Recent Orders</h3>
-          <Link to="/admin/orders" className="text-sm font-semibold text-gold hover:underline">View all →</Link>
+          <Link to="/admin/orders" className="text-sm font-semibold text-[#C0C0C0] hover:underline">View all →</Link>
         </div>
         {stats.recent_orders.length === 0 ? (
           <p className="text-sm text-silver-dim text-center py-8">No orders yet</p>

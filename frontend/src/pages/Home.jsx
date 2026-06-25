@@ -32,7 +32,7 @@ const HScrollCard = ({ product }) => {
   return (
     <Link
       to={`/products/${product.id}`}
-      className="flex-shrink-0 w-36 bg-surface rounded-xl overflow-hidden border border-surface-border hover:border-gold/40 transition-all"
+      className="flex-shrink-0 w-36 bg-surface rounded-xl overflow-hidden border border-surface-border hover:border-[#C0C0C0]/40 transition-all"
     >
       <div className="w-full aspect-square bg-surface-raised overflow-hidden">
         {img ? (
@@ -48,7 +48,7 @@ const HScrollCard = ({ product }) => {
       </div>
       <div className="p-2">
         <p className="text-xs font-semibold text-parchment truncate leading-snug mb-0.5">{product.name}</p>
-        <p className="text-xs font-bold text-gold">₹{price.toLocaleString('en-IN')}</p>
+        <p className="text-xs font-bold text-[#C0C0C0]">₹{price.toLocaleString('en-IN')}</p>
       </div>
     </Link>
   )
@@ -235,7 +235,7 @@ const Home = () => {
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px',borderBottom:'1px solid rgba(212,175,55,0.2)',flexShrink:0}}>
             <button onClick={() => setShowMobileFilter(false)} style={{color:'white',background:'none',border:'none',fontSize:'20px'}}>←</button>
             <span style={{color:'white',fontWeight:'bold',fontSize:'16px'}}>Filters</span>
-            <button onClick={handleClearFilters} style={{color:'#D4AF37',background:'none',border:'none',fontSize:'13px'}}>Clear All</button>
+            <button onClick={handleClearFilters} style={{color:'#C0C0C0',background:'none',border:'none',fontSize:'13px'}}>Clear All</button>
           </div>
 
           {/* Body */}
@@ -245,7 +245,7 @@ const Home = () => {
             <div style={{width:'110px',background:'#1a0000',overflowY:'auto',flexShrink:0}}>
               {['Sort','Category','Price'].map(tab => (
                 <div key={tab} onClick={() => setActiveFilterTab(tab)}
-                  style={{padding:'16px 12px',fontSize:'13px',cursor:'pointer',borderLeft: activeFilterTab===tab ? '3px solid #D4AF37' : '3px solid transparent',color: activeFilterTab===tab ? '#D4AF37' : 'rgba(255,255,255,0.6)',fontWeight: activeFilterTab===tab ? '600' : '400',background: activeFilterTab===tab ? '#0d0000' : 'transparent'}}>
+                  style={{padding:'16px 12px',fontSize:'13px',cursor:'pointer',borderLeft: activeFilterTab===tab ? '3px solid #C0C0C0' : '3px solid transparent',color: activeFilterTab===tab ? '#C0C0C0' : 'rgba(255,255,255,0.6)',fontWeight: activeFilterTab===tab ? '600' : '400',background: activeFilterTab===tab ? '#0d0000' : 'transparent'}}>
                   {tab}
                 </div>
               ))}
@@ -259,8 +259,8 @@ const Home = () => {
                   {[{v:'newest',l:'Newest First'},{v:'price_asc',l:'Price: Low to High'},{v:'price_desc',l:'Price: High to Low'},{v:'name_asc',l:'Name: A to Z'}].map(opt => (
                     <div key={opt.v} onClick={() => setTempSort(opt.v)}
                       style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempSort===opt.v ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
-                      <span style={{color: tempSort===opt.v ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{opt.l}</span>
-                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempSort===opt.v ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                      <span style={{color: tempSort===opt.v ? '#C0C0C0' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{opt.l}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempSort===opt.v ? '5px solid #C0C0C0' : '2px solid rgba(255,255,255,0.3)'}}></div>
                     </div>
                   ))}
                 </div>
@@ -271,8 +271,8 @@ const Home = () => {
                   {categories.map(cat => (
                     <div key={cat.id} onClick={() => setTempCategory(tempCategory===cat.slug ? '' : cat.slug)}
                       style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempCategory===cat.slug ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
-                      <span style={{color: tempCategory===cat.slug ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{cat.name}</span>
-                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempCategory===cat.slug ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                      <span style={{color: tempCategory===cat.slug ? '#C0C0C0' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{cat.name}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempCategory===cat.slug ? '5px solid #C0C0C0' : '2px solid rgba(255,255,255,0.3)'}}></div>
                     </div>
                   ))}
                 </div>
@@ -283,8 +283,8 @@ const Home = () => {
                   {[{l:'Below ₹500',min:'',max:'500'},{l:'₹500 - ₹1,000',min:'500',max:'1000'},{l:'₹1,000 - ₹5,000',min:'1000',max:'5000'},{l:'₹5,000 and Above',min:'5000',max:''}].map(range => (
                     <div key={range.l} onClick={() => { setTempMin(range.min); setTempMax(range.max) }}
                       style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempMin===range.min && tempMax===range.max ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
-                      <span style={{color: tempMin===range.min && tempMax===range.max ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{range.l}</span>
-                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempMin===range.min && tempMax===range.max ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                      <span style={{color: tempMin===range.min && tempMax===range.max ? '#C0C0C0' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{range.l}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempMin===range.min && tempMax===range.max ? '5px solid #C0C0C0' : '2px solid rgba(255,255,255,0.3)'}}></div>
                     </div>
                   ))}
                   <div style={{marginTop:'12px',display:'flex',flexDirection:'column',gap:'10px'}}>
@@ -306,7 +306,7 @@ const Home = () => {
           {/* Bottom bar */}
           <div style={{display:'flex',gap:'12px',padding:'12px 16px',borderTop:'1px solid rgba(212,175,55,0.2)',paddingBottom:'70px',flexShrink:0,background:'#0d0000'}}>
             <button onClick={handleClearFilters} style={{flex:1,border:'1px solid rgba(255,255,255,0.2)',color:'rgba(255,255,255,0.7)',borderRadius:'999px',padding:'12px',fontSize:'14px',background:'transparent'}}>Clear All</button>
-            <button onClick={handleApplyFilters} style={{flex:2,background:'#D4AF37',color:'black',fontWeight:'bold',borderRadius:'999px',padding:'12px',fontSize:'14px',border:'none'}}>Show Products</button>
+            <button onClick={handleApplyFilters} style={{flex:2,background:'#C0C0C0',color:'black',fontWeight:'bold',borderRadius:'999px',padding:'12px',fontSize:'14px',border:'none'}}>Show Products</button>
           </div>
 
         </div>
@@ -387,15 +387,15 @@ const Home = () => {
               </button>
 
               {showSortDropdown && (
-                <div className="absolute right-0 top-full mt-1 w-48 bg-[#060D22] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
+                <div className="absolute right-0 top-full mt-1 w-48 bg-[#060D22] border border-[#C0C0C0]/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-[#C0C0C0]/10">
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
                       onClick={() => { updateFilters({ ...filters, sort: opt.value, page: 1 }); setShowSortDropdown(false) }}
                       className={`w-full text-left px-3 py-2 text-sm transition ${
                         filters.sort === opt.value
-                          ? 'text-gold font-semibold bg-gold/10'
-                          : 'text-white/70 bg-transparent hover:bg-gold/5 hover:text-white'
+                          ? 'text-[#C0C0C0] font-semibold bg-[#C0C0C0]/10'
+                          : 'text-white/70 bg-transparent hover:bg-[#C0C0C0]/5 hover:text-white'
                       }`}
                     >
                       {opt.label}
@@ -407,17 +407,17 @@ const Home = () => {
           </div>
 
           {/* Mobile filter trigger bar */}
-          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#020818]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
+          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#020818]/95 backdrop-blur-sm border-b border-[#C0C0C0]/10 mb-4">
             <button
               onClick={() => setShowMobileFilter(true)}
-              className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#060D22] hover:border-gold/40 transition-colors"
+              className="flex items-center gap-2 text-xs text-white/70 border border-[#C0C0C0]/20 rounded-full px-4 py-1.5 bg-[#060D22] hover:border-[#C0C0C0]/40 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />
               </svg>
               Sort &amp; Filter
               {anyFilterActive && (
-                <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C0C0C0] flex-shrink-0" />
               )}
             </button>
           </div>
@@ -505,7 +505,7 @@ const Home = () => {
                       </div>
                     )}
                     <p className="text-xs text-white/80 truncate mt-1">{p.name}</p>
-                    <p className="text-xs text-gold">₹{price.toLocaleString('en-IN')}</p>
+                    <p className="text-xs text-[#C0C0C0]">₹{price.toLocaleString('en-IN')}</p>
                   </Link>
                 )
               })}
@@ -516,7 +516,7 @@ const Home = () => {
         <section className="grid sm:grid-cols-3 gap-3 pt-2 border-t border-surface-border">
           {TRUST_BADGES.map((item) => (
             <div key={item.title} className="card p-4 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-gold/10 text-gold flex items-center justify-center flex-shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[#C0C0C0]/10 text-[#C0C0C0] flex items-center justify-center flex-shrink-0">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d={item.icon} />
                 </svg>

@@ -41,13 +41,13 @@ export default {
           border:  '#3A3630', // border-surface-border — subtle dividers on dark
         },
 
-        // Gold — warm metallic; use gold-shine / gold-shine-hover gradients for buttons
+        // Silver — metallic; use silver-shine gradients for buttons
         gold: {
-          light:   '#F0D98A', // gold-light   — focus rings, highlights
-          hover:   '#E0BE6A', // gold-hover   — button hover tint, gradient start
-          DEFAULT: '#C9A24B', // gold         — primary CTA colour, icons, text accents
-          dark:    '#B8932F', // gold-dark    — gradient end, active/pressed state
-          deep:    '#9A7A22', // gold-deep    — darkest; shadows, border on gold elements
+          light:   '#E8E8E8', // silver-light   — focus rings, highlights
+          hover:   '#D4D4D4', // silver-hover   — button hover tint, gradient start
+          DEFAULT: '#C0C0C0', // silver         — primary CTA colour, icons, text accents
+          dark:    '#A0A0A0', // silver-dark    — gradient end, active/pressed state
+          deep:    '#808080', // silver-deep    — darkest; shadows, border on silver elements
         },
 
         // Silver — cool metallic; for borders, secondary UI, muted text
@@ -65,9 +65,9 @@ export default {
 
       // Gold gradient utilities: bg-gold-shine, bg-gold-shine-hover
       backgroundImage: {
-        'gold-shine':       'linear-gradient(135deg, #E0BE6A 0%, #B8932F 100%)',
-        'gold-shine-hover': 'linear-gradient(135deg, #F0D98A 0%, #C9A24B 100%)',
-        'gold-shine-press': 'linear-gradient(135deg, #C9A24B 0%, #9A7A22 100%)',
+        'gold-shine':       'linear-gradient(135deg, #D4D4D4 0%, #A0A0A0 100%)',
+        'gold-shine-hover': 'linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%)',
+        'gold-shine-press': 'linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%)',
       },
       fontFamily: {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
@@ -93,7 +93,7 @@ const Register = () => {
 
         <p className="text-center text-sm text-silver-muted mt-6">
           Already have an account?{' '}
-          <Link to="/login" className="text-gold font-semibold hover:underline">Log in</Link>
+          <Link to="/login" className="text-[#C0C0C0] font-semibold hover:underline">Log in</Link>
         </p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { getProductById, createProduct, updateProduct } from '../../api/productApi'
@@ -195,7 +195,7 @@ const ProductForm = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" id="is_active" name="is_active" checked={form.is_active} onChange={handleChange} className="w-4 h-4" style={{ accentColor: '#C9A24B' }} />
+          <input type="checkbox" id="is_active" name="is_active" checked={form.is_active} onChange={handleChange} className="w-4 h-4" style={{ accentColor: '#C0C0C0' }} />
           <label htmlFor="is_active" className="text-sm font-medium text-silver-muted">Product is active and visible to customers</label>
         </div>
 

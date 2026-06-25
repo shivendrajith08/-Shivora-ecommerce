@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
 import { API_ORIGIN } from '../../api/axiosInstance'
@@ -42,7 +42,7 @@ const CartItem = ({ item }) => {
       </Link>
 
       <div className="flex-1 min-w-0">
-        <Link to={`/products/${product.id}`} className="text-sm font-semibold text-parchment hover:text-gold line-clamp-1">
+        <Link to={`/products/${product.id}`} className="text-sm font-semibold text-parchment hover:text-[#C0C0C0] line-clamp-1">
           {product.name}
         </Link>
         <p className="text-sm text-silver-dim mt-1">

@@ -60,8 +60,8 @@ const OrderTimeline = ({ status }) => {
               <div
                 className={[
                   'flex items-center justify-center rounded-full w-7 h-7 sm:w-8 sm:h-8 text-[11px] sm:text-xs font-bold transition-colors',
-                  st === 'complete' ? 'bg-gold text-[#0d0000]' : '',
-                  st === 'current' ? 'bg-surface text-gold ring-2 ring-gold animate-pulse' : '',
+                  st === 'complete' ? 'bg-[#C0C0C0] text-[#0d0000]' : '',
+                  st === 'current' ? 'bg-surface text-[#C0C0C0] ring-2 ring-[#C0C0C0] animate-pulse' : '',
                   st === 'upcoming' ? 'bg-surface border border-surface-border text-silver-dim' : '',
                 ].join(' ')}
               >
@@ -71,7 +71,7 @@ const OrderTimeline = ({ status }) => {
                 className={[
                   'mt-2 text-center text-[10px] sm:text-xs leading-tight',
                   st === 'upcoming' ? 'text-silver-dim' : 'text-parchment',
-                  st === 'current' ? 'font-semibold text-gold' : '',
+                  st === 'current' ? 'font-semibold text-[#C0C0C0]' : '',
                 ].join(' ')}
               >
                 {label}
@@ -79,7 +79,7 @@ const OrderTimeline = ({ status }) => {
             </div>
 
             {i < STAGES.length - 1 && (
-              <div className={`flex-1 h-0.5 mt-3.5 sm:mt-4 rounded ${lineComplete ? 'bg-gold' : 'bg-surface-border'}`} />
+              <div className={`flex-1 h-0.5 mt-3.5 sm:mt-4 rounded ${lineComplete ? 'bg-[#C0C0C0]' : 'bg-surface-border'}`} />
             )}
           </React.Fragment>
         )

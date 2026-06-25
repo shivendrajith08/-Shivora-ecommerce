@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { Link } from 'react-router-dom'
 
 const CATEGORY_ICONS = {
@@ -22,7 +22,7 @@ const CategorySection = ({ categories = [], showViewAll = true }) => {
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-base font-extrabold text-parchment uppercase tracking-wide">Shop by Category</h2>
         {showViewAll && (
-          <Link to="/" className="text-xs font-semibold text-gold hover:underline">View all</Link>
+          <Link to="/" className="text-xs font-semibold text-[#C0C0C0] hover:underline">View all</Link>
         )}
       </div>
       <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
@@ -30,9 +30,9 @@ const CategorySection = ({ categories = [], showViewAll = true }) => {
           <Link
             key={cat.id}
             to={`/?category=${cat.slug}`}
-            className="card p-3 flex flex-col items-center text-center gap-2 hover:border-gold/50 hover:-translate-y-0.5 transition group"
+            className="card p-3 flex flex-col items-center text-center gap-2 hover:border-[#C0C0C0]/50 hover:-translate-y-0.5 transition group"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gold/10 text-gold group-hover:bg-gold/20 flex items-center justify-center transition-colors">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#C0C0C0]/10 text-[#C0C0C0] group-hover:bg-[#C0C0C0]/20 flex items-center justify-center transition-colors">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d={CATEGORY_ICONS[cat.slug] || DEFAULT_ICON} />
               </svg>

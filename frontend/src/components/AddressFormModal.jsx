@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { createAddress, updateAddress } from '../api/addressApi'
 
@@ -182,7 +182,7 @@ const AddressFormModal = ({ address, onClose, onSaved }) => {
                 name="is_default"
                 checked={form.is_default}
                 onChange={handleChange}
-                style={{ accentColor: '#C9A24B' }}
+                style={{ accentColor: '#C0C0C0' }}
               />
               <span className="text-sm text-silver-muted">Set as default address</span>
             </label>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
   const isBestseller = !hasDeal && product.id % 3 !== 2
 
   return (
-    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-gold/40 hover:shadow-lg transition-all flex flex-col h-full rounded-xl">
+    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-[#C0C0C0]/40 hover:shadow-lg transition-all flex flex-col h-full rounded-xl">
       {/* Image */}
       <div className="relative aspect-square bg-surface-raised overflow-hidden">
         {imageSrc ? (
@@ -107,7 +107,7 @@ const ProductCard = ({ product }) => {
             </span>
           )}
           {isBestseller && (
-            <span className="inline-block bg-gold/10 text-gold text-[10px] font-extrabold px-2 py-0.5 rounded border border-gold/30 uppercase tracking-wide">
+            <span className="inline-block bg-[#C0C0C0]/10 text-[#C0C0C0] text-[10px] font-extrabold px-2 py-0.5 rounded border border-[#C0C0C0]/30 uppercase tracking-wide">
               Bestseller
             </span>
           )}
@@ -117,7 +117,7 @@ const ProductCard = ({ product }) => {
       {/* Info — slightly tighter padding on mobile so 2-col cards don't feel cramped */}
       <div className="px-2 pt-1.5 pb-2 sm:px-2 sm:pt-1.5 sm:pb-2 flex flex-col flex-1">
         {product.category_name && (
-          <span className="text-[10px] font-medium text-gold uppercase tracking-wide mb-0.5">{product.category_name}</span>
+          <span className="text-[10px] font-medium text-[#C0C0C0] uppercase tracking-wide mb-0.5">{product.category_name}</span>
         )}
         <h3 className="text-xs sm:text-xs font-semibold text-parchment line-clamp-2 mb-1 flex-1 leading-snug">{product.name}</h3>
 
@@ -139,7 +139,7 @@ const ProductCard = ({ product }) => {
           {hasDiscount && (
             <>
               <span className="text-[10px] text-silver-dim line-through">₹{product.price.toLocaleString('en-IN')}</span>
-              <span className="text-[10px] font-bold text-gold">{discountPercent}% off</span>
+              <span className="text-[10px] font-bold text-[#C0C0C0]">{discountPercent}% off</span>
             </>
           )}
         </div>

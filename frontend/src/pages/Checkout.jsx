@@ -250,7 +250,7 @@ const Checkout = () => {
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold text-parchment">Checkout</h1>
         {buyNow && (
-          <span className="inline-flex items-center gap-1 bg-gold/15 text-gold border border-gold/30 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-widest">
+          <span className="inline-flex items-center gap-1 bg-[#C0C0C0]/15 text-[#C0C0C0] border border-[#C0C0C0]/30 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-widest">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -265,7 +265,7 @@ const Checkout = () => {
           {/* ── DELIVERY ADDRESS — picker OR manual form ───────────────────── */}
           {mode === 'picker' ? (
             <>
-              <h3 className="font-bold text-gold mb-2">Deliver to</h3>
+              <h3 className="font-bold text-[#C0C0C0] mb-2">Deliver to</h3>
 
               <div className="space-y-3">
                 {savedAddresses.map((a) => {
@@ -277,16 +277,16 @@ const Checkout = () => {
                       onClick={() => setSelectedAddressId(a.id)}
                       className={`w-full text-left rounded-lg border p-4 transition-colors ${
                         selected
-                          ? 'border-gold bg-gold/10'
-                          : 'border-surface-border bg-surface hover:border-gold/50'
+                          ? 'border-[#C0C0C0] bg-[#C0C0C0]/10'
+                          : 'border-surface-border bg-surface hover:border-[#C0C0C0]/50'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         {/* radio dot */}
                         <span className={`mt-0.5 w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 ${
-                          selected ? 'border-gold' : 'border-silver-dim'
+                          selected ? 'border-[#C0C0C0]' : 'border-silver-dim'
                         }`}>
-                          {selected && <span className="w-2 h-2 rounded-full bg-gold" />}
+                          {selected && <span className="w-2 h-2 rounded-full bg-[#C0C0C0]" />}
                         </span>
 
                         <div className="min-w-0 flex-1">
@@ -295,7 +295,7 @@ const Checkout = () => {
                               {a.full_name} <span className="text-silver-dim font-normal">• {a.phone}</span>
                             </p>
                             {a.is_default && (
-                              <span className="flex-shrink-0 inline-flex items-center bg-gold text-[#0d0000] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
+                              <span className="flex-shrink-0 inline-flex items-center bg-[#C0C0C0] text-[#0d0000] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
                                 Default
                               </span>
                             )}
@@ -308,7 +308,7 @@ const Checkout = () => {
                         </div>
 
                         {selected && (
-                          <svg className="w-5 h-5 text-gold flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-5 h-5 text-[#C0C0C0] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.5 12.75l6 6 9-13.5" />
                           </svg>
                         )}
@@ -321,7 +321,7 @@ const Checkout = () => {
               <button
                 type="button"
                 onClick={handleAddNew}
-                className="btn border border-gold text-gold hover:bg-gold/10 transition-colors !px-5"
+                className="btn border border-[#C0C0C0] text-[#C0C0C0] hover:bg-[#C0C0C0]/10 transition-colors !px-5"
               >
                 + Add New Address
               </button>
@@ -332,7 +332,7 @@ const Checkout = () => {
                 <button
                   type="button"
                   onClick={handleBackToPicker}
-                  className="text-sm font-semibold text-gold hover:underline"
+                  className="text-sm font-semibold text-[#C0C0C0] hover:underline"
                 >
                   ← Back to saved addresses
                 </button>
@@ -388,7 +388,7 @@ const Checkout = () => {
                   type="checkbox"
                   checked={saveToBook}
                   onChange={(e) => setSaveToBook(e.target.checked)}
-                  style={{ accentColor: '#C9A24B' }}
+                  style={{ accentColor: '#C0C0C0' }}
                 />
                 <span className="text-sm text-silver-muted">Save this address to my address book</span>
               </label>
@@ -401,7 +401,7 @@ const Checkout = () => {
               <button
                 type="button"
                 onClick={() => setCouponOpen(true)}
-                className="flex items-center gap-2 text-sm font-semibold text-gold hover:underline"
+                className="flex items-center gap-2 text-sm font-semibold text-[#C0C0C0] hover:underline"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3zM6 6h.008v.008H6V6z" />
@@ -445,7 +445,7 @@ const Checkout = () => {
           <div className="pt-2">
             <p className="label-text mb-2">Payment Method</p>
             <div className="flex items-center gap-2 border border-surface-border rounded-lg px-4 py-3 bg-surface-raised">
-              <input type="radio" checked readOnly style={{ accentColor: '#C9A24B' }} />
+              <input type="radio" checked readOnly style={{ accentColor: '#C0C0C0' }} />
               <span className="text-sm font-medium text-silver-muted">Cash on Delivery (COD)</span>
             </div>
           </div>
@@ -482,7 +482,7 @@ const Checkout = () => {
               <span>₹{orderTotal.toLocaleString('en-IN')}</span>
             </div>
             {appliedCoupon && (
-              <div className="flex justify-between text-gold font-medium">
+              <div className="flex justify-between text-[#C0C0C0] font-medium">
                 <span>Discount ({appliedCoupon.code})</span>
                 <span>−₹{appliedCoupon.discount_amount.toLocaleString('en-IN')}</span>
               </div>
