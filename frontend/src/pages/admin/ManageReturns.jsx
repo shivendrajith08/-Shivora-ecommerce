@@ -73,6 +73,7 @@ const ManageReturns = () => {
   const pendingCount = returns.filter((r) => r.status === 'Requested').length
 
   return (
+    <>
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
@@ -193,6 +194,7 @@ const ManageReturns = () => {
         </div>
       </div>
     )}
+    </>
   )
 }
 
