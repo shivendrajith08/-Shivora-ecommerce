@@ -13,6 +13,8 @@ const STATUS_BADGE = {
   cancelled:  'bg-red-900/30 text-red-400',
 }
 
+const fmtOrderId = (id) => `ORD-${String(id).padStart(4, '0')}`
+
 const ManageOrders = () => {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
@@ -29,7 +31,7 @@ const ManageOrders = () => {
     setLoading(true)
     setError('')
     try {
-      const params = { page, per_page: 15 }
+      const params = { page, per_page: 10 }
       if (status) params.status = status
       const res = await adminGetOrders(params)
       setOrders(res.data.orders)
@@ -76,12 +78,31 @@ const ManageOrders = () => {
     return String(o.id).includes(q) || o.customer_name?.toLowerCase().includes(q)
   })
 
+  const summary = orders.reduce(
+    (acc, o) => {
+      acc.total++
+      if (o.status === 'pending') acc.pending++
+      if (o.status === 'delivered') acc.delivered++
+      if (o.status === 'cancelled') acc.cancelled++
+      return acc
+    },
+    { total: 0, pending: 0, delivered: 0, cancelled: 0 }
+  )
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-parchment">Orders</h1>
-          <p className="text-silver-dim text-sm mt-1">{pagination.total} order(s) total</p>
+          <div className="flex items-center gap-2 mt-1 text-xs text-silver-dim">
+            <span>Total: <span className="text-parchment font-semibold">{pagination.total}</span></span>
+            <span className="text-surface-border">|</span>
+            <span>Pending: <span className="text-amber-300 font-semibold">{summary.pending}</span></span>
+            <span className="text-surface-border">|</span>
+            <span>Delivered: <span className="text-green-400 font-semibold">{summary.delivered}</span></span>
+            <span className="text-surface-border">|</span>
+            <span>Cancelled: <span className="text-red-400 font-semibold">{summary.cancelled}</span></span>
+          </div>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           <input
@@ -131,12 +152,23 @@ const ManageOrders = () => {
                     onClick={() => toggleExpand(order.id)}
                     className={`border-b border-surface-border cursor-pointer hover:bg-surface-raised transition-colors ${expandedOrder === order.id ? 'bg-surface-raised' : ''}`}
                   >
-                    <td className="px-4 py-3 text-silver-dim font-mono">#{order.id}</td>
-                    <td className="px-4 py-3 text-parchment font-medium">{order.customer_name}</td>
+                    <td className="px-4 py-3 text-silver-dim font-mono">{fmtOrderId(order.id)}</td>
+                    <td className="px-4 py-3">
+                      <div className="font-medium text-parchment">{order.customer_name}</div>
+                      {order.customer_email && (
+                        <div className="text-xs text-silver-dim mt-0.5">{order.customer_email}</div>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-silver-dim whitespace-nowrap">
                       {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>
-                    <td className="px-4 py-3 text-silver-dim">{order.total_items ?? '–'}</td>
+                    <td className="px-4 py-3 text-silver-dim">
+                      {order.total_items != null
+                        ? `${order.total_items} item${order.total_items !== 1 ? 's' : ''}`
+                        : order.items?.length != null
+                        ? `${order.items.length} item${order.items.length !== 1 ? 's' : ''}`
+                        : '–'}
+                    </td>
                     <td className="px-4 py-3 text-parchment font-semibold">₹{order.total_amount.toLocaleString('en-IN')}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${STATUS_BADGE[order.status] || 'bg-surface-raised text-silver-muted'}`}>
@@ -195,11 +227,23 @@ const ManageOrders = () => {
         </div>
       )}
 
-      {pagination.pages > 1 && (
+      {!loading && orders.length > 0 && (
         <div className="flex items-center justify-center gap-2">
-          <button onClick={() => loadOrders(pagination.page - 1, statusFilter)} disabled={pagination.page <= 1} className="btn-secondary !py-2 !px-3 text-sm">Previous</button>
+          <button
+            onClick={() => loadOrders(pagination.page - 1, statusFilter)}
+            disabled={pagination.page <= 1}
+            className="btn-secondary !py-2 !px-3 text-sm"
+          >
+            Previous
+          </button>
           <span className="text-sm text-silver-muted px-3">Page {pagination.page} of {pagination.pages}</span>
-          <button onClick={() => loadOrders(pagination.page + 1, statusFilter)} disabled={pagination.page >= pagination.pages} className="btn-secondary !py-2 !px-3 text-sm">Next</button>
+          <button
+            onClick={() => loadOrders(pagination.page + 1, statusFilter)}
+            disabled={pagination.page >= pagination.pages}
+            className="btn-secondary !py-2 !px-3 text-sm"
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
