@@ -7,6 +7,19 @@ const SORT_OPTIONS = [
   { value: 'name_asc', label: 'Name: A to Z' },
 ]
 
+const Chip = ({ label, selected, onClick }) => (
+  <button
+    onClick={onClick}
+    className={
+      selected
+        ? 'bg-gold text-black font-semibold rounded-full px-3 py-1.5 text-xs'
+        : 'border border-white/20 text-white/70 rounded-full px-3 py-1.5 text-xs hover:border-gold/40 transition-colors'
+    }
+  >
+    {label}
+  </button>
+)
+
 const ProductFilters = ({ categories, filters, onChange, onClear, onApply, sticky = true, showSort = true }) => {
   const handleCategoryClick = (cat) => {
     const nextSlug = filters.category === cat.slug ? '' : cat.slug
@@ -28,87 +41,70 @@ const ProductFilters = ({ categories, filters, onChange, onClear, onApply, stick
         <h3 className="font-bold text-gold mb-4">Filters</h3>
 
         {showSort && (
-          <>
-            <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-2">Sort By</p>
-            {SORT_OPTIONS.map((opt) => {
-              const selected = (filters.sort || 'newest') === opt.value
-              return (
-                <button
+          <div className="border-t border-gold/10 pt-4 mt-4 first:border-0 first:pt-0 first:mt-0">
+            <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Sort By</p>
+            <div className="flex flex-wrap gap-2">
+              {SORT_OPTIONS.map((opt) => (
+                <Chip
                   key={opt.value}
+                  label={opt.label}
+                  selected={(filters.sort || 'newest') === opt.value}
                   onClick={() => handleSortChange(opt.value)}
-                  className="w-full text-left flex items-center gap-2 py-3 px-2 border-b border-gold/10"
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                      selected ? 'bg-gold' : 'bg-transparent'
-                    }`}
-                  />
-                  <span className={`text-sm ${selected ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                    {opt.label}
-                  </span>
-                </button>
-              )
-            })}
-            <div className="border-t border-gold/10 my-4" />
-          </>
+                />
+              ))}
+            </div>
+          </div>
         )}
 
-        <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-2">Categories</p>
-        {categories.map((cat) => {
-          const selected = filters.category === cat.slug
-          return (
-            <button
-              key={cat.id}
-              onClick={() => handleCategoryClick(cat)}
-              className="w-full text-left flex items-center gap-2 py-3 px-2 border-b border-gold/10"
-            >
-              <span
-                className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                  selected ? 'bg-gold' : 'bg-transparent'
-                }`}
+        <div className="border-t border-gold/10 pt-4 mt-4">
+          <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Categories</p>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <Chip
+                key={cat.id}
+                label={cat.name}
+                selected={filters.category === cat.slug}
+                onClick={() => handleCategoryClick(cat)}
               />
-              <span className={`text-sm ${selected ? 'text-gold font-semibold' : 'text-white/70'}`}>
-                {cat.name}
-              </span>
-            </button>
-          )
-        })}
+            ))}
+          </div>
+        </div>
 
-        <div className="border-t border-gold/10 my-4" />
-
-        <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Price Range (₹)</p>
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            min="0"
-            placeholder="Min"
-            value={filters.min_price || ''}
-            onChange={(e) => handlePriceChange('min_price', e.target.value)}
-            className="bg-[#1a1408] border border-gold/30 rounded-lg px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
-          />
-          <span className="text-white/50 flex-shrink-0">—</span>
-          <input
-            type="number"
-            min="0"
-            placeholder="Max"
-            value={filters.max_price || ''}
-            onChange={(e) => handlePriceChange('max_price', e.target.value)}
-            className="bg-[#1a1408] border border-gold/30 rounded-lg px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
-          />
+        <div className="border-t border-gold/10 pt-4 mt-4">
+          <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Price Range (₹)</p>
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              min="0"
+              placeholder="Min"
+              value={filters.min_price || ''}
+              onChange={(e) => handlePriceChange('min_price', e.target.value)}
+              className="bg-[#1a1408] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
+            />
+            <span className="text-white/50 flex-shrink-0">—</span>
+            <input
+              type="number"
+              min="0"
+              placeholder="Max"
+              value={filters.max_price || ''}
+              onChange={(e) => handlePriceChange('max_price', e.target.value)}
+              className="bg-[#1a1408] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
+            />
+          </div>
         </div>
       </div>
 
       {/* Sticky bottom buttons */}
-      <div className="flex gap-3 p-4 bg-[#0f0d0a] border-t border-gold/20 rounded-b-xl">
+      <div className="flex gap-3 p-4 border-t border-gold/20">
         <button
           onClick={onClear}
-          className="border border-gold/30 text-white/70 rounded-xl py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
+          className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
         >
           Reset
         </button>
         <button
           onClick={onApply}
-          className="bg-gold text-black font-bold rounded-xl py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
+          className="bg-gold text-black font-bold rounded-full py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
         >
           Apply
         </button>
