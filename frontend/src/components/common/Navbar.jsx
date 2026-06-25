@@ -185,7 +185,7 @@ const Navbar = () => {
               className="relative text-silver-muted hover:text-gold transition-colors">
               <IconCart cls="w-6 h-6" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gold text-[#0d0000] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-gold text-[#0A0A0B] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -265,7 +265,7 @@ const Navbar = () => {
               className="relative min-w-[44px] min-h-[44px] hidden md:flex items-center justify-center text-silver-muted hover:text-gold transition-colors">
               <IconCart />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-0.5 bg-gold text-[#0d0000] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                <span className="absolute top-1 right-0.5 bg-gold text-[#0A0A0B] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}

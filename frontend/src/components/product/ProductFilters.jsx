@@ -53,7 +53,7 @@ const ProductFilters = ({
   }
 
   return (
-    <div className="bg-[#0d0000] border border-gold/20 rounded-xl flex flex-col">
+    <div className="bg-[#0A0A0B] border border-gold/20 rounded-xl flex flex-col">
       <div className="px-4 pt-4 pb-3 border-b border-gold/10">
         <h3 className="font-bold text-gold">Filters</h3>
       </div>
@@ -79,12 +79,12 @@ const ProductFilters = ({
             <input
               type="number" min="0" placeholder="Min" value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="bg-[#1a0000] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
+              className="bg-[#111114] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
             />
             <input
               type="number" min="0" placeholder="Max" value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="bg-[#1a0000] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
+              className="bg-[#111114] border border-gold/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-gold/60"
             />
           </div>
         </div>

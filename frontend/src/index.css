@@ -2,27 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Dark gold-and-silver design tokens ──────────────────────────────────── */
+/* ── Obsidian Royale design tokens ──────────────────────────────────────── */
 :root {
-  --color-base:           #0d0000;
-  --color-base-soft:      #110000;
-  --color-surface:        #1a0000;
-  --color-surface-raised: #2a0000;
-  --color-surface-border: #3a1010;
+  --color-bg:             #0A0A0B;
+  --color-base:           #0A0A0B;
+  --color-base-soft:      #111114;
+  --color-surface:        #111114;
+  --color-surface-raised: #1A1A1F;
+  --color-surface-border: rgba(212,175,55,0.15);
 
   --color-gold-light:  #F5E49C;
   --color-gold-hover:  #E8C84A;
   --color-gold:        #D4AF37;
-  --color-gold-dark:   #C49A28;
-  --color-gold-deep:   #A6821E;
+  --color-gold-dark:   #A6821E;
+  --color-gold-deep:   #8B6914;
 
   --color-silver-lightest: #E8EAED;
   --color-silver-light:    #D8DADE;
-  --color-silver:          #C0C2C5;
+  --color-silver:          #A09080;
   --color-silver-muted:    #A8AAAD;
-  --color-silver-dim:      #8A8C8F;
+  --color-silver-dim:      #605548;
 
-  --color-parchment: #F5F3EE;
+  --color-parchment: #F5F0E8;
 
   --gold-shine:       linear-gradient(135deg, #E8C84A 0%, #C49A28 100%);
   --gold-shine-hover: linear-gradient(135deg, #F5E49C 0%, #D4AF37 100%);
@@ -35,8 +36,8 @@ html {
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
-  background-color: #0d0000;
-  color: #F5F3EE;
+  background-color: #0A0A0B;
+  color: #F5F0E8;
   line-height: 1.6;
 }
 
@@ -46,8 +47,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Dark-friendly native select options */
 select option {
-  background-color: #1a0000;
-  color: #F5F3EE;
+  background-color: #111114;
+  color: #F5F0E8;
 }
 
 @layer components {
@@ -57,7 +58,7 @@ select option {
   .btn-primary {
     @apply btn shadow-sm font-semibold;
     background-image: var(--gold-shine);
-    color: #0d0000;
+    color: #0A0A0B;
   }
   .btn-primary:hover:not(:disabled) {
     background-image: var(--gold-shine-hover);
@@ -116,7 +117,7 @@ select option {
 /* ── Promo carousel: warm luxury gradient on mobile ──────────────────────── */
 @media (max-width: 639px) {
   .promo-slide-bg {
-    background: linear-gradient(135deg, #1a0000 0%, #2a0000 50%, #1a0000 100%) !important;
+    background: linear-gradient(135deg, #111114 0%, #1A1A1F 50%, #111114 100%) !important;
   }
 }
 
