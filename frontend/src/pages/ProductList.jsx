@@ -321,7 +321,7 @@ const ProductList = () => {
           </div>
 
           <div className="grid lg:grid-cols-[260px_1fr] gap-6">
-            <div className="hidden lg:block sticky top-20 h-fit">
+            <div className="hidden lg:block sticky top-20 h-fit self-start">
               <ProductFilters
                 categories={categories}
                 filters={filtersForSidebar}
