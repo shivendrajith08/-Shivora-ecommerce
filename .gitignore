@@ -8,3 +8,4 @@ frontend/dist/
 frontend/.env.local
 .env
 .DS_Store
+backend/upload_to_cloudinary.py

@@ -33,7 +33,7 @@ const StatusBadge = ({ status }) => {
 }
 
 const Thumbnail = ({ src, alt }) => (
-  <div className="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-surface-raised border border-surface-border">
+  <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg overflow-hidden bg-surface-raised border border-surface-border">
     {src ? (
       <img src={src} alt={alt} className="w-full h-full object-cover"
         onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-product.svg' }} />
@@ -137,7 +137,7 @@ const OrderHistory = () => {
               {/* Items */}
               <div className="divide-y divide-surface-border">
                 {order.items?.map((item) => (
-                  <div key={item.id} className="flex items-center gap-4 px-5 py-4">
+                  <div key={item.id} className="flex items-center gap-3 px-4 py-3 flex-wrap sm:flex-nowrap">
                     <Link to={item.product_id ? `/products/${item.product_id}` : '#'} className="flex-shrink-0">
                       <Thumbnail
                         src={!item.product_image || item.product_image.startsWith('/uploads/') ? '/placeholder-product.svg' : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`}

@@ -85,12 +85,9 @@ const Navbar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const SEARCH_PLACEHOLDERS = [
-    'Search for mobiles & electronics...',
-    'Search for fashion & clothing...',
-    'Search for books & stationery...',
-    'Search for food & groceries...',
-    'Search for home & kitchen...',
-    'Search for sports & fitness...',
+    'Search sarees...',
+    'Search kurtis...',
+    'Search jewellery...',
   ]
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [mobileSearchPlaceholder, setMobileSearchPlaceholder] = useState(SEARCH_PLACEHOLDERS[0])

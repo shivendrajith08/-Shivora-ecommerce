@@ -63,7 +63,7 @@ const Wishlist = () => {
           <Link to="/products" className="btn-primary !px-6">Browse Products</Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
           {items.map((item) => {
             const product = item.product
             if (!product) return null
@@ -72,7 +72,7 @@ const Wishlist = () => {
               : null
             return (
               <div key={item.id} className="card overflow-hidden flex flex-col hover:border-gold/40 transition-colors">
-                <Link to={`/products/${product.id}`} className="aspect-square bg-surface-raised block">
+                <Link to={`/products/${product.id}`} className="aspect-[4/5] sm:aspect-square bg-surface-raised block">
                   {imageSrc ? (
                     <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
                   ) : (
