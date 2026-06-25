@@ -179,13 +179,15 @@ const ProductList = () => {
                 </button>
 
                 {showSortDropdown && (
-                  <div className="absolute right-0 top-full mt-1 w-48 bg-surface border border-surface-border rounded-lg shadow-lg z-40 overflow-hidden">
+                  <div className="absolute right-0 top-full mt-1 w-48 bg-[#1a1408] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
                     {SORT_OPTIONS.map((opt) => (
                       <button
                         key={opt.value}
                         onClick={() => { setSortBy(opt.value); setShowSortDropdown(false) }}
-                        className={`w-full text-left px-3 py-2 text-sm transition hover:bg-surface-raised ${
-                          sortBy === opt.value ? 'text-gold font-semibold' : 'text-silver-muted hover:text-parchment'
+                        className={`w-full text-left px-3 py-2 text-sm transition ${
+                          sortBy === opt.value
+                            ? 'text-gold font-semibold bg-gold/10'
+                            : 'text-white/70 bg-transparent hover:bg-gold/5 hover:text-white'
                         }`}
                       >
                         {opt.label}
