@@ -54,6 +54,7 @@ const OrderHistory = () => {
   const [error, setError] = useState('')
   const [cancellingId, setCancellingId] = useState(null)
   const [returnOrder, setReturnOrder] = useState(null)
+  const [cancelTarget, setCancelTarget] = useState(null)
 
   const loadOrders = async () => {
     setLoading(true)
@@ -71,7 +72,6 @@ const OrderHistory = () => {
   useEffect(() => { loadOrders() }, [])
 
   const handleCancel = async (orderId) => {
-    if (!window.confirm('Are you sure you want to cancel this order?')) return
     setCancellingId(orderId)
     try {
       await cancelOrder(orderId)
@@ -190,7 +190,7 @@ const OrderHistory = () => {
 
                 {(order.status === 'pending' || order.status === 'processing') && (
                   <button
-                    onClick={() => handleCancel(order.id)}
+                    onClick={() => setCancelTarget(order.id)}
                     disabled={cancellingId === order.id}
                     className="btn-danger !py-1.5 !px-4 text-sm w-full sm:w-auto"
                   >
@@ -229,6 +229,37 @@ const OrderHistory = () => {
           onClose={() => setReturnOrder(null)}
           onSubmitted={() => { setReturnOrder(null); loadOrders() }}
         />
+      )}
+
+      {cancelTarget !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+          onClick={() => setCancelTarget(null)}
+        >
+          <div
+            className="bg-[#1a1408] border border-gold/20 rounded-xl p-6 max-w-sm mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-gold font-semibold text-lg mb-2">Cancel Order</h2>
+            <p className="text-white/70 text-sm mb-6">
+              Are you sure you want to cancel this order? This cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setCancelTarget(null)}
+                className="border border-gold/30 text-white rounded-xl px-4 py-2 text-sm hover:bg-gold/5 transition-colors"
+              >
+                Keep Order
+              </button>
+              <button
+                onClick={() => { handleCancel(cancelTarget); setCancelTarget(null) }}
+                className="bg-red-500 text-white rounded-xl px-4 py-2 text-sm hover:bg-red-600 transition-colors"
+              >
+                Yes, Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
