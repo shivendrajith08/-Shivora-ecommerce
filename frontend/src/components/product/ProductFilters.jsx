@@ -59,17 +59,6 @@ const ProductFilters = ({
       </div>
 
       <div className="px-4 pb-4 overflow-y-auto max-h-[70vh]">
-        {showSort && (
-          <div className="pt-4">
-            <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Sort By</p>
-            <div className="flex flex-wrap gap-2">
-              {SORT_OPTIONS.map((opt) => (
-                <Chip key={opt.value} label={opt.label} active={sort === opt.value} onClick={() => setSort(opt.value)} />
-              ))}
-            </div>
-          </div>
-        )}
-
         <div className="border-t border-gold/10 pt-4 mt-4">
           <p className="text-xs font-bold text-gold/70 uppercase tracking-wider mb-3">Category</p>
           <div className="flex flex-wrap gap-2">
