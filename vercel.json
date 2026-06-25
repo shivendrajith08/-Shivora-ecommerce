@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/admin", "destination": "/404" },
+    { "source": "/admin/login", "destination": "/404" },
     { "source": "/admin/(.*)", "destination": "/404" }
   ]
 }
