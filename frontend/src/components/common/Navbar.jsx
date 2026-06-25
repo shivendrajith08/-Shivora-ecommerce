@@ -247,6 +247,19 @@ const Navbar = () => {
               )}
             </Link>
 
+            {/* Profile avatar — visible on all mobile/tablet sizes */}
+            {isAuthenticated && (
+              <Link to="/profile" className="min-w-[44px] min-h-[44px] flex items-center justify-center">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="avatar" className="w-7 h-7 rounded-full object-cover border border-gold/40" />
+                ) : (
+                  <div className="w-7 h-7 rounded-full bg-gold text-black text-xs font-bold flex items-center justify-center">
+                    {initials}
+                  </div>
+                )}
+              </Link>
+            )}
+
             {/* Cart */}
             <Link to="/cart" aria-label="Cart"
               className="relative min-w-[44px] min-h-[44px] hidden md:flex items-center justify-center text-silver-muted hover:text-gold transition-colors">
@@ -257,19 +270,6 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
-
-            {/* Profile */}
-            {isAuthenticated && (
-              <Link to="/profile" className="min-w-[44px] min-h-[44px] hidden md:flex items-center justify-center text-silver-dim hover:text-parchment transition-colors lg:hidden">
-                {user?.profile_image ? (
-                  <img src={user.profile_image} className="w-7 h-7 rounded-full object-cover" alt="profile" />
-                ) : (
-                  <div className="w-7 h-7 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-gold text-xs font-bold">
-                    {user?.name?.[0]?.toUpperCase() || 'U'}
-                  </div>
-                )}
-              </Link>
-            )}
 
             {/* Hamburger */}
             <button

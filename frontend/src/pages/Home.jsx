@@ -269,10 +269,15 @@ const Home = () => {
                       <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempMin===range.min && tempMax===range.max ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
                     </div>
                   ))}
-                  <div style={{marginTop:'12px',display:'flex',gap:'8px',alignItems:'center'}}>
-                    <input type="number" placeholder="Min" value={tempMin} onChange={e=>setTempMin(e.target.value)} style={{flex:1,background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
-                    <span style={{color:'rgba(255,255,255,0.4)'}}>—</span>
-                    <input type="number" placeholder="Max" value={tempMax} onChange={e=>setTempMax(e.target.value)} style={{flex:1,background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                  <div style={{marginTop:'12px',display:'flex',flexDirection:'column',gap:'10px'}}>
+                    <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+                      <label style={{color:'rgba(255,255,255,0.5)',fontSize:'11px',fontWeight:'500'}}>Min Price</label>
+                      <input type="number" placeholder="Min" value={tempMin} onChange={e=>setTempMin(e.target.value)} style={{width:'100%',background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                    </div>
+                    <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+                      <label style={{color:'rgba(255,255,255,0.5)',fontSize:'11px',fontWeight:'500'}}>Max Price</label>
+                      <input type="number" placeholder="Max" value={tempMax} onChange={e=>setTempMax(e.target.value)} style={{width:'100%',background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                    </div>
                   </div>
                 </div>
               )}
