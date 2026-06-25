@@ -1,8 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react'
 
-const G0 = '#F5E4A8'
-const G1 = '#C9A24B'
-const G2 = '#8B6420'
+const G0 = '#F5E49C'
+const G1 = '#D4AF37'
+const G2 = '#A6821E'
 const GOLD = `linear-gradient(to bottom, ${G0} 0%, ${G1} 50%, ${G2} 100%)`
 
 const VERTICES = [[0, -38], [22, -12], [13, 32], [-13, 32], [-22, -12]]
@@ -55,7 +55,7 @@ const SplashScreen = () => {
         alignItems: 'center',
         justifyContent: 'center',
         gap: '32px',
-        backgroundColor: '#0d0000',
+        backgroundColor: '#020818',
         // hold 1s, then fade 0.8s starting at 3.1s
         animation: 'sp-exit 0.8s ease-in 3.1s forwards',
       }}
