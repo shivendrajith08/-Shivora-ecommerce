@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getProducts } from '../api/productApi'
 import { getCategories } from '../api/categoryApi'
@@ -9,6 +9,13 @@ import PromoCarousel from '../components/common/PromoCarousel'
 import CategorySection from '../components/common/CategorySection'
 import Loader from '../components/common/Loader'
 import ErrorAlert from '../components/common/ErrorAlert'
+
+const SORT_OPTIONS = [
+  { value: 'newest', label: 'Newest First' },
+  { value: 'price_asc', label: 'Price: Low to High' },
+  { value: 'price_desc', label: 'Price: High to Low' },
+  { value: 'name_asc', label: 'Name: A to Z' },
+]
 
 const TRUST_BADGES = [
   { title: 'Free Shipping',   desc: 'On orders over ₹999',          icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.83H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12' },
@@ -69,11 +76,22 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 })
-  const [showFilters, setShowFilters] = useState(false)
 
   const [trendingProducts, setTrendingProducts] = useState([])
   const [dealProducts, setDealProducts] = useState([])
   const [recentlyViewed, setRecentlyViewed] = useState([])
+
+  // 2-panel filter state
+  const [showMobileFilter, setShowMobileFilter] = useState(false)
+  const [activeFilterTab, setActiveFilterTab] = useState('Sort')
+  const [tempSort, setTempSort] = useState('newest')
+  const [tempCategory, setTempCategory] = useState('')
+  const [tempMin, setTempMin] = useState('')
+  const [tempMax, setTempMax] = useState('')
+
+  // Desktop sort dropdown
+  const [showSortDropdown, setShowSortDropdown] = useState(false)
+  const sortRef = useRef(null)
 
   const filters = {
     search:      searchParams.get('search') || '',
@@ -131,17 +149,55 @@ const Home = () => {
     } catch {}
   }, [])
 
+  // Lock body scroll when 2-panel filter is open
+  useEffect(() => {
+    document.body.style.overflow = showMobileFilter ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [showMobileFilter])
+
+  // Close desktop sort dropdown on outside click
+  useEffect(() => {
+    if (!showSortDropdown) return
+    const handler = (e) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) setShowSortDropdown(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [showSortDropdown])
+
   const updateFilters = (newFilters) => {
     const params = {}
     Object.entries(newFilters).forEach(([k, v]) => {
       if (v !== '' && v !== null && v !== undefined) params[k] = v
     })
     setSearchParams(params)
-    setShowFilters(false)
   }
 
   const clearFilters = () => setSearchParams({})
   const goToPage = (page) => updateFilters({ ...filters, page })
+
+  const handleApplyFilters = () => {
+    const params = {}
+    if (filters.search) params.search = filters.search
+    if (tempCategory) params.category = tempCategory
+    if (tempMin) params.min_price = tempMin
+    if (tempMax) params.max_price = tempMax
+    if (tempSort !== 'newest') params.sort = tempSort
+    setSearchParams(params)
+    setShowMobileFilter(false)
+  }
+
+  const handleClearFilters = () => {
+    setTempSort('newest')
+    setTempCategory('')
+    setTempMin('')
+    setTempMax('')
+    setSearchParams({})
+    setShowMobileFilter(false)
+  }
+
+  const currentSortLabel = SORT_OPTIONS.find(o => o.value === (filters.sort || 'newest'))?.label ?? 'Sort'
+  const anyFilterActive = (filters.sort && filters.sort !== 'newest') || !!(filters.category || filters.category_id) || !!(filters.min_price || filters.max_price)
 
   const activeCategory = categories.find((c) => c.slug === filters.category)
   const pageTitle = filters.search
@@ -154,6 +210,85 @@ const Home = () => {
 
   return (
     <>
+      {showMobileFilter && (
+        <div style={{position:'fixed',inset:0,zIndex:100,display:'flex',flexDirection:'column',background:'#0f0d0a'}}>
+
+          {/* Header */}
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px',borderBottom:'1px solid rgba(212,175,55,0.2)',flexShrink:0}}>
+            <button onClick={() => setShowMobileFilter(false)} style={{color:'white',background:'none',border:'none',fontSize:'20px'}}>←</button>
+            <span style={{color:'white',fontWeight:'bold',fontSize:'16px'}}>Filters</span>
+            <button onClick={handleClearFilters} style={{color:'#D4AF37',background:'none',border:'none',fontSize:'13px'}}>Clear All</button>
+          </div>
+
+          {/* Body */}
+          <div style={{display:'flex',flex:1,overflow:'hidden'}}>
+
+            {/* Left tabs */}
+            <div style={{width:'110px',background:'#1a1408',overflowY:'auto',flexShrink:0}}>
+              {['Sort','Category','Price'].map(tab => (
+                <div key={tab} onClick={() => setActiveFilterTab(tab)}
+                  style={{padding:'16px 12px',fontSize:'13px',cursor:'pointer',borderLeft: activeFilterTab===tab ? '3px solid #D4AF37' : '3px solid transparent',color: activeFilterTab===tab ? '#D4AF37' : 'rgba(255,255,255,0.6)',fontWeight: activeFilterTab===tab ? '600' : '400',background: activeFilterTab===tab ? '#0f0d0a' : 'transparent'}}>
+                  {tab}
+                </div>
+              ))}
+            </div>
+
+            {/* Right content */}
+            <div style={{flex:1,overflowY:'auto',padding:'16px'}}>
+
+              {activeFilterTab === 'Sort' && (
+                <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+                  {[{v:'newest',l:'Newest First'},{v:'price_asc',l:'Price: Low to High'},{v:'price_desc',l:'Price: High to Low'},{v:'name_asc',l:'Name: A to Z'}].map(opt => (
+                    <div key={opt.v} onClick={() => setTempSort(opt.v)}
+                      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempSort===opt.v ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
+                      <span style={{color: tempSort===opt.v ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{opt.l}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempSort===opt.v ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeFilterTab === 'Category' && (
+                <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+                  {categories.map(cat => (
+                    <div key={cat.id} onClick={() => setTempCategory(tempCategory===cat.slug ? '' : cat.slug)}
+                      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempCategory===cat.slug ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
+                      <span style={{color: tempCategory===cat.slug ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{cat.name}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempCategory===cat.slug ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeFilterTab === 'Price' && (
+                <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+                  {[{l:'Below ₹500',min:'',max:'500'},{l:'₹500 - ₹1,000',min:'500',max:'1000'},{l:'₹1,000 - ₹5,000',min:'1000',max:'5000'},{l:'₹5,000 and Above',min:'5000',max:''}].map(range => (
+                    <div key={range.l} onClick={() => { setTempMin(range.min); setTempMax(range.max) }}
+                      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 12px',borderRadius:'8px',cursor:'pointer',background: tempMin===range.min && tempMax===range.max ? 'rgba(212,175,55,0.1)' : 'transparent'}}>
+                      <span style={{color: tempMin===range.min && tempMax===range.max ? '#D4AF37' : 'rgba(255,255,255,0.7)',fontSize:'13px'}}>{range.l}</span>
+                      <div style={{width:'18px',height:'18px',borderRadius:'50%',border: tempMin===range.min && tempMax===range.max ? '5px solid #D4AF37' : '2px solid rgba(255,255,255,0.3)'}}></div>
+                    </div>
+                  ))}
+                  <div style={{marginTop:'12px',display:'flex',gap:'8px',alignItems:'center'}}>
+                    <input type="number" placeholder="Min" value={tempMin} onChange={e=>setTempMin(e.target.value)} style={{flex:1,background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                    <span style={{color:'rgba(255,255,255,0.4)'}}>—</span>
+                    <input type="number" placeholder="Max" value={tempMax} onChange={e=>setTempMax(e.target.value)} style={{flex:1,background:'#1a1408',border:'1px solid rgba(212,175,55,0.3)',borderRadius:'10px',padding:'10px',color:'white',fontSize:'14px'}}/>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div style={{display:'flex',gap:'12px',padding:'12px 16px',borderTop:'1px solid rgba(212,175,55,0.2)',paddingBottom:'70px',flexShrink:0,background:'#0f0d0a'}}>
+            <button onClick={handleClearFilters} style={{flex:1,border:'1px solid rgba(255,255,255,0.2)',color:'rgba(255,255,255,0.7)',borderRadius:'999px',padding:'12px',fontSize:'14px',background:'transparent'}}>Clear All</button>
+            <button onClick={handleApplyFilters} style={{flex:2,background:'#D4AF37',color:'black',fontWeight:'bold',borderRadius:'999px',padding:'12px',fontSize:'14px',border:'none'}}>Show Products</button>
+          </div>
+
+        </div>
+      )}
+
       {!filters.category && <PromoCarousel />}
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 space-y-6">
@@ -173,39 +308,64 @@ const Home = () => {
 
         <div>
           {/* ── Heading row ────────────────────────────────────────────────── */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
             <div>
               <h1 className="text-xl font-bold text-parchment">{pageTitle}</h1>
               {!loading && (
                 <p className="text-xs text-silver-dim mt-0.5">{pagination.total} product(s) found</p>
               )}
             </div>
-            {/* Filters toggle — hidden on desktop where sidebar is always visible */}
-            <button
-              onClick={() => setShowFilters(v => !v)}
-              className="lg:hidden btn-secondary !py-2 !px-3 text-xs flex items-center gap-1.5 min-h-[40px]"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-              </svg>
-              {showFilters ? 'Hide' : 'Filters'}
-            </button>
+
+            {/* Desktop-only sort dropdown */}
+            <div className="hidden lg:block relative" ref={sortRef}>
+              <button
+                onClick={() => setShowSortDropdown(!showSortDropdown)}
+                className="input-field !py-1.5 !w-auto text-sm flex items-center gap-1.5 cursor-pointer"
+              >
+                {currentSortLabel}
+                <svg
+                  className={`w-3.5 h-3.5 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`}
+                  fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {showSortDropdown && (
+                <div className="absolute right-0 top-full mt-1 w-48 bg-[#1a1408] border border-gold/30 rounded-xl shadow-lg z-40 overflow-hidden divide-y divide-gold/10">
+                  {SORT_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { updateFilters({ ...filters, sort: opt.value, page: 1 }); setShowSortDropdown(false) }}
+                      className={`w-full text-left px-3 py-2 text-sm transition ${
+                        filters.sort === opt.value
+                          ? 'text-gold font-semibold bg-gold/10'
+                          : 'text-white/70 bg-transparent hover:bg-gold/5 hover:text-white'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* ── Tablet collapsible filter panel (md → lg) ───────────────────
-              Inline above the product grid; overflow-hidden contains sticky  */}
-          {showFilters && (
-            <div className="hidden md:block lg:hidden mb-4 overflow-hidden">
-              <ProductFilters
-                categories={categories}
-                filters={filters}
-                onChange={updateFilters}
-                onClear={clearFilters}
-                sticky={false}
-              />
-            </div>
-          )}
+          {/* Mobile filter trigger bar */}
+          <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#0f0d0a]/95 backdrop-blur-sm border-b border-gold/10 mb-4">
+            <button
+              onClick={() => setShowMobileFilter(true)}
+              className="flex items-center gap-2 text-xs text-white/70 border border-gold/20 rounded-full px-4 py-1.5 bg-[#1a1408] hover:border-gold/40 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />
+              </svg>
+              Sort &amp; Filter
+              {anyFilterActive && (
+                <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" />
+              )}
+            </button>
+          </div>
 
           {/* ── Desktop sidebar + product grid ──────────────────────────────── */}
           <div className="grid lg:grid-cols-[260px_1fr] gap-6">
@@ -219,47 +379,6 @@ const Home = () => {
                 onClear={clearFilters}
               />
             </div>
-
-            {/* ── Mobile filter bottom sheet (< md) ──────────────────────────
-                Fixed overlay that slides up from the bottom of the screen.
-                overflow-hidden on the scroll wrapper contains sticky.        */}
-            {showFilters && (
-              <div className="fixed inset-0 z-50 md:hidden">
-                <div className="fixed inset-0 bg-black/60" onClick={() => setShowFilters(false)} />
-                <div
-                  className="fixed bottom-0 left-0 right-0 bg-surface rounded-t-2xl border-t border-surface-border flex flex-col overflow-hidden"
-                  style={{ animation: 'slide-up 0.25s ease-out', maxHeight: '80vh' }}
-                >
-                  {/* Drag handle */}
-                  <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
-                    <div className="w-10 h-1 rounded-full bg-surface-border" />
-                  </div>
-                  {/* Sheet header */}
-                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-surface-border flex-shrink-0">
-                    <h3 className="font-bold text-parchment">Filters</h3>
-                    <button
-                      onClick={() => setShowFilters(false)}
-                      className="p-1 text-silver-muted hover:text-parchment transition-colors"
-                      aria-label="Close filters"
-                    >
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-                  {/* Scrollable content */}
-                  <div className="flex-1 overflow-y-auto p-4">
-                    <ProductFilters
-                      categories={categories}
-                      filters={filters}
-                      onChange={updateFilters}
-                      onClear={clearFilters}
-                      sticky={false}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* ── Product grid ─────────────────────────────────────────────── */}
             <div>
