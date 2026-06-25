@@ -1,8 +1,9 @@
 {
+  "version": 2,
   "routes": [
-    { "src": "/admin", "status": 404, "dest": "/404" },
-    { "src": "/admin/login", "status": 404, "dest": "/404" },
-    { "src": "/admin/(.*)", "status": 404, "dest": "/404" },
+    { "src": "/admin", "status": 404, "dest": "/404.html" },
+    { "src": "/admin/login", "status": 404, "dest": "/404.html" },
+    { "src": "/admin/(.*)", "status": 404, "dest": "/404.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
