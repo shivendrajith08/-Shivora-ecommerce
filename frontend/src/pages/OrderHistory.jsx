@@ -109,18 +109,18 @@ const OrderHistory = () => {
           {orders.map((order, index) => (
             <div key={order.id} className="card overflow-hidden">
               {/* Header */}
-              <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-surface-border">
-                <div className="flex flex-wrap items-center gap-3">
-                  <div>
+              <div className="flex items-start justify-between gap-2 px-3 py-3 sm:px-5 sm:py-4 border-b border-surface-border">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">Order #{orders.length - index}</p>
-                    <p className="text-sm font-semibold text-parchment mt-0.5">
-                      {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </p>
+                    <StatusBadge status={order.status} />
                   </div>
-                  <StatusBadge status={order.status} />
+                  <p className="text-xs text-silver-dim">
+                    {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </p>
                 </div>
-                <div className="text-right">
-                  <p className="text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-sm sm:text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
                   {order.discount_amount > 0 && (
                     <p className="text-[11px] font-semibold text-gold mt-0.5">
                       Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}
@@ -130,14 +130,14 @@ const OrderHistory = () => {
               </div>
 
               {/* Order tracking timeline */}
-              <div className="px-5 py-5 border-b border-surface-border">
+              <div className="px-3 py-3 sm:px-5 sm:py-5 border-b border-surface-border">
                 <OrderTimeline status={order.status} />
               </div>
 
               {/* Items */}
               <div className="divide-y divide-surface-border">
                 {order.items?.map((item) => (
-                  <div key={item.id} className="flex items-center gap-3 px-4 py-3 flex-wrap sm:flex-nowrap">
+                  <div key={item.id} className="flex items-center gap-2 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3 flex-wrap sm:flex-nowrap">
                     <Link to={item.product_id ? `/products/${item.product_id}` : '#'} className="flex-shrink-0">
                       <Thumbnail
                         src={!item.product_image || item.product_image.startsWith('/uploads/') ? '/placeholder-product.svg' : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`}
@@ -175,16 +175,16 @@ const OrderHistory = () => {
               </div>
 
               {/* Footer */}
-              <div className="bg-surface-raised px-5 py-4 border-t border-surface-border flex flex-wrap items-center justify-between gap-4">
-                <div className="flex flex-wrap gap-6">
+              <div className="bg-surface-raised px-3 py-3 sm:px-5 sm:py-4 border-t border-surface-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 sm:flex sm:gap-6">
                   <div>
-                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide mb-1">Ship to</p>
-                    <p className="text-sm font-medium text-silver-muted">{order.shipping_name}</p>
+                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5 sm:mb-1">Ship to</p>
+                    <p className="text-xs sm:text-sm font-medium text-silver-muted">{order.shipping_name}</p>
                     <p className="text-xs text-silver-dim mt-0.5">{order.shipping_city}, {order.shipping_state} — {order.shipping_pincode}</p>
                   </div>
                   <div>
-                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide mb-1">Payment</p>
-                    <p className="text-sm font-medium text-silver-muted">{order.payment_method}</p>
+                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5 sm:mb-1">Payment</p>
+                    <p className="text-xs sm:text-sm font-medium text-silver-muted">{order.payment_method}</p>
                   </div>
                 </div>
 
@@ -192,7 +192,7 @@ const OrderHistory = () => {
                   <button
                     onClick={() => handleCancel(order.id)}
                     disabled={cancellingId === order.id}
-                    className="btn-danger !py-1.5 !px-4 text-sm"
+                    className="btn-danger !py-1.5 !px-4 text-sm w-full sm:w-auto"
                   >
                     {cancellingId === order.id ? 'Cancelling…' : 'Cancel Order'}
                   </button>
@@ -200,7 +200,7 @@ const OrderHistory = () => {
 
                 {order.status === 'delivered' && (
                   order.return_request ? (
-                    <div className="text-right">
+                    <div className="sm:text-right">
                       <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${RETURN_BADGE[order.return_request.status] ?? RETURN_BADGE.Requested}`}>
                         Return {order.return_request.status}
                       </span>
@@ -211,7 +211,7 @@ const OrderHistory = () => {
                   ) : (
                     <button
                       onClick={() => setReturnOrder(order)}
-                      className="btn !py-1.5 !px-4 text-sm border border-gold text-gold hover:bg-gold/10 transition-colors"
+                      className="btn !py-1.5 !px-4 text-sm border border-gold text-gold hover:bg-gold/10 transition-colors w-full sm:w-auto"
                     >
                       Request Return
                     </button>

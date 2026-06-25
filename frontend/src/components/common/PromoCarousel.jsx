@@ -105,8 +105,8 @@ const PromoCarousel = () => {
         {SLIDES.map((slide) => (
           <div key={slide.id} className={`min-w-full bg-gradient-to-br ${slide.bg} text-parchment`}>
             {/* Mobile: column (text then icon). sm+: row (text | icon). */}
-            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-9 lg:py-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6">
-              <div className="flex-1 min-w-0">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-9 lg:py-12 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 sm:gap-6">
+              <div className="flex-1 min-w-0 text-center sm:text-left">
                 <span className="inline-block bg-gold/20 text-gold text-[10px] font-extrabold px-2.5 py-0.5 rounded-full mb-2 sm:mb-3 uppercase tracking-widest border border-gold/30">
                   {slide.tag}
                 </span>
@@ -135,8 +135,8 @@ const PromoCarousel = () => {
                 </Link>
               </div>
 
-              {/* Icon circle: below text on mobile (self-center), right of text on sm+ */}
-              <div className="flex items-center justify-center w-20 h-20 sm:w-48 sm:h-48 rounded-full bg-white/10 backdrop-blur-sm flex-shrink-0">
+              {/* Icon circle: hidden on mobile, right of text on sm+ */}
+              <div className="hidden sm:flex items-center justify-center sm:w-48 sm:h-48 rounded-full bg-white/10 backdrop-blur-sm flex-shrink-0">
                 {slide.icon}
               </div>
             </div>

@@ -60,7 +60,7 @@ const AddressBook = () => {
   if (loading) return <Loader fullScreen label="Loading addresses..." />
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 sm:py-8">
 
       {/* Page header */}
       <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
@@ -77,7 +77,7 @@ const AddressBook = () => {
 
       {/* Empty state */}
       {addresses.length === 0 ? (
-        <div className="text-center py-20">
+        <div className="text-center py-8 sm:py-16">
           <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-gold/10 flex items-center justify-center">
             <svg className="w-10 h-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
