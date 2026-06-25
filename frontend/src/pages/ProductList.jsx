@@ -211,7 +211,7 @@ const ProductList = () => {
             {showMobileFilters && (
               <div className="fixed inset-0 z-50 lg:hidden">
                 <div className="fixed inset-0 bg-black/60" onClick={() => setShowMobileFilters(false)} />
-                <div className="fixed inset-x-0 bottom-0 w-full bg-[#0f0d0a] overflow-hidden border-t border-gold/20 max-h-[85vh] flex flex-col rounded-t-2xl pb-14">
+                <div className="fixed inset-x-0 bottom-0 w-full bg-[#0f0d0a] border-t border-gold/20 rounded-t-2xl flex flex-col" style={{ maxHeight: 'calc(85vh - 56px)' }}>
                   <div className="flex justify-end mb-2">
                     <button onClick={() => setShowMobileFilters(false)} className="text-silver-muted hover:text-parchment">
                       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -219,30 +219,9 @@ const ProductList = () => {
                       </svg>
                     </button>
                   </div>
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gold mb-2">Sort By</h4>
-                    <div className="bg-[#1a1408] border border-gold/20 rounded-xl overflow-hidden divide-y divide-gold/10">
-                      {SORT_OPTIONS.map((opt) => (
-                        <label
-                          key={opt.value}
-                          className={`flex items-center gap-3 px-3 py-2.5 cursor-pointer ${
-                            sortBy === opt.value ? 'text-gold font-semibold bg-gold/10' : 'text-white/70'
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="mobile-sort"
-                            value={opt.value}
-                            checked={sortBy === opt.value}
-                            onChange={() => setSortBy(opt.value)}
-                            className="accent-gold"
-                          />
-                          {opt.label}
-                        </label>
-                      ))}
-                    </div>
+                  <div className="flex-1 overflow-hidden flex flex-col">
+                    <ProductFilters categories={categories} filters={filtersForSidebar} onChange={handleFilterChange} onClear={clearFilters} sticky={false} showSort={true} />
                   </div>
-                  <ProductFilters categories={categories} filters={filtersForSidebar} onChange={handleFilterChange} onClear={clearFilters} sticky={false} showSort={false} />
                 </div>
               </div>
             )}
