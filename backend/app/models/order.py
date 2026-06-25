@@ -48,6 +48,7 @@ class Order(db.Model):
             "shipping_pincode": self.shipping_pincode,
             "applied_coupon_code": self.applied_coupon_code,
             "discount_amount": float(self.discount_amount) if self.discount_amount is not None else 0.0,
+            "item_count": len(self.items),
             "return_request": self.return_request.to_dict() if self.return_request else None,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }

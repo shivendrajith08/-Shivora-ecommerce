@@ -163,10 +163,8 @@ const ManageOrders = () => {
                       {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>
                     <td className="px-4 py-3 text-silver-dim">
-                      {order.total_items != null
-                        ? `${order.total_items} item${order.total_items !== 1 ? 's' : ''}`
-                        : order.items?.length != null
-                        ? `${order.items.length} item${order.items.length !== 1 ? 's' : ''}`
+                      {order.item_count != null
+                        ? `${order.item_count} item${order.item_count !== 1 ? 's' : ''}`
                         : '–'}
                     </td>
                     <td className="px-4 py-3 text-parchment font-semibold">₹{order.total_amount.toLocaleString('en-IN')}</td>
