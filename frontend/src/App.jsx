@@ -34,6 +34,8 @@ import ManageReviews from './pages/admin/ManageReviews'
 import ManageCoupons from './pages/admin/ManageCoupons'
 import ManageReturns from './pages/admin/ManageReturns'
 
+const isLocalhost = window.location.hostname === 'localhost'
+
 const StorefrontLayout = ({ children }) => (
   <div className="flex flex-col min-h-screen">
     <Navbar />
@@ -47,29 +49,34 @@ function App() {
     <>
       <SplashScreen />
       <Routes>
-      {/* Admin login - no sidebar layout */}
-      <Route path="/admin/login" element={<AdminLogin />} />
+      {/* Admin routes - only registered on localhost */}
+      {isLocalhost && (
+        <>
+          {/* Admin login - no sidebar layout */}
+          <Route path="/admin/login" element={<AdminLogin />} />
 
-      {/* Admin protected routes - with sidebar layout */}
-      <Route
-        path="/admin"
-        element={
-          <AdminRoute>
-            <AdminLayout />
-          </AdminRoute>
-        }
-      >
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="products" element={<ManageProducts />} />
-        <Route path="products/new" element={<ProductForm />} />
-        <Route path="products/:id/edit" element={<ProductForm />} />
-        <Route path="categories" element={<ManageCategories />} />
-        <Route path="orders" element={<ManageOrders />} />
-        <Route path="users" element={<ManageUsers />} />
-        <Route path="reviews" element={<ManageReviews />} />
-        <Route path="coupons" element={<ManageCoupons />} />
-        <Route path="returns" element={<ManageReturns />} />
-      </Route>
+          {/* Admin protected routes - with sidebar layout */}
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="products" element={<ManageProducts />} />
+            <Route path="products/new" element={<ProductForm />} />
+            <Route path="products/:id/edit" element={<ProductForm />} />
+            <Route path="categories" element={<ManageCategories />} />
+            <Route path="orders" element={<ManageOrders />} />
+            <Route path="users" element={<ManageUsers />} />
+            <Route path="reviews" element={<ManageReviews />} />
+            <Route path="coupons" element={<ManageCoupons />} />
+            <Route path="returns" element={<ManageReturns />} />
+          </Route>
+        </>
+      )}
 
       {/* Storefront routes - with navbar/footer layout */}
       <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
