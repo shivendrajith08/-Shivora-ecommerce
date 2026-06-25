@@ -96,8 +96,15 @@ const ProductDetails = () => {
     setError('')
     try {
       const res = await getProductById(id)
-      setProduct(res.data.product)
+      const prod = res.data.product
+      setProduct(prod)
       setQuantity(1)
+      try {
+        const stored = JSON.parse(localStorage.getItem('shivora_recently_viewed') || '[]')
+        const entry = { id: prod.id, name: prod.name, image_url: prod.image_url, price: prod.price, discount_price: prod.discount_price, category_name: prod.category_name }
+        const updated = [entry, ...stored.filter(p => p.id !== prod.id)].slice(0, 5)
+        localStorage.setItem('shivora_recently_viewed', JSON.stringify(updated))
+      } catch {}
     } catch (err) {
       setError(err.response?.status === 404 ? 'Product not found.' : 'Could not load product details.')
     } finally {
@@ -352,6 +359,16 @@ const ProductDetails = () => {
               Save to Wishlist
             </button>
           </div>
+
+          {product.in_stock && (
+            <p className="text-xs text-green-400 mt-3">
+              🚚 Delivery by {(() => {
+                const d = new Date()
+                d.setDate(d.getDate() + 3)
+                return d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })
+              })()}
+            </p>
+          )}
         </div>
       </div>
 
@@ -465,8 +482,8 @@ const ProductDetails = () => {
         </div>
       )}
 
-      {/* Mobile sticky Add to Cart / Buy Now bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
+      {/* Mobile sticky Add to Cart / Buy Now bar — sits above the bottom nav (h-14 = 56px) */}
+      <div className="md:hidden fixed bottom-14 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
         {product.in_stock ? (
           <div className="flex gap-3">
             <button

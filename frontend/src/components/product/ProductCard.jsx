@@ -147,8 +147,8 @@ const ProductCard = ({ product }) => {
         {/* Stock indicator */}
         {product.stock === 0 ? (
           <span className="self-start bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded mb-2">Out of Stock</span>
-        ) : product.stock <= 5 ? (
-          <span className="text-[10px] font-semibold text-amber-400 mb-2">Only {product.stock} left!</span>
+        ) : product.stock > 0 && product.stock < 10 ? (
+          <span className="text-xs font-semibold text-red-400 mb-2">Only {product.stock} left!</span>
         ) : null}
 
         <button

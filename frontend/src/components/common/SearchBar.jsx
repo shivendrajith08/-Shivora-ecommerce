@@ -136,7 +136,7 @@ const SearchBar = ({ className = '', onNavigate }) => {
       </form>
 
       {showDropdown && (
-        <div className="absolute top-[calc(100%+6px)] left-0 right-0 rounded-xl border border-surface-border bg-surface-raised shadow-2xl shadow-black/40 z-50 overflow-hidden">
+        <div className="absolute top-[calc(100%+6px)] left-0 right-0 rounded-xl border border-gold/20 bg-[#1a1408] shadow-xl z-50 overflow-hidden">
           {suggestions.length === 0 ? (
             <p className="px-4 py-5 text-sm text-center text-silver-dim">
               No results for &ldquo;<span className="text-silver-muted">{query}</span>&rdquo;
@@ -173,13 +173,8 @@ const SearchBar = ({ className = '', onNavigate }) => {
 
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-parchment truncate leading-snug">{product.name}</p>
-                        <p className="text-xs font-semibold text-gold mt-0.5 leading-snug">
-                          ₹{displayPrice.toLocaleString('en-IN')}
-                          {product.discount_price && (
-                            <span className="ml-2 font-normal text-silver-dim line-through">
-                              ₹{product.price.toLocaleString('en-IN')}
-                            </span>
-                          )}
+                        <p className="text-xs text-silver-dim mt-0.5 leading-snug truncate">
+                          {product.category_name || `₹${displayPrice.toLocaleString('en-IN')}`}
                         </p>
                       </div>
 

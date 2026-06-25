@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getProducts } from '../api/productApi'
 import { getCategories } from '../api/categoryApi'
+import { API_ORIGIN } from '../api/axiosInstance'
 import ProductCard from '../components/product/ProductCard'
 import ProductFilters from '../components/product/ProductFilters'
 import PromoCarousel from '../components/common/PromoCarousel'
@@ -15,6 +16,52 @@ const TRUST_BADGES = [
   { title: 'Easy Returns',    desc: 'Hassle-free order cancellation', icon: 'M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3' },
 ]
 
+const HScrollCard = ({ product }) => {
+  const img = product.image_url
+    ? (product.image_url.startsWith('http') ? product.image_url : `${API_ORIGIN}${product.image_url}`)
+    : null
+  const price = product.discount_price && product.discount_price < product.price
+    ? product.discount_price : product.price
+  return (
+    <Link
+      to={`/products/${product.id}`}
+      className="flex-shrink-0 w-36 bg-surface rounded-xl overflow-hidden border border-surface-border hover:border-gold/40 transition-all"
+    >
+      <div className="w-full aspect-square bg-surface-raised overflow-hidden">
+        {img ? (
+          <img src={img} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-silver-dim">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" />
+            </svg>
+          </div>
+        )}
+      </div>
+      <div className="p-2">
+        <p className="text-xs font-semibold text-parchment truncate leading-snug mb-0.5">{product.name}</p>
+        <p className="text-xs font-bold text-gold">₹{price.toLocaleString('en-IN')}</p>
+      </div>
+    </Link>
+  )
+}
+
+const HScrollRow = ({ title, products }) => {
+  if (!products || products.length === 0) return null
+  return (
+    <div className="mb-2">
+      <h2 className="text-base font-bold text-white mb-2">{title}</h2>
+      <div
+        className="flex overflow-x-auto gap-3 pb-2 [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        {products.map(p => <HScrollCard key={p.id} product={p} />)}
+      </div>
+    </div>
+  )
+}
+
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [products, setProducts] = useState([])
@@ -23,6 +70,10 @@ const Home = () => {
   const [error, setError] = useState('')
   const [pagination, setPagination] = useState({ page: 1, pages: 1, total: 0 })
   const [showFilters, setShowFilters] = useState(false)
+
+  const [trendingProducts, setTrendingProducts] = useState([])
+  const [dealProducts, setDealProducts] = useState([])
+  const [recentlyViewed, setRecentlyViewed] = useState([])
 
   const filters = {
     search:      searchParams.get('search') || '',
@@ -61,6 +112,25 @@ const Home = () => {
   useEffect(() => { loadCategories() }, [loadCategories])
   useEffect(() => { loadProducts() }, [loadProducts])
 
+  // Load trending & deal rows once on mount
+  useEffect(() => {
+    getProducts({ per_page: 20, sort: 'newest' })
+      .then(res => {
+        const all = res.data.products || []
+        setTrendingProducts(all.slice(0, 8))
+        setDealProducts(all.filter(p => p.discount_price && p.discount_price < p.price).slice(0, 10))
+      })
+      .catch(() => {})
+  }, [])
+
+  // Load recently viewed from localStorage
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('shivora_recently_viewed') || '[]')
+      setRecentlyViewed(stored)
+    } catch {}
+  }, [])
+
   const updateFilters = (newFilters) => {
     const params = {}
     Object.entries(newFilters).forEach(([k, v]) => {
@@ -80,12 +150,22 @@ const Home = () => {
       ? activeCategory.name
       : 'All Products'
 
+  const showHomeSections = !filters.category && !filters.search
+
   return (
     <>
       {!filters.category && <PromoCarousel />}
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 space-y-6">
         {!filters.category && <CategorySection categories={categories} showViewAll={false} />}
+
+        {/* Horizontal scroll rows — only on unfiltered home view */}
+        {showHomeSections && (trendingProducts.length > 0 || dealProducts.length > 0) && (
+          <div className="space-y-5">
+            <HScrollRow title="Trending Now" products={trendingProducts} />
+            <HScrollRow title="Best Deals" products={dealProducts} />
+          </div>
+        )}
 
         <div>
           {/* ── Heading row ────────────────────────────────────────────────── */}
@@ -223,6 +303,11 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* Recently Viewed */}
+        {recentlyViewed.length > 0 && (
+          <HScrollRow title="Recently Viewed" products={recentlyViewed} />
+        )}
 
         <section className="grid sm:grid-cols-3 gap-3 pt-2 border-t border-surface-border">
           {TRUST_BADGES.map((item) => (

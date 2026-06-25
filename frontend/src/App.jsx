@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/common/Navbar'
 import Footer from './components/common/Footer'
+import BottomNav from './components/common/BottomNav'
 import SplashScreen from './components/common/SplashScreen'
 import PrivateRoute from './components/common/PrivateRoute'
 import AdminRoute from './components/common/AdminRoute'
@@ -39,8 +40,9 @@ const isLocalhost = window.location.hostname === 'localhost'
 const StorefrontLayout = ({ children }) => (
   <div className="flex flex-col min-h-screen">
     <Navbar />
-    <main className="flex-1">{children}</main>
+    <main className="flex-1 pb-16 md:pb-0">{children}</main>
     <Footer />
+    <BottomNav />
   </div>
 )
 
