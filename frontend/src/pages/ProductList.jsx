@@ -320,7 +320,7 @@ const ProductList = () => {
             </button>
           </div>
 
-          <div className="grid lg:grid-cols-[260px_1fr] gap-6">
+          <div className="grid lg:grid-cols-[260px_1fr] gap-6 items-start">
             <div className="hidden lg:block sticky top-20 h-fit self-start">
               <ProductFilters
                 categories={categories}
