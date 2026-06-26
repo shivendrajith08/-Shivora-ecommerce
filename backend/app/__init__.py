@@ -4,6 +4,33 @@ from app.config import Config
 from app.extensions import db, jwt, cors
 
 
+def _safe_add_columns(engine):
+    """Add columns introduced after the initial schema without dropping existing data.
+
+    db.create_all() skips tables that already exist, so new columns on existing
+    tables must be added manually.  This function is idempotent — it inspects the
+    live schema and only issues ALTER TABLE when the column is absent.
+    """
+    from sqlalchemy import inspect, text
+
+    new_cols = [
+        ("products", "sizes",  "JSON"),
+        ("products", "colors", "JSON"),
+    ]
+
+    inspector = inspect(engine)
+    with engine.connect() as conn:
+        for table, col_name, col_type in new_cols:
+            try:
+                existing = {c["name"] for c in inspector.get_columns(table)}
+                if col_name not in existing:
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col_name} {col_type}"))
+                    conn.commit()
+                    print(f"Migration: added column {table}.{col_name}")
+            except Exception as exc:
+                print(f"Migration skipped {table}.{col_name}: {exc}")
+
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -46,12 +73,14 @@ def create_app():
     # Import models so SQLAlchemy is aware of them
     from app.models import user, category, product, cart, wishlist, order, order_item, review, address, coupon, return_request  # noqa: F401
 
-    # On a hosted DB (Render Postgres / Railway MySQL), auto-create tables.
+    # On a hosted DB (Render Postgres / Railway MySQL), auto-create tables
+    # and apply any column additions that create_all() won't run on existing tables.
     # Local dev (no platform URL) uses the SQL migrations instead.
     with app.app_context():
         if os.environ.get("DATABASE_URL") or os.environ.get("MYSQL_URL"):
             db.create_all()
             print("Database tables created via create_all()")
+            _safe_add_columns(db.engine)
 
     # Register blueprints
     from app.routes.auth_routes import auth_bp
