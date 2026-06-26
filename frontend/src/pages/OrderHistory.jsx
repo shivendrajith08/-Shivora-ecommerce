@@ -69,7 +69,7 @@ const OrderHistory = () => {
             <div
               key={order.id}
               onClick={() => navigate(`/orders/${order.id}`)}
-              className="card cursor-pointer hover:bg-white/5 transition-colors rounded-xl overflow-hidden"
+              className="card cursor-pointer hover:bg-white/5 active:opacity-80 transition-colors transition-opacity rounded-xl overflow-hidden"
             >
               <div className="flex items-center justify-between gap-3 px-4 py-4">
                 <div className="flex flex-col gap-1 min-w-0">

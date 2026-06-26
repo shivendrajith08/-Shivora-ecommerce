@@ -107,10 +107,12 @@ const OrderDetail = () => {
         </div>
       </div>
 
-      {/* Timeline */}
-      <div className="card px-4 py-4 mb-4">
-        <OrderTimeline status={order.status} />
-      </div>
+      {/* Timeline — hidden for cancelled orders; banner shown below items instead */}
+      {order.status !== 'cancelled' && (
+        <div className="card px-4 py-4 mb-4">
+          <OrderTimeline status={order.status} />
+        </div>
+      )}
 
       {/* Items */}
       <div className="card overflow-hidden mb-4">
@@ -158,6 +160,13 @@ const OrderDetail = () => {
           })}
         </div>
       </div>
+
+      {/* Cancelled notice — shown below items so items remain visible */}
+      {order.status === 'cancelled' && (
+        <div className="card px-4 py-4 mb-4">
+          <OrderTimeline status={order.status} />
+        </div>
+      )}
 
       {/* Order meta */}
       <div className="card px-4 py-4 mb-4">
