@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1200px;height:630px;overflow:hidden;background:#020818}
+.c{width:1200px;height:630px;background:#020818;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ring1{position:absolute;width:1000px;height:1000px;border-radius:50%;border:1px solid rgba(245,158,11,0.05);top:50%;left:50%;transform:translate(-50%,-50%)}
+.ring2{position:absolute;width:760px;height:760px;border-radius:50%;border:1px solid rgba(245,158,11,0.08);top:50%;left:50%;transform:translate(-50%,-50%)}
+.ring3{position:absolute;width:520px;height:520px;border-radius:50%;border:1px solid rgba(245,158,11,0.06);top:50%;left:50%;transform:translate(-50%,-50%)}
+.glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.top-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(245,158,11,0) 20%,#F59E0B 50%,rgba(245,158,11,0) 80%,transparent 100%)}
+.bot-line{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(224,122,95,0) 20%,#E07A5F 50%,rgba(224,122,95,0) 80%,transparent 100%)}
+.content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center}
+.pre{font-family:Arial;font-size:18px;letter-spacing:16px;color:rgba(245,158,11,0.4);text-transform:uppercase;margin-bottom:36px}
+.brand{font-family:Georgia,serif;font-size:116px;font-weight:700;letter-spacing:32px;color:#F4F4F2;line-height:1;margin-bottom:32px;position:relative}
+.brand::after{content:'';position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);width:60px;height:2px;background:#F59E0B}
+.brand .s{color:#F59E0B}
+.since{font-family:Arial;font-size:16px;letter-spacing:12px;color:rgba(148,163,184,0.4);text-transform:uppercase;margin-top:44px}
+.dot-row{display:flex;gap:16px;align-items:center;margin-top:36px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,0.3)}
+.dot.active{background:#F59E0B}
+.dot.terra{background:#E07A5F}
+.corner{position:absolute;width:28px;height:28px}
+.tl{top:32px;left:32px;border-top:1px solid rgba(245,158,11,0.25);border-left:1px solid rgba(245,158,11,0.25)}
+.tr{top:32px;right:32px;border-top:1px solid rgba(245,158,11,0.25);border-right:1px solid rgba(245,158,11,0.25)}
+.bl{bottom:32px;left:32px;border-bottom:1px solid rgba(245,158,11,0.25);border-left:1px solid rgba(245,158,11,0.25)}
+.br{bottom:32px;right:32px;border-bottom:1px solid rgba(245,158,11,0.25);border-right:1px solid rgba(245,158,11,0.25)}
+.url{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);font-family:Arial;font-size:16px;letter-spacing:8px;color:rgba(245,158,11,0.2);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="ring1"></div>
+  <div class="ring2"></div>
+  <div class="ring3"></div>
+  <div class="glow"></div>
+  <div class="top-line"></div>
+  <div class="bot-line"></div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <div class="content">
+    <div class="pre">Est. 2024</div>
+    <div class="brand"><span class="s">S</span>HIVORA</div>
+    <div class="since">Luxury · Curated · Premium</div>
+    <div class="dot-row">
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot terra"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="url">shivora-ecommerce.vercel.app</div>
+</div>
+</body>
+</html>
