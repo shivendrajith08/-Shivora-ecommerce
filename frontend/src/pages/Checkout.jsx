@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect } from 'react'
-import SEO from '../components/SEO'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useCart } from '../context/CartContext'
@@ -250,7 +249,6 @@ const Checkout = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-40 lg:pb-8">
-      <SEO title="Checkout" url="/checkout" />
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold text-parchment">Checkout</h1>
         {buyNow && (

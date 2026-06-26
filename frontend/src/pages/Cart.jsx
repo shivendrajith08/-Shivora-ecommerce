@@ -1,5 +1,4 @@
 ﻿import React from 'react'
-import SEO from '../components/SEO'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import CartItem from '../components/cart/CartItem'
@@ -31,7 +30,6 @@ const Cart = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 lg:pb-8">
-      <SEO title="Your Cart" url="/cart" />
       <h1 className="text-2xl font-bold text-parchment mb-6">Shopping Cart</h1>
 
       <div className="grid lg:grid-cols-[1fr_340px] gap-6">

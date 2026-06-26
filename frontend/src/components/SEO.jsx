@@ -4,7 +4,7 @@ export default function SEO({ title, description, image, url, type = 'website' }
   const defaultDescription = 'Shop premium fashion, electronics, home & more at Shivora. Free shipping. Cash on delivery.'
   const defaultImage = 'https://shivora-ecommerce.vercel.app/og-image.jpg'
   const siteUrl = 'https://shivora-ecommerce.vercel.app'
-  const fullTitle = title ? `${title} | Shivora` : 'Shivora | Luxury Online Shopping'
+  const fullTitle = title ? `${title} | Shivora` : 'Shivora'
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl
   const absoluteImage = !image ? defaultImage : image.startsWith('http') ? image : `${siteUrl}${image}`
 

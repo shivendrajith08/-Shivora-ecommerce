@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect, useRef } from 'react'
-import SEO from '../components/SEO'
 import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
@@ -280,7 +279,6 @@ const Profile = () => {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: '#0a0800' }}>
-      <SEO title="My Account" url="/profile" />
 
       {/* ── Desktop sidebar (sticky — fix preserved: self-start + max-h + top-16) */}
       <aside

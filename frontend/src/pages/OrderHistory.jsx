@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import SEO from '../components/SEO'
 import { getOrderHistory } from '../api/orderApi'
 import Loader from '../components/common/Loader'
 import ErrorAlert from '../components/common/ErrorAlert'
@@ -48,7 +47,6 @@ const OrderHistory = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
-      <SEO title="My Orders" url="/orders" />
       <h1 className="text-2xl font-bold text-parchment mb-6">My Orders</h1>
 
       {error && <ErrorAlert message={error} onRetry={loadOrders} />}
