@@ -100,8 +100,9 @@ def _add_rating(product):
 
 
 @product_bp.route("/search", methods=["GET"])
+@product_bp.route("/search/suggestions", methods=["GET"])
 def search_suggestions():
-    """Lightweight autocomplete endpoint — returns up to 6 matching products."""
+    """Autocomplete endpoint — returns up to 8 matching products with category."""
     q = request.args.get("q", "").strip()
     if len(q) < 2:
         return jsonify({"suggestions": []}), 200
@@ -109,10 +110,15 @@ def search_suggestions():
     like = f"%{q}%"
     products = (
         Product.query
+        .outerjoin(Category, Product.category_id == Category.id)
         .filter(Product.is_active == True)
-        .filter(or_(Product.name.ilike(like), Product.description.ilike(like)))
+        .filter(or_(
+            Product.name.ilike(like),
+            Category.name.ilike(like),
+            Product.description.ilike(like),
+        ))
         .order_by(Product.name.asc())
-        .limit(6)
+        .limit(8)
         .all()
     )
 
@@ -121,8 +127,9 @@ def search_suggestions():
             {
                 "id": p.id,
                 "name": p.name,
-                "price": float(p.price),
-                "discount_price": float(p.discount_price) if p.discount_price else None,
+                "category": p.category.name if p.category else None,
+                "price": float(p.discount_price or p.price),
+                "image": p.image_url,
                 "image_url": p.image_url,
             }
             for p in products
