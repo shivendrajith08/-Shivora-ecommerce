@@ -53,7 +53,7 @@ const SearchBar = ({ className = '', onNavigate }) => {
       } finally {
         setLoading(false)
       }
-    }, 300)
+    }, 400)
     return () => clearTimeout(timerRef.current)
   }, [query])
 

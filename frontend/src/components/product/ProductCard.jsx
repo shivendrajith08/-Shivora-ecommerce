@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
@@ -63,6 +63,8 @@ const ProductCard = ({ product }) => {
           <img
             src={imageSrc}
             alt={product.name}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
@@ -161,4 +163,4 @@ const ProductCard = ({ product }) => {
   )
 }
 
-export default ProductCard
+export default memo(ProductCard)

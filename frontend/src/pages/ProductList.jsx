@@ -1,11 +1,11 @@
-﻿import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getProducts } from '../api/productApi'
 import { getCategories } from '../api/categoryApi'
 import ProductCard from '../components/product/ProductCard'
 import ProductFilters from '../components/product/ProductFilters'
 import CategorySection from '../components/common/CategorySection'
-import Loader from '../components/common/Loader'
+import ProductSkeleton from '../components/common/ProductSkeleton'
 import ErrorAlert from '../components/common/ErrorAlert'
 
 const SORT_OPTIONS = [
@@ -15,19 +15,6 @@ const SORT_OPTIONS = [
   { value: 'name_asc', label: 'Name: A to Z' },
 ]
 
-const PRICE_PRESETS = [
-  { key: 'below500',   label: 'Below ₹500',       min: '',     max: '500' },
-  { key: '500-1000',   label: '₹500 - ₹1000',     min: '500',  max: '1000' },
-  { key: '1000-5000',  label: '₹1000 - ₹5000',    min: '1000', max: '5000' },
-  { key: 'above5000',  label: '₹5000 and Above',   min: '5000', max: '' },
-]
-
-const LEFT_TABS = [
-  { key: 'sort',     label: 'Sort' },
-  { key: 'category', label: 'Category' },
-  { key: 'price',    label: 'Price Range' },
-]
-
 const effectivePrice = (p) => (p.discount_price != null ? p.discount_price : p.price)
 
 const ProductList = () => {
@@ -35,6 +22,9 @@ const ProductList = () => {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [hasMore, setHasMore] = useState(false)
+  const [page, setPage] = useState(1)
   const [error, setError] = useState('')
 
   // Desktop sort dropdown
@@ -75,11 +65,13 @@ const ProductList = () => {
   const loadProducts = useCallback(async () => {
     setLoading(true)
     setError('')
+    setPage(1)
     try {
-      const params = { ...urlFilters, per_page: 50 }
+      const params = { ...urlFilters, per_page: 12, page: 1 }
       Object.keys(params).forEach((k) => (params[k] === '' && delete params[k]))
       const res = await getProducts(params)
       setProducts(res.data.products)
+      setHasMore((res.data.page ?? 1) < (res.data.pages ?? 1))
     } catch (err) {
       setError('Could not load products. Please try again.')
     } finally {
@@ -87,6 +79,31 @@ const ProductList = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore) return
+    setLoadingMore(true)
+    const nextPage = page + 1
+    try {
+      const params = {}
+      const search = searchParams.get('search') || ''
+      const categoryId = searchParams.get('category_id')
+      const category = searchParams.get('category') || ''
+      if (search) params.search = search
+      if (categoryId) params.category_id = Number(categoryId)
+      if (category) params.category = category
+      params.per_page = 12
+      params.page = nextPage
+      const res = await getProducts(params)
+      setProducts((prev) => [...prev, ...res.data.products])
+      setPage(nextPage)
+      setHasMore((res.data.page ?? nextPage) < (res.data.pages ?? nextPage))
+    } catch {
+      // silent – Load More failure shouldn't break the page
+    } finally {
+      setLoadingMore(false)
+    }
+  }, [loadingMore, hasMore, page, searchParams])
 
   useEffect(() => { loadCategories() }, [loadCategories])
   useEffect(() => {
@@ -145,14 +162,29 @@ const ProductList = () => {
     setSortBy('newest')
   }
 
+  // Initialize temp state from current applied values before opening the sheet
+  const openMobileFilter = () => {
+    setTempSort(sortBy)
+    setTempCategory(urlFilters.category || '')
+    setTempMin(priceMin)
+    setTempMax(priceMax)
+    setActiveFilterTab('Sort')
+    setShowMobileFilter(true)
+  }
+
   const handleApplyFilters = () => {
     setSortBy(tempSort)
     setPriceMin(tempMin)
     setPriceMax(tempMax)
-    const params = {}
-    if (urlFilters.search) params.search = urlFilters.search
-    if (tempCategory) params.category = tempCategory
-    setSearchParams(params)
+    // Preserve existing URL params (search, category_id) — only update category from temp
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev)
+      if (tempCategory) {
+        next.set('category', tempCategory)
+        next.delete('category_id')
+      }
+      return next
+    })
     setShowMobileFilter(false)
   }
 
@@ -310,7 +342,7 @@ const ProductList = () => {
           {/* Mobile filter trigger bar */}
           <div className="lg:hidden sticky top-16 z-30 -mx-4 px-4 py-2 bg-[#020818]/95 backdrop-blur-sm border-b border-[#F59E0B]/10 mb-4">
             <button
-              onClick={() => setShowMobileFilter(true)}
+              onClick={openMobileFilter}
               className="flex items-center gap-2 text-xs text-white/70 border border-[#F59E0B]/20 rounded-full px-4 py-1.5 bg-[#060D22] hover:border-[#F59E0B]/40 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -339,18 +371,34 @@ const ProductList = () => {
               {error && <ErrorAlert message={error} onRetry={loadProducts} />}
 
               {loading ? (
-                <Loader fullScreen label="Loading products..." />
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 md:gap-4">
+                  {Array.from({ length: 12 }).map((_, i) => <ProductSkeleton key={i} />)}
+                </div>
               ) : visibleProducts.length === 0 ? (
                 <div className="text-center py-20">
                   <p className="text-silver-muted text-lg mb-2">No products found</p>
                   <p className="text-silver-dim text-sm">Try adjusting your filters or search term</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 md:gap-4">
-                  {visibleProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
+                <>
+                  <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 md:gap-4">
+                    {visibleProducts.map((product) => (
+                      <ProductCard key={product.id} product={product} />
+                    ))}
+                  </div>
+
+                  {hasMore && (
+                    <div className="flex justify-center mt-8 mb-4">
+                      <button
+                        onClick={loadMore}
+                        disabled={loadingMore}
+                        className="btn-primary !px-10 !py-3 text-sm disabled:opacity-60"
+                      >
+                        {loadingMore ? 'Loading...' : 'Load More'}
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

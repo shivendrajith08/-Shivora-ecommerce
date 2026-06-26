@@ -5,16 +5,21 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    strictPort: true, // fail loudly if 5173 is taken instead of silently switching to 5174
+    strictPort: true,
     host: true,
   },
   build: {
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash].[ext]'
-      }
-    }
-  }
+        assetFileNames: 'assets/[name].[hash].[ext]',
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['axios', 'recharts'],
+        },
+      },
+    },
+  },
 })

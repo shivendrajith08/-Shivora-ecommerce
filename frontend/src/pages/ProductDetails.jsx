@@ -241,7 +241,7 @@ const ProductDetails = () => {
               className="block w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border cursor-zoom-in md:cursor-default"
             >
               {imageSrc ? (
-                <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
+                <img src={imageSrc} alt={product.name} loading="eager" decoding="async" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-silver-dim">
                   <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">

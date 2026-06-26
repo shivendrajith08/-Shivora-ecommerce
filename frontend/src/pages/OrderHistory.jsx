@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { getOrderHistory, cancelOrder } from '../api/orderApi'
@@ -32,22 +32,6 @@ const StatusBadge = ({ status }) => {
   )
 }
 
-const Thumbnail = ({ src, alt }) => (
-  <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg overflow-hidden bg-surface-raised border border-surface-border">
-    {src ? (
-      <img src={src} alt={alt} className="w-full h-full object-cover"
-        onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-product.svg' }} />
-    ) : (
-      <div className="w-full h-full flex items-center justify-center text-silver-dim">
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-            d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-        </svg>
-      </div>
-    )}
-  </div>
-)
-
 const OrderHistory = () => {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
@@ -55,6 +39,9 @@ const OrderHistory = () => {
   const [cancellingId, setCancellingId] = useState(null)
   const [returnOrder, setReturnOrder] = useState(null)
   const [cancelTarget, setCancelTarget] = useState(null)
+  const [expandedOrder, setExpandedOrder] = useState(null)
+
+  const toggleOrder = (id) => setExpandedOrder((prev) => (prev === id ? null : id))
 
   const loadOrders = async () => {
     setLoading(true)
@@ -105,121 +92,166 @@ const OrderHistory = () => {
           <Link to="/products" className="btn-primary !px-6">Start Shopping</Link>
         </div>
       ) : (
-        <div className="space-y-5">
-          {orders.map((order, index) => (
-            <div key={order.id} className="card overflow-hidden">
-              {/* Header */}
-              <div className="flex items-start justify-between gap-2 px-3 py-3 sm:px-5 sm:py-4 border-b border-surface-border">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">Order #{orders.length - index}</p>
-                    <StatusBadge status={order.status} />
-                  </div>
-                  <p className="text-xs text-silver-dim">
-                    {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </p>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-sm sm:text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
-                  {order.discount_amount > 0 && (
-                    <p className="text-[11px] font-semibold text-[#F59E0B] mt-0.5">
-                      Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}
+        <div className="space-y-4">
+          {orders.map((order, index) => {
+            const isExpanded = expandedOrder === order.id
+            const canCancel = order.status === 'pending' || order.status === 'processing'
+
+            return (
+              <div key={order.id} className="card overflow-hidden">
+                {/* Clickable header */}
+                <div
+                  className="flex items-center justify-between gap-3 px-3 py-3 sm:px-5 sm:py-4 cursor-pointer hover:bg-white/5 transition-colors select-none"
+                  onClick={() => toggleOrder(order.id)}
+                >
+                  <div className="flex flex-col gap-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">Order #{orders.length - index}</p>
+                      <StatusBadge status={order.status} />
+                    </div>
+                    <p className="text-xs text-silver-dim">
+                      {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </p>
-                  )}
-                </div>
-              </div>
+                  </div>
 
-              {/* Order tracking timeline */}
-              <div className="px-3 py-3 sm:px-5 sm:py-5 border-b border-surface-border">
-                <OrderTimeline status={order.status} />
-              </div>
-
-              {/* Items */}
-              <div className="divide-y divide-surface-border">
-                {order.items?.map((item) => (
-                  <div key={item.id} className="flex items-center gap-2 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3 flex-wrap sm:flex-nowrap">
-                    <Link to={item.product_id ? `/products/${item.product_id}` : '#'} className="flex-shrink-0">
-                      <Thumbnail
-                        src={!item.product_image || item.product_image.startsWith('/uploads/') ? '/placeholder-product.svg' : item.product_image.startsWith('http') ? item.product_image : `${API_ORIGIN}${item.product_image}`}
-                        alt={item.product_name}
-                      />
-                    </Link>
-
-                    <div className="flex-1 min-w-0">
-                      <Link
-                        to={item.product_id ? `/products/${item.product_id}` : '#'}
-                        className="text-sm font-medium text-parchment hover:text-[#F59E0B] truncate block transition-colors"
-                      >
-                        {item.product_name}
-                      </Link>
-                      <p className="text-xs text-silver-dim mt-0.5">Qty: {item.quantity}</p>
-                    </div>
-
-                    <div className="flex-shrink-0 text-right">
-                      <p className="text-sm font-semibold text-parchment">₹{item.subtotal.toLocaleString('en-IN')}</p>
-                      {item.quantity > 1 && (
-                        <p className="text-[11px] text-silver-dim mt-0.5">₹{item.price.toLocaleString('en-IN')} each</p>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="text-right">
+                      <p className="text-sm sm:text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
+                      {order.discount_amount > 0 && (
+                        <p className="text-[11px] font-semibold text-[#F59E0B] mt-0.5">
+                          Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}
+                        </p>
                       )}
                     </div>
-
-                    {order.status === 'delivered' && item.product_id && (
-                      <Link
-                        to={`/products/${item.product_id}`}
-                        className="flex-shrink-0 ml-1 text-xs font-semibold text-[#F59E0B] border border-[#F59E0B]/50 rounded-lg px-3 py-1.5 hover:bg-[#F59E0B]/10 transition-colors whitespace-nowrap"
-                      >
-                        Rate &amp; Review
-                      </Link>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Footer */}
-              <div className="bg-surface-raised px-3 py-3 sm:px-5 sm:py-4 border-t border-surface-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1 sm:flex sm:gap-6">
-                  <div>
-                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5 sm:mb-1">Ship to</p>
-                    <p className="text-xs sm:text-sm font-medium text-silver-muted">{order.shipping_name}</p>
-                    <p className="text-xs text-silver-dim mt-0.5">{order.shipping_city}, {order.shipping_state} — {order.shipping_pincode}</p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5 sm:mb-1">Payment</p>
-                    <p className="text-xs sm:text-sm font-medium text-silver-muted">{order.payment_method}</p>
-                  </div>
-                </div>
-
-                {(order.status === 'pending' || order.status === 'processing') && (
-                  <button
-                    onClick={() => setCancelTarget(order.id)}
-                    disabled={cancellingId === order.id}
-                    className="btn-danger !py-2.5 !px-4 text-sm w-full sm:w-auto min-h-[44px]"
-                  >
-                    {cancellingId === order.id ? 'Cancelling…' : 'Cancel Order'}
-                  </button>
-                )}
-
-                {order.status === 'delivered' && (
-                  order.return_request ? (
-                    <div className="sm:text-right">
-                      <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${RETURN_BADGE[order.return_request.status] ?? RETURN_BADGE.Requested}`}>
-                        Return {order.return_request.status}
-                      </span>
-                      {order.return_request.status === 'Rejected' && order.return_request.admin_note && (
-                        <p className="text-[11px] text-red-400/70 mt-1 max-w-[240px]">{order.return_request.admin_note}</p>
-                      )}
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => setReturnOrder(order)}
-                      className="btn !py-2.5 !px-4 text-sm border border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10 transition-colors w-full sm:w-auto min-h-[44px]"
+                    {/* Chevron */}
+                    <svg
+                      className={`w-5 h-5 text-silver-dim transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     >
-                      Request Return
-                    </button>
-                  )
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Expanded content */}
+                {isExpanded && (
+                  <>
+                    {/* Order tracking timeline */}
+                    <div className="px-3 py-3 sm:px-5 sm:py-4 border-t border-surface-border">
+                      <OrderTimeline status={order.status} />
+                    </div>
+
+                    {/* Items — rendered for ALL statuses including cancelled */}
+                    <div className="divide-y divide-surface-border border-t border-surface-border">
+                      {order.items?.map((item) => {
+                        const imgSrc = !item.product_image || item.product_image.startsWith('/uploads/')
+                          ? '/placeholder-product.svg'
+                          : item.product_image.startsWith('http')
+                            ? item.product_image
+                            : `${API_ORIGIN}${item.product_image}`
+
+                        return (
+                          <div key={item.id} className="flex items-center gap-3 px-3 py-3 sm:px-5">
+                            <Link to={item.product_id ? `/products/${item.product_id}` : '#'} className="flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+                              <div className="w-14 h-14 rounded-lg overflow-hidden bg-surface-raised border border-surface-border flex-shrink-0">
+                                <img
+                                  src={imgSrc}
+                                  alt={item.product_name}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder-product.svg' }}
+                                />
+                              </div>
+                            </Link>
+
+                            <div className="flex-1 min-w-0">
+                              <Link
+                                to={item.product_id ? `/products/${item.product_id}` : '#'}
+                                className="text-sm font-medium text-parchment hover:text-[#F59E0B] truncate block transition-colors"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {item.product_name}
+                              </Link>
+                              <p className="text-xs text-silver-dim mt-0.5">Qty: {item.quantity}</p>
+                            </div>
+
+                            <div className="flex-shrink-0 text-right">
+                              <p className="text-sm font-semibold text-[#FCD34D]">₹{item.subtotal.toLocaleString('en-IN')}</p>
+                              {item.quantity > 1 && (
+                                <p className="text-[11px] text-silver-dim mt-0.5">₹{item.price.toLocaleString('en-IN')} each</p>
+                              )}
+                            </div>
+
+                            {order.status === 'delivered' && item.product_id && (
+                              <Link
+                                to={`/products/${item.product_id}`}
+                                className="flex-shrink-0 ml-1 text-xs font-semibold text-[#F59E0B] border border-[#F59E0B]/50 rounded-lg px-3 py-1.5 hover:bg-[#F59E0B]/10 transition-colors whitespace-nowrap"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                Rate &amp; Review
+                              </Link>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    {/* Order meta */}
+                    <div className="bg-surface-raised px-3 py-3 sm:px-5 sm:py-4 border-t border-surface-border">
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-3 sm:flex sm:gap-8 mb-3">
+                        <div>
+                          <p className="text-[10px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5">Order ID</p>
+                          <p className="text-xs font-medium text-silver-muted font-mono">#{order.id}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5">Payment</p>
+                          <p className="text-xs font-medium text-silver-muted">{order.payment_method || 'Cash on Delivery'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5">Ship to</p>
+                          <p className="text-xs font-medium text-silver-muted">{order.shipping_name}</p>
+                          <p className="text-[11px] text-silver-dim">{order.shipping_city}, {order.shipping_state} — {order.shipping_pincode}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-semibold text-silver-dim uppercase tracking-wide mb-0.5">Total</p>
+                          <p className="text-sm font-bold text-[#FCD34D]">₹{order.total_amount.toLocaleString('en-IN')}</p>
+                        </div>
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {canCancel && (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setCancelTarget(order.id) }}
+                            disabled={cancellingId === order.id}
+                            className="text-sm px-4 py-2 rounded-lg border border-red-500/40 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                          >
+                            {cancellingId === order.id ? 'Cancelling…' : 'Cancel Order'}
+                          </button>
+                        )}
+
+                        {order.status === 'delivered' && (
+                          order.return_request ? (
+                            <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${RETURN_BADGE[order.return_request.status] ?? RETURN_BADGE.Requested}`}>
+                              Return {order.return_request.status}
+                            </span>
+                          ) : (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setReturnOrder(order) }}
+                              className="text-sm px-4 py-2 rounded-lg border border-[#F59E0B]/50 text-[#F59E0B] hover:bg-[#F59E0B]/10 transition-colors"
+                            >
+                              Request Return
+                            </button>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </>
                 )}
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 
