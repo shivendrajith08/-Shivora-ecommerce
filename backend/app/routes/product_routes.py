@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, request, jsonify, current_app
 from sqlalchemy import or_, func
 from app.extensions import db
@@ -186,6 +187,20 @@ def create_product():
     slug = generate_unique_slug(Product, data.get("name"))
     sku = data.get("sku", "").strip() or generate_sku(data.get("name", "PROD")[:4])
 
+    sizes_raw = data.get("sizes", "")
+    if sizes_raw and isinstance(sizes_raw, str) and sizes_raw.strip().startswith("["):
+        sizes = json.loads(sizes_raw)
+    elif sizes_raw:
+        sizes = [s.strip() for s in sizes_raw.split(",") if s.strip()]
+    else:
+        sizes = None
+
+    colors_raw = data.get("colors", "")
+    try:
+        colors = json.loads(colors_raw) if colors_raw else None
+    except (json.JSONDecodeError, TypeError):
+        colors = None
+
     product = Product(
         name=data.get("name").strip(),
         slug=slug,
@@ -197,6 +212,8 @@ def create_product():
         category_id=int(data["category_id"]) if data.get("category_id") else None,
         image_url=image_url or data.get("image_url") or None,
         is_active=True,
+        sizes=sizes,
+        colors=colors,
     )
 
     db.session.add(product)
@@ -234,6 +251,22 @@ def update_product(product_id):
         product.category_id = int(data["category_id"]) if data["category_id"] else None
     if "is_active" in data:
         product.is_active = str(data["is_active"]).lower() in ("true", "1", "yes")
+
+    if "sizes" in data:
+        sizes_raw = data.get("sizes", "")
+        if sizes_raw and isinstance(sizes_raw, str) and sizes_raw.strip().startswith("["):
+            product.sizes = json.loads(sizes_raw)
+        elif sizes_raw:
+            product.sizes = [s.strip() for s in sizes_raw.split(",") if s.strip()]
+        else:
+            product.sizes = None
+
+    if "colors" in data:
+        colors_raw = data.get("colors", "")
+        try:
+            product.colors = json.loads(colors_raw) if colors_raw else None
+        except (json.JSONDecodeError, TypeError):
+            product.colors = None
 
     if "image" in request.files and request.files["image"].filename:
         try:

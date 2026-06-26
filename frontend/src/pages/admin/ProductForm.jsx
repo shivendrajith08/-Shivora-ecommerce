@@ -27,6 +27,8 @@ const ProductForm = () => {
     sku: '',
     category_id: '',
     is_active: true,
+    sizes: '',
+    colors: '',
   })
 
   useEffect(() => {
@@ -47,6 +49,8 @@ const ProductForm = () => {
             sku: p.sku || '',
             category_id: p.category_id || '',
             is_active: p.is_active,
+            sizes: Array.isArray(p.sizes) ? p.sizes.join(',') : '',
+            colors: p.colors?.length ? JSON.stringify(p.colors) : '',
           })
           if (p.image_url) {
             setImagePreview(p.image_url.startsWith('http') ? p.image_url : `${API_ORIGIN}${p.image_url}`)
@@ -103,6 +107,8 @@ const ProductForm = () => {
       if (form.sku) formData.append('sku', form.sku)
       if (form.category_id) formData.append('category_id', form.category_id)
       formData.append('is_active', form.is_active)
+      if (form.sizes) formData.append('sizes', form.sizes)
+      if (form.colors) formData.append('colors', form.colors)
       if (imageFile) formData.append('image', imageFile)
 
       if (isEdit) {
@@ -175,6 +181,17 @@ const ProductForm = () => {
               <option key={cat.id} value={cat.id}>{cat.name}</option>
             ))}
           </select>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className="label-text">Sizes <span className="text-silver-dim font-normal">(comma-separated, e.g. S,M,L,XL)</span></label>
+            <input name="sizes" value={form.sizes} onChange={handleChange} className="input-field" placeholder="S,M,L,XL" />
+          </div>
+          <div>
+            <label className="label-text">Colors <span className="text-silver-dim font-normal">(JSON array)</span></label>
+            <input name="colors" value={form.colors} onChange={handleChange} className="input-field" placeholder='[{"name":"Red","hex":"#FF0000"}]' />
+          </div>
         </div>
 
         <div>

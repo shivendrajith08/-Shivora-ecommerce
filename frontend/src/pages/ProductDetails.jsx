@@ -1,6 +1,8 @@
-﻿import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 import { getProductById, getProducts } from '../api/productApi'
 import { addToWishlist, removeFromWishlistByProduct } from '../api/wishlistApi'
 import { getProductReviews, createReview } from '../api/reviewApi'
@@ -42,6 +44,10 @@ const ProductDetails = () => {
   const [wishing, setWishing] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [descExpanded, setDescExpanded] = useState(false)
+  const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedColor, setSelectedColor] = useState(null)
+  const [showStickyBar, setShowStickyBar] = useState(false)
+  const mainBtnRef = useRef(null)
 
   const [recentlyViewed, setRecentlyViewed] = useState([])
 
@@ -90,6 +96,15 @@ const ProductDetails = () => {
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
   }, [lightboxSrc])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    if (mainBtnRef.current) observer.observe(mainBtnRef.current)
+    return () => observer.disconnect()
+  }, [product])
 
   const clearImage = () => {
     if (imagePreview) URL.revokeObjectURL(imagePreview)
@@ -142,6 +157,8 @@ const ProductDetails = () => {
     setReviewForm({ rating: 0, comment: '' })
     clearImage()
     setDescExpanded(false)
+    setSelectedSize(null)
+    setSelectedColor(null)
     window.scrollTo({ top: 0 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
@@ -170,6 +187,8 @@ const ProductDetails = () => {
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) { toast.error('Please log in to add items to your cart'); return }
+    if (product.sizes?.length > 0 && !selectedSize) { toast.error('Please select a size'); return }
+    if (product.colors?.length > 0 && !selectedColor) { toast.error('Please select a color'); return }
     setAdding(true)
     await addItem(product.id, quantity)
     setAdding(false)
@@ -185,6 +204,20 @@ const ProductDetails = () => {
         buyNow: { productId: product.id, quantity, name: product.name, price: effectivePrice },
       },
     })
+  }
+
+  const handleShare = async () => {
+    const shareData = {
+      title: product.name,
+      text: `Check out ${product.name} on Shivora — ₹${(product.discount_price || product.price).toLocaleString('en-IN')}`,
+      url: window.location.href,
+    }
+    if (navigator.share) {
+      await navigator.share(shareData)
+    } else {
+      await navigator.clipboard.writeText(window.location.href)
+      toast.success('Link copied to clipboard!')
+    }
   }
 
   const handleSubmitReview = async (e) => {
@@ -246,13 +279,17 @@ const ProductDetails = () => {
         {/* Image column */}
         <div>
           <div className="relative">
-            <button
-              type="button"
-              onClick={() => imageSrc && setLightboxSrc(imageSrc)}
-              className="block w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border cursor-zoom-in md:cursor-default"
-            >
+            <div className="w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border">
               {imageSrc ? (
-                <img src={imageSrc} alt={product.name} loading="eager" decoding="async" className="w-full h-full object-cover" />
+                <Zoom>
+                  <img
+                    src={imageSrc}
+                    alt={product.name}
+                    loading="eager"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                  />
+                </Zoom>
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-silver-dim">
                   <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -260,7 +297,20 @@ const ProductDetails = () => {
                   </svg>
                 </div>
               )}
+            </div>
+
+            {/* Share button */}
+            <button
+              onClick={handleShare}
+              className="absolute top-3 right-14 w-10 h-10 rounded-full bg-[#060D22]/80 backdrop-blur-sm flex items-center justify-center border border-white/10 hover:border-[#F59E0B]/40 transition-colors"
+              title="Share product"
+            >
+              <svg className="w-4 h-4 text-[#F4F4F2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+              </svg>
             </button>
+
+            {/* Wishlist button */}
             <button
               onClick={handleWishlistToggle}
               disabled={wishing}
@@ -280,7 +330,6 @@ const ProductDetails = () => {
               </svg>
             </button>
           </div>
-          {imageSrc && <p className="md:hidden text-center text-xs text-silver-dim mt-2">Tap image to view full size</p>}
         </div>
 
         {/* Details column */}
@@ -312,7 +361,20 @@ const ProductDetails = () => {
               </>
             )}
           </div>
-          <p className="text-xs text-silver-dim mb-5">Inclusive of all taxes</p>
+          <p className="text-xs text-silver-dim mb-2">Inclusive of all taxes</p>
+
+          {/* Low stock urgency */}
+          {product.stock > 0 && product.stock <= 10 && (
+            <div className="flex items-center gap-2 mt-2 mb-2">
+              <span className="inline-block w-2 h-2 rounded-full bg-[#E07A5F] animate-pulse flex-shrink-0" />
+              <p className="text-sm font-medium text-[#E07A5F]">
+                Only {product.stock} left in stock — order soon!
+              </p>
+            </div>
+          )}
+          {product.stock === 0 && (
+            <p className="text-sm font-semibold text-red-400 mt-2 mb-2">Out of stock</p>
+          )}
 
           <div className="mb-5">
             {product.in_stock ? (
@@ -324,10 +386,53 @@ const ProductDetails = () => {
                 <span className="w-2 h-2 rounded-full bg-red-500" /> Out of Stock
               </span>
             )}
-            {product.in_stock && product.stock <= 5 && (
-              <p className="text-sm font-semibold text-amber-400 mt-2">Only {product.stock} left!</p>
-            )}
           </div>
+
+          {/* Size selector */}
+          {product.sizes?.length > 0 && (
+            <div className="mt-4 mb-4">
+              <p className="text-sm font-medium text-[#F4F4F2] mb-2">Size</p>
+              <div className="flex gap-2 flex-wrap">
+                {product.sizes.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-4 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                      selectedSize === size
+                        ? 'bg-[#F59E0B] border-[#F59E0B] text-[#020818]'
+                        : 'border-white/20 text-[#F4F4F2] hover:border-[#F59E0B]/50'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Color picker */}
+          {product.colors?.length > 0 && (
+            <div className="mt-4 mb-4">
+              <p className="text-sm font-medium text-[#F4F4F2] mb-2">
+                Color {selectedColor && <span className="text-[#94A3B8] font-normal">— {selectedColor.name}</span>}
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {product.colors.map(color => (
+                  <button
+                    key={color.name}
+                    onClick={() => setSelectedColor(color)}
+                    title={color.name}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${
+                      selectedColor?.name === color.name
+                        ? 'border-[#F59E0B] scale-110'
+                        : 'border-transparent hover:border-white/40'
+                    }`}
+                    style={{ background: color.hex }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {product.description && (
             <div className="mb-6">
@@ -359,8 +464,8 @@ const ProductDetails = () => {
             </div>
           )}
 
-          {/* Desktop action buttons */}
-          <div className="hidden md:flex gap-3 w-full">
+          {/* Desktop action buttons — observed for sticky bar trigger */}
+          <div ref={mainBtnRef} className="hidden md:flex gap-3 w-full">
             <button
               onClick={handleAddToCart}
               disabled={adding || !product.in_stock}
@@ -386,7 +491,7 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          {/* Mobile: wishlist button only — Add to Cart + Buy Now are in the sticky bar */}
+          {/* Mobile: wishlist button only */}
           <div className="md:hidden">
             <button onClick={handleWishlistToggle} disabled={wishing} className="btn-secondary w-full !py-3 min-h-[44px]">
               <svg className="w-5 h-5" fill={isWishlisted ? '#E07A5F' : 'none'} stroke={isWishlisted ? '#E07A5F' : 'currentColor'} viewBox="0 0 24 24">
@@ -561,30 +666,26 @@ const ProductDetails = () => {
         </div>
       )}
 
-      {/* Mobile sticky Add to Cart / Buy Now bar — sits above the bottom nav (h-14 = 56px) */}
-      <div className="md:hidden fixed bottom-14 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
-        {product.in_stock ? (
-          <div className="flex gap-3">
+      {/* Scroll-triggered sticky Add to Cart bar */}
+      {showStickyBar && product?.stock > 0 && (
+        <div
+          className="fixed bottom-0 left-0 right-0 z-50 bg-[#060D22]/95 backdrop-blur-sm border-t border-white/10 px-4 pt-3"
+          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 64px)' }}
+        >
+          <div className="flex items-center gap-3 max-w-lg mx-auto">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-[#94A3B8] truncate">{product.name}</p>
+              <p className="text-sm font-bold text-[#FCD34D]">₹{(product.discount_price || product.price).toLocaleString('en-IN')}</p>
+            </div>
             <button
               onClick={handleAddToCart}
-              disabled={adding}
-              className="btn-primary flex-1 min-h-[52px] text-base font-semibold"
+              className="px-5 py-2.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-sm transition-colors flex-shrink-0"
             >
-              {adding ? 'Adding...' : 'Add to Cart'}
-            </button>
-            <button
-              onClick={handleBuyNow}
-              className="flex-1 min-h-[52px] text-base py-3 px-6 rounded-xl font-semibold bg-[#E07A5F] hover:bg-[#C4603F] text-white transition-colors"
-            >
-              Buy Now
+              Add to Cart
             </button>
           </div>
-        ) : (
-          <button disabled className="btn w-full min-h-[52px] text-base bg-surface-raised text-silver-dim cursor-not-allowed border border-surface-border">
-            Out of Stock
-          </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {lightboxSrc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setLightboxSrc(null)}>

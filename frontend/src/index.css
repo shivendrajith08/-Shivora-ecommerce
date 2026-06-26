@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* react-medium-image-zoom theme overrides */
+[data-rmiz-modal-overlay="visible"] { background: rgba(2, 8, 24, 0.95); }
+[data-rmiz-modal-img] { border-radius: 12px; }
+
 /* ── Midnight Navy + Marigold + Terracotta design tokens ────────────────── */
 :root {
   --color-bg:             #020818;

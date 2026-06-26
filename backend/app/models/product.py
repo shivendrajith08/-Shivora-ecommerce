@@ -16,6 +16,8 @@ class Product(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id", ondelete="SET NULL"))
     image_url = db.Column(db.String(255))
     is_active = db.Column(db.Boolean, nullable=False, default=True)
+    sizes = db.Column(db.JSON, nullable=True)
+    colors = db.Column(db.JSON, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -34,5 +36,7 @@ class Product(db.Model):
             "image_url": self.image_url,
             "is_active": self.is_active,
             "in_stock": self.stock > 0,
+            "sizes": self.sizes or [],
+            "colors": self.colors or [],
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
