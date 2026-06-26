@@ -10,6 +10,7 @@ import { API_ORIGIN } from '../api/axiosInstance'
 import Loader from '../components/common/Loader'
 import ErrorAlert from '../components/common/ErrorAlert'
 import ProductCard from '../components/product/ProductCard'
+import { addToRecentlyViewed, getRecentlyViewed } from '../utils/recentlyViewed'
 
 const Stars = ({ rating, interactive = false, onSelect }) => (
   <div className="flex gap-0.5">
@@ -42,6 +43,8 @@ const ProductDetails = () => {
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [descExpanded, setDescExpanded] = useState(false)
 
+  const [recentlyViewed, setRecentlyViewed] = useState([])
+
   const [reviews, setReviews] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
   const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' })
@@ -65,6 +68,20 @@ const ProductDetails = () => {
       .catch(() => { if (active) setRelated([]) })
     return () => { active = false }
   }, [product?.id, product?.category_id])
+
+  useEffect(() => {
+    if (product) {
+      addToRecentlyViewed({
+        id: product.id,
+        name: product.name,
+        image_url: product.image_url || product.image,
+        price: product.price,
+        discount_price: product.discount_price,
+      })
+      const recent = getRecentlyViewed().filter(p => p.id !== product.id)
+      setRecentlyViewed(recent)
+    }
+  }, [product])
 
   useEffect(() => {
     if (!lightboxSrc) return
@@ -100,12 +117,6 @@ const ProductDetails = () => {
       const prod = res.data.product
       setProduct(prod)
       setQuantity(1)
-      try {
-        const stored = JSON.parse(localStorage.getItem('shivora_recently_viewed') || '[]')
-        const entry = { id: prod.id, name: prod.name, image_url: prod.image_url, price: prod.price, discount_price: prod.discount_price, category_name: prod.category_name }
-        const updated = [entry, ...stored.filter(p => p.id !== prod.id)].slice(0, 5)
-        localStorage.setItem('shivora_recently_viewed', JSON.stringify(updated))
-      } catch {}
     } catch (err) {
       setError(err.response?.status === 404 ? 'Product not found.' : 'Could not load product details.')
     } finally {
@@ -502,6 +513,49 @@ const ProductDetails = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recently Viewed */}
+      {recentlyViewed.length > 0 && (
+        <div className="mt-8 px-4 pb-24">
+          <h2 className="text-lg font-bold text-[#F4F4F2] mb-4">Recently Viewed</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {recentlyViewed.map(item => (
+              <div
+                key={item.id}
+                onClick={() => { navigate(`/products/${item.id}`); window.scrollTo(0, 0); }}
+                className="bg-[#060D22] rounded-xl overflow-hidden cursor-pointer border border-white/5 hover:border-[#F59E0B]/30 active:opacity-80 transition-all touch-manipulation select-none"
+              >
+                <div className="relative">
+                  <img
+                    src={item.image_url}
+                    alt={item.name}
+                    className="w-full h-40 object-cover"
+                    loading="lazy"
+                  />
+                  {item.discount_price && (
+                    <span className="absolute top-2 left-2 text-[10px] font-bold bg-[#E07A5F] text-white px-1.5 py-0.5 rounded">
+                      {Math.round((1 - item.discount_price / item.price) * 100)}% OFF
+                    </span>
+                  )}
+                </div>
+                <div className="p-2.5">
+                  <p className="text-xs text-[#F4F4F2] font-medium leading-snug line-clamp-2">{item.name}</p>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="text-sm font-bold text-[#FCD34D]">
+                      ₹{(item.discount_price || item.price).toLocaleString('en-IN')}
+                    </span>
+                    {item.discount_price && (
+                      <span className="text-xs text-[#94A3B8] line-through">
+                        ₹{item.price.toLocaleString('en-IN')}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

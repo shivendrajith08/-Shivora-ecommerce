@@ -9,6 +9,7 @@ import PromoCarousel from '../components/common/PromoCarousel'
 import CategorySection from '../components/common/CategorySection'
 import Loader from '../components/common/Loader'
 import ErrorAlert from '../components/common/ErrorAlert'
+import { getRecentlyViewed } from '../utils/recentlyViewed'
 
 const SORT_OPTIONS = [
   { value: 'newest', label: 'Newest First' },
@@ -149,10 +150,7 @@ const Home = () => {
 
   // Load recently viewed from localStorage
   useEffect(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem('shivora_recently_viewed') || '[]')
-      setRecentlyViewed(stored)
-    } catch {}
+    setRecentlyViewed(getRecentlyViewed())
   }, [])
 
   useEffect(() => {
