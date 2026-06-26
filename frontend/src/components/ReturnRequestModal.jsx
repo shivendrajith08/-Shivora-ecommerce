@@ -68,10 +68,27 @@ const ReturnRequestModal = ({ order, onClose, onSubmitted }) => {
 
             <div>
               <label className="label-text">Reason*</label>
-              <select value={reason} onChange={(e) => { setReason(e.target.value); if (error) setError('') }} className="input-field">
-                <option value="">Select a reason</option>
-                {REASONS.map((r) => <option key={r} value={r}>{r}</option>)}
-              </select>
+              <div className="space-y-2 mt-1">
+                {REASONS.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => { setReason(r); if (error) setError('') }}
+                    className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all ${
+                      reason === r
+                        ? 'bg-[#F59E0B]/10 border-[#F59E0B]/40 text-[#F59E0B]'
+                        : 'bg-[#0A1535] border-white/5 text-[#F4F4F2] hover:border-white/20'
+                    }`}
+                  >
+                    <span className="text-sm font-medium">{r}</span>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                      reason === r ? 'border-[#F59E0B]' : 'border-white/20'
+                    }`}>
+                      {reason === r && <div className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div>
