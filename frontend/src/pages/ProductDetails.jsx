@@ -349,11 +349,11 @@ const ProductDetails = () => {
           )}
 
           {/* Desktop action buttons */}
-          <div className="hidden md:flex flex-wrap gap-3">
+          <div className="hidden md:flex gap-3 w-full">
             <button
               onClick={handleAddToCart}
               disabled={adding || !product.in_stock}
-              className="btn-primary !px-8 !py-3 flex-1"
+              className="flex-1 py-3 px-6 rounded-xl font-semibold text-base bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {adding ? 'Adding...' : product.in_stock ? 'Add to Cart' : 'Out of Stock'}
             </button>
@@ -361,11 +361,8 @@ const ProductDetails = () => {
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="flex items-center gap-2 justify-center py-3 px-6 rounded-xl font-semibold text-base border-2 border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B] hover:text-[#020818] transition-colors"
+                className="flex-1 py-3 px-6 rounded-xl font-semibold text-base bg-[#E07A5F] hover:bg-[#C4603F] text-white transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
                 Buy Now
               </button>
             )}
@@ -523,7 +520,7 @@ const ProductDetails = () => {
             </button>
             <button
               onClick={handleBuyNow}
-              className="flex-1 min-h-[52px] text-base py-3 px-6 rounded-xl font-semibold border-2 border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B] hover:text-[#020818] transition-colors"
+              className="flex-1 min-h-[52px] text-base py-3 px-6 rounded-xl font-semibold bg-[#E07A5F] hover:bg-[#C4603F] text-white transition-colors"
             >
               Buy Now
             </button>
