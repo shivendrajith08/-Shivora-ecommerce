@@ -175,6 +175,8 @@ const Checkout = () => {
     setCouponError('')
   }
 
+  const handlePlaceOrder = () => handleSubmit({ preventDefault: () => {} })
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -246,7 +248,7 @@ const Checkout = () => {
   const finalTotal = discountedSubtotal + shippingFee
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 lg:pb-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-40 lg:pb-8">
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold text-parchment">Checkout</h1>
         {buyNow && (
@@ -499,15 +501,19 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#020818] border-t border-white/10 md:hidden z-20">
-        <button
-          type="submit"
-          form="checkout-form"
-          disabled={submitting}
-          className="w-full py-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-base transition-colors disabled:opacity-50"
-        >
-          {submitting ? 'Placing order...' : `Place Order — ₹${finalTotal.toLocaleString('en-IN')}`}
-        </button>
+      <div
+        className="fixed bottom-0 left-0 right-0 bg-[#020818] border-t border-white/10 md:hidden z-20"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 64px)' }}
+      >
+        <div className="px-4 pt-3 pb-2">
+          <button
+            onClick={handlePlaceOrder}
+            disabled={submitting}
+            className="w-full py-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-base transition-colors disabled:opacity-50"
+          >
+            {submitting ? 'Placing order...' : `Place Order — ₹${finalTotal.toLocaleString('en-IN')}`}
+          </button>
+        </div>
       </div>
     </div>
   )
