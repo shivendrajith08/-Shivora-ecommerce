@@ -622,7 +622,7 @@ const Profile = () => {
                   {orderList.map((order) => {
                     const cfg = ORDER_STATUS[order.status] ?? ORDER_STATUS.pending
                     return (
-                      <div key={order.id} className="card overflow-hidden !border-[rgba(245,158,11,0.12)]" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                      <div key={order.id} onClick={() => navigate(`/orders/${order.id}`)} className="card overflow-hidden !border-[rgba(245,158,11,0.12)] cursor-pointer hover:bg-white/5 active:opacity-80 transition-all select-none touch-manipulation" style={{ background: 'rgba(255,255,255,0.02)' }}>
                         <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-surface-border">
                           <div className="flex flex-wrap items-center gap-3">
                             <div>
@@ -634,11 +634,16 @@ const Profile = () => {
                               <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />{cfg.label}
                             </span>
                           </div>
-                          <div className="text-right">
-                            <p className="text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
-                            {order.discount_amount > 0 && (
-                              <p className="text-[11px] font-semibold text-[#F59E0B] mt-0.5">Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}</p>
-                            )}
+                          <div className="flex items-center gap-3">
+                            <div className="text-right">
+                              <p className="text-base font-bold text-parchment">₹{order.total_amount.toLocaleString('en-IN')}</p>
+                              {order.discount_amount > 0 && (
+                                <p className="text-[11px] font-semibold text-[#F59E0B] mt-0.5">Saved ₹{order.discount_amount.toLocaleString('en-IN')}{order.applied_coupon_code ? ` (${order.applied_coupon_code})` : ''}</p>
+                              )}
+                            </div>
+                            <svg className="w-4 h-4 text-[#94A3B8] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
                           </div>
                         </div>
 
