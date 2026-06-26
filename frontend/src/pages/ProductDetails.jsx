@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import Zoom from 'react-medium-image-zoom'
@@ -46,9 +46,6 @@ const ProductDetails = () => {
   const [descExpanded, setDescExpanded] = useState(false)
   const [selectedSize, setSelectedSize] = useState(null)
   const [selectedColor, setSelectedColor] = useState(null)
-  const [showStickyBar, setShowStickyBar] = useState(false)
-  const mainBtnRef = useRef(null)
-
   const [recentlyViewed, setRecentlyViewed] = useState([])
 
   const [reviews, setReviews] = useState([])
@@ -96,15 +93,6 @@ const ProductDetails = () => {
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
   }, [lightboxSrc])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowStickyBar(!entry.isIntersecting),
-      { threshold: 0 }
-    )
-    if (mainBtnRef.current) observer.observe(mainBtnRef.current)
-    return () => observer.disconnect()
-  }, [product])
 
   const clearImage = () => {
     if (imagePreview) URL.revokeObjectURL(imagePreview)
@@ -464,40 +452,32 @@ const ProductDetails = () => {
             </div>
           )}
 
-          {/* Desktop action buttons — observed for sticky bar trigger */}
-          <div ref={mainBtnRef} className="hidden md:flex gap-3 w-full">
+          {/* Action buttons — visible on all screen sizes */}
+          <div className="flex gap-3 mt-4">
             <button
               onClick={handleAddToCart}
               disabled={adding || !product.in_stock}
-              className="flex-1 py-3 px-6 rounded-xl font-semibold text-base bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {adding ? 'Adding...' : product.in_stock ? 'Add to Cart' : 'Out of Stock'}
             </button>
-
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="flex-1 py-3 px-6 rounded-xl font-semibold text-base bg-[#E07A5F] hover:bg-[#C4603F] text-white transition-colors"
+                className="flex-1 py-3 rounded-xl bg-[#E07A5F] hover:bg-[#C4603F] text-white font-bold text-sm transition-colors"
               >
                 Buy Now
               </button>
             )}
+          </div>
 
+          {/* Wishlist button — desktop only (mobile uses image overlay) */}
+          <div className="hidden md:flex mt-3">
             <button onClick={handleWishlistToggle} disabled={wishing} className="btn-secondary !px-6 !py-3">
               <svg className="w-5 h-5" fill={isWishlisted ? '#E07A5F' : 'none'} stroke={isWishlisted ? '#E07A5F' : 'currentColor'} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
               {isWishlisted ? 'Wishlisted' : 'Wishlist'}
-            </button>
-          </div>
-
-          {/* Mobile: wishlist button only */}
-          <div className="md:hidden">
-            <button onClick={handleWishlistToggle} disabled={wishing} className="btn-secondary w-full !py-3 min-h-[44px]">
-              <svg className="w-5 h-5" fill={isWishlisted ? '#E07A5F' : 'none'} stroke={isWishlisted ? '#E07A5F' : 'currentColor'} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-              </svg>
-              {isWishlisted ? 'Wishlisted' : 'Save to Wishlist'}
             </button>
           </div>
 
@@ -662,27 +642,6 @@ const ProductDetails = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* Scroll-triggered sticky Add to Cart bar */}
-      {showStickyBar && product?.stock > 0 && (
-        <div
-          className="fixed bottom-0 left-0 right-0 z-50 bg-[#060D22]/95 backdrop-blur-sm border-t border-white/10 px-4 pt-3"
-          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 64px)' }}
-        >
-          <div className="flex items-center gap-3 max-w-lg mx-auto">
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-[#94A3B8] truncate">{product.name}</p>
-              <p className="text-sm font-bold text-[#FCD34D]">₹{(product.discount_price || product.price).toLocaleString('en-IN')}</p>
-            </div>
-            <button
-              onClick={handleAddToCart}
-              className="px-5 py-2.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-sm transition-colors flex-shrink-0"
-            >
-              Add to Cart
-            </button>
           </div>
         </div>
       )}
