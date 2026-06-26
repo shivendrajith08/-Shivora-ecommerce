@@ -69,13 +69,14 @@ const OrderHistory = () => {
             <div
               key={order.id}
               onClick={() => navigate(`/orders/${order.id}`)}
-              className="card cursor-pointer hover:bg-white/5 active:opacity-80 transition-colors transition-opacity rounded-xl overflow-hidden"
+              onTouchEnd={(e) => { e.preventDefault(); navigate(`/orders/${order.id}`); }}
+              className="card cursor-pointer hover:bg-white/5 active:opacity-80 transition-colors transition-opacity rounded-xl overflow-hidden select-none touch-manipulation"
             >
               <div className="flex items-center justify-between gap-3 px-4 py-4">
                 <div className="flex flex-col gap-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">
-                      Order #{orders.length - index}
+                      Order #{order.id}
                     </p>
                     <StatusBadge status={order.status} />
                   </div>
