@@ -9,6 +9,8 @@ from app.models.user import User
 from app.models.coupon import Coupon
 from app.utils.decorators import admin_required
 from app.utils.validators import validate_checkout_data
+from app.utils.notifications import create_order_notification
+from app.utils.email_notifications import send_order_status_email
 
 order_bp = Blueprint("orders", __name__)
 
@@ -103,6 +105,7 @@ def checkout():
     Cart.query.filter_by(user_id=user_id).delete()
 
     db.session.commit()
+    create_order_notification(user_id, order.id, 'pending')
 
     return jsonify({"message": "Order placed successfully", "order": order.to_dict()}), 201
 
@@ -193,6 +196,8 @@ def buy_now():
         applied_coupon.used_count += 1
 
     db.session.commit()
+    create_order_notification(user_id, order.id, 'pending')
+
     return jsonify({"message": "Order placed successfully", "order": order.to_dict()}), 201
 
 
@@ -287,4 +292,15 @@ def admin_update_order_status(order_id):
 
     order.status = new_status
     db.session.commit()
+
+    try:
+        create_order_notification(order.user_id, order.id, new_status)
+    except Exception as e:
+        print(f"Notification error: {e}")
+
+    try:
+        send_order_status_email(order.user.email, order.shipping_name, order.id, new_status)
+    except Exception as e:
+        print(f"Email error: {e}")
+
     return jsonify({"message": "Order status updated", "order": order.to_dict()}), 200
