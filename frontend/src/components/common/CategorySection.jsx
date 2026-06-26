@@ -22,14 +22,14 @@ const CategorySection = ({ categories = [], showViewAll = true }) => {
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-base font-extrabold text-parchment uppercase tracking-wide">Shop by Category</h2>
         {showViewAll && (
-          <Link to="/" className="text-xs font-semibold text-[#F59E0B] hover:underline">View all</Link>
+          <Link to="/products" className="text-xs font-semibold text-[#F59E0B] hover:underline">View all</Link>
         )}
       </div>
       <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
         {categories.map((cat) => (
           <Link
             key={cat.id}
-            to={`/?category=${cat.slug}`}
+            to={`/products?category=${cat.slug}`}
             className="bg-surface-raised rounded-xl border border-[rgba(245,158,11,0.18)] p-3 flex flex-col items-center text-center gap-2 hover:border-[#F59E0B]/40 hover:-translate-y-0.5 transition group"
           >
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#F59E0B]/10 text-[#F59E0B] group-hover:bg-[#F59E0B]/20 flex items-center justify-center transition-colors">

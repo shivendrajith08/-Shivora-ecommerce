@@ -85,7 +85,7 @@ const CategoryBar = () => {
           return (
             <Link
               key={cat.id}
-              to={`/?category=${cat.slug}`}
+              to={`/products?category=${cat.slug}`}
               className={`flex flex-col items-center gap-0.5 px-3 py-2 flex-shrink-0 transition-colors group ${
                 isActive ? 'text-[#F59E0B]' : 'text-silver-muted hover:text-[#F59E0B]'
               }`}

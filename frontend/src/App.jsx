@@ -23,6 +23,7 @@ const ForgotPassword   = lazy(() => import('./pages/ForgotPassword'))
 const Profile          = lazy(() => import('./pages/Profile'))
 const OrderHistory     = lazy(() => import('./pages/OrderHistory'))
 const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'))
+const OrderDetail      = lazy(() => import('./pages/OrderDetail'))
 const AddressBook      = lazy(() => import('./pages/AddressBook'))
 const NotFound         = lazy(() => import('./pages/NotFound'))
 
@@ -97,6 +98,7 @@ function App() {
         <Route path="/checkout" element={<StorefrontLayout><PrivateRoute><Checkout /></PrivateRoute></StorefrontLayout>} />
         <Route path="/profile" element={<StorefrontLayout><PrivateRoute><Profile /></PrivateRoute></StorefrontLayout>} />
         <Route path="/orders" element={<StorefrontLayout><PrivateRoute><OrderHistory /></PrivateRoute></StorefrontLayout>} />
+        <Route path="/orders/:orderId" element={<StorefrontLayout><PrivateRoute><OrderDetail /></PrivateRoute></StorefrontLayout>} />
         <Route path="/order-confirmation/:orderId" element={<StorefrontLayout><PrivateRoute><OrderConfirmation /></PrivateRoute></StorefrontLayout>} />
         <Route path="/profile/addresses" element={<StorefrontLayout><PrivateRoute><AddressBook /></PrivateRoute></StorefrontLayout>} />
         <Route path="*" element={<StorefrontLayout><NotFound /></StorefrontLayout>} />
