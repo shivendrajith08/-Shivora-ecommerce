@@ -19,8 +19,8 @@ const Stars = ({ rating, interactive = false, onSelect }) => (
         onClick={() => interactive && onSelect?.(s)}
         className={[
           'text-xl leading-none',
-          s <= rating ? 'text-amber-400' : 'text-silver-dim',
-          interactive ? 'cursor-pointer hover:text-amber-400 transition-colors' : '',
+          s <= rating ? 'text-[#FCD34D]' : 'text-silver-dim',
+          interactive ? 'cursor-pointer hover:text-[#FCD34D] transition-colors' : '',
         ].join(' ')}
       >★</span>
     ))}
@@ -140,7 +140,7 @@ const ProductDetails = () => {
     return (
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-16">
         <ErrorAlert message={error || 'Product not found.'} />
-        <Link to="/products" className="inline-block mt-6 text-[#C0C0C0] font-semibold hover:underline">
+        <Link to="/products" className="inline-block mt-6 text-[#F59E0B] font-semibold hover:underline">
           ← Back to products
         </Link>
       </div>
@@ -212,9 +212,9 @@ const ProductDetails = () => {
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 md:pb-8">
       <nav className="text-sm text-silver-dim mb-6">
-        <Link to="/" className="hover:text-[#C0C0C0] transition-colors">Home</Link>
+        <Link to="/" className="hover:text-[#F59E0B] transition-colors">Home</Link>
         <span className="mx-2">/</span>
-        <Link to="/products" className="hover:text-[#C0C0C0] transition-colors">Products</Link>
+        <Link to="/products" className="hover:text-[#F59E0B] transition-colors">Products</Link>
         {product.category_name && (
           <>
             <span className="mx-2">/</span>
@@ -247,7 +247,7 @@ const ProductDetails = () => {
         {/* Details column */}
         <div>
           {product.category_name && (
-            <span className="text-xs font-semibold text-[#C0C0C0] uppercase tracking-wide">{product.category_name}</span>
+            <span className="text-xs font-semibold text-[#F59E0B] uppercase tracking-wide">{product.category_name}</span>
           )}
           <h1 className="text-xl md:text-3xl font-bold text-parchment mt-1 mb-1.5 leading-tight">{product.name}</h1>
 
@@ -255,7 +255,7 @@ const ProductDetails = () => {
             <div className="flex items-center gap-2 mb-3">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((s) => (
-                  <span key={s} className={`text-lg leading-none ${s <= Math.round(product.avg_rating) ? 'text-amber-400' : 'text-silver-dim'}`}>★</span>
+                  <span key={s} className={`text-lg leading-none ${s <= Math.round(product.avg_rating) ? 'text-[#FCD34D]' : 'text-silver-dim'}`}>★</span>
                 ))}
               </div>
               <span className="text-sm text-silver-dim">
@@ -265,11 +265,11 @@ const ProductDetails = () => {
           ) : <div className="mb-3" />}
 
           <div className="flex items-center gap-3 mb-1">
-            <span className="text-2xl md:text-3xl font-bold text-parchment">₹{effectivePrice.toLocaleString('en-IN')}</span>
+            <span className="text-2xl md:text-3xl font-bold text-[#FCD34D]">₹{effectivePrice.toLocaleString('en-IN')}</span>
             {hasDiscount && (
               <>
-                <span className="text-base md:text-lg text-silver-dim line-through">₹{product.price.toLocaleString('en-IN')}</span>
-                <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">-{discountPercent}%</span>
+                <span className="text-base md:text-lg text-silver-muted line-through">₹{product.price.toLocaleString('en-IN')}</span>
+                <span className="bg-[rgba(224,122,95,0.12)] text-[#E07A5F] text-xs font-bold px-2 py-1 rounded">-{discountPercent}%</span>
               </>
             )}
           </div>
@@ -277,8 +277,8 @@ const ProductDetails = () => {
 
           <div className="mb-5">
             {product.in_stock ? (
-              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#C0C0C0] bg-[#C0C0C0]/10 px-3 py-1 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-[#C0C0C0]" /> In Stock ({product.stock} available)
+              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#F59E0B] bg-[#F59E0B]/10 px-3 py-1 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-[#F59E0B]" /> In Stock ({product.stock} available)
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5 text-sm font-medium text-red-400 bg-red-900/20 px-3 py-1 rounded-full">
@@ -299,7 +299,7 @@ const ProductDetails = () => {
               {isLongDesc && (
                 <button
                   onClick={() => setDescExpanded(v => !v)}
-                  className="text-[#C0C0C0] text-sm font-medium mt-1.5 hover:underline"
+                  className="text-[#F59E0B] text-sm font-medium mt-1.5 hover:underline"
                 >
                   {descExpanded ? 'Show less ↑' : 'Read more ↓'}
                 </button>
@@ -333,7 +333,7 @@ const ProductDetails = () => {
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="btn !px-8 !py-3 border border-[#C0C0C0] text-[#C0C0C0] font-semibold hover:bg-[#C0C0C0] hover:text-[#0d0000] active:bg-[#C0C0C0]-dark transition-colors"
+                className="btn !px-8 !py-3 border border-[#F59E0B]/30 text-[#F59E0B] font-semibold hover:bg-[rgba(245,158,11,0.12)] transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -411,7 +411,7 @@ const ProductDetails = () => {
             <h3 className="text-lg font-semibold text-parchment mb-4">Write a Review</h3>
 
             {submitSuccess ? (
-              <p className="text-[#C0C0C0] font-medium">Thanks for your review!</p>
+              <p className="text-[#F59E0B] font-medium">Thanks for your review!</p>
             ) : (
               <form onSubmit={handleSubmitReview} noValidate>
                 {submitError && <p className="text-red-400 text-sm mb-4">{submitError}</p>}
@@ -451,7 +451,7 @@ const ProductDetails = () => {
                       >×</button>
                     </div>
                   ) : (
-                    <label className="inline-flex items-center gap-1.5 cursor-pointer border border-dashed border-surface-border rounded-lg px-3 py-2 text-xs text-silver-dim hover:border-[#C0C0C0] hover:text-[#C0C0C0] transition-colors">
+                    <label className="inline-flex items-center gap-1.5 cursor-pointer border border-dashed border-surface-border rounded-lg px-3 py-2 text-xs text-silver-dim hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                       </svg>
@@ -473,7 +473,7 @@ const ProductDetails = () => {
       {/* You may also like */}
       {related.length > 0 && (
         <div className="mt-10 md:mt-14">
-          <h2 className="text-xl md:text-2xl font-bold text-[#C0C0C0] mb-6">You may also like</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-[#F59E0B] mb-6">You may also like</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
@@ -495,7 +495,7 @@ const ProductDetails = () => {
             </button>
             <button
               onClick={handleBuyNow}
-              className="btn flex-1 min-h-[52px] text-base border border-[#C0C0C0] text-[#C0C0C0] font-semibold hover:bg-[#C0C0C0] hover:text-[#0d0000] transition-colors"
+              className="btn flex-1 min-h-[52px] text-base border border-[#F59E0B]/30 text-[#F59E0B] font-semibold hover:bg-[rgba(245,158,11,0.12)] transition-colors"
             >
               Buy Now
             </button>

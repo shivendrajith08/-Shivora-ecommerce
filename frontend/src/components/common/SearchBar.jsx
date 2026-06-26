@@ -114,12 +114,12 @@ const SearchBar = ({ className = '', onNavigate }) => {
             placeholder={SEARCH_PLACEHOLDERS[placeholderIndex]}
             autoComplete="off"
             spellCheck="false"
-            className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-surface-border bg-base text-parchment placeholder:text-silver-dim text-sm focus:outline-none focus:border-[#C0C0C0] focus:ring-2 focus:ring-[#C0C0C0]/20 transition"
+            className="w-full pl-4 pr-10 py-2.5 rounded-lg border border-surface-border bg-base text-parchment placeholder:text-silver-dim text-sm focus:outline-none focus:border-[#F59E0B] focus:ring-2 focus:ring-[#F59E0B]/20 transition"
           />
           <button
             type="submit"
             aria-label="Search"
-            className="absolute right-0 top-0 h-full px-3 text-silver-dim hover:text-[#C0C0C0] transition-colors"
+            className="absolute right-0 top-0 h-full px-3 text-silver-dim hover:text-[#F59E0B] transition-colors"
           >
             {loading ? (
               <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -136,7 +136,7 @@ const SearchBar = ({ className = '', onNavigate }) => {
       </form>
 
       {showDropdown && (
-        <div className="absolute top-[calc(100%+6px)] left-0 right-0 rounded-xl border border-[#C0C0C0]/20 bg-[#1a0000] shadow-xl z-50 overflow-hidden">
+        <div className="absolute top-[calc(100%+6px)] left-0 right-0 rounded-xl border border-[#F59E0B]/20 bg-[#060D22] shadow-xl z-50 overflow-hidden">
           {suggestions.length === 0 ? (
             <p className="px-4 py-5 text-sm text-center text-silver-dim">
               No results for &ldquo;<span className="text-silver-muted">{query}</span>&rdquo;
@@ -157,8 +157,8 @@ const SearchBar = ({ className = '', onNavigate }) => {
                       onPointerDown={(e) => { e.preventDefault(); goTo(`/products/${product.id}`) }}
                       className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-l-2 ${
                         isActive
-                          ? 'bg-[#C0C0C0]/10 border-[#C0C0C0]'
-                          : 'border-transparent hover:bg-[#C0C0C0]/5 hover:border-[#C0C0C0]/30'
+                          ? 'bg-[#F59E0B]/10 border-[#F59E0B]'
+                          : 'border-transparent hover:bg-[#F59E0B]/5 hover:border-[#F59E0B]/30'
                       }`}
                     >
                       <div className="w-10 h-10 rounded-lg bg-surface border border-surface-border overflow-hidden flex-shrink-0 flex items-center justify-center">
@@ -190,7 +190,7 @@ const SearchBar = ({ className = '', onNavigate }) => {
                 <button
                   type="button"
                   onPointerDown={(e) => { e.preventDefault(); goTo(`/products?search=${encodeURIComponent(query.trim())}`) }}
-                  className="text-xs text-[#C0C0C0] hover:underline transition-colors"
+                  className="text-xs text-[#F59E0B] hover:underline transition-colors"
                 >
                   See all results for &ldquo;<span className="font-semibold">{query}</span>&rdquo; →
                 </button>

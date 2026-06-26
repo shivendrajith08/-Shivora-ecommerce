@@ -71,7 +71,7 @@ const Wishlist = () => {
               ? (product.image_url.startsWith('http') ? product.image_url : `${API_ORIGIN}${product.image_url}`)
               : null
             return (
-              <div key={item.id} className="card overflow-hidden flex flex-col hover:border-[#C0C0C0]/40 transition-colors">
+              <div key={item.id} className="card overflow-hidden flex flex-col hover:border-[#F59E0B]/40 transition-colors">
                 <Link to={`/products/${product.id}`} className="aspect-[4/5] sm:aspect-square bg-surface-raised block">
                   {imageSrc ? (
                     <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
@@ -84,7 +84,7 @@ const Wishlist = () => {
                   )}
                 </Link>
                 <div className="p-3.5 flex flex-col flex-1">
-                  <Link to={`/products/${product.id}`} className="text-sm font-semibold text-parchment line-clamp-2 mb-2 flex-1 hover:text-[#C0C0C0]">
+                  <Link to={`/products/${product.id}`} className="text-sm font-semibold text-parchment line-clamp-2 mb-2 flex-1 hover:text-[#F59E0B]">
                     {product.name}
                   </Link>
                   <span className="font-bold text-parchment mb-3">

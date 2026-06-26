@@ -42,7 +42,7 @@ const CartItem = ({ item }) => {
       </Link>
 
       <div className="flex-1 min-w-0">
-        <Link to={`/products/${product.id}`} className="text-sm font-semibold text-parchment hover:text-[#C0C0C0] line-clamp-1">
+        <Link to={`/products/${product.id}`} className="text-sm font-semibold text-parchment hover:text-[#F59E0B] line-clamp-1">
           {product.name}
         </Link>
         <p className="text-sm text-silver-dim mt-1">

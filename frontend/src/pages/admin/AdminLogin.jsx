@@ -47,7 +47,7 @@ const AdminLogin = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4" style={{ background: 'var(--gold-shine)' }}>
-            <svg className="w-7 h-7" style={{ color: '#0d0000' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-7 h-7" style={{ color: '#020818' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75M21 12c0 4.556-3.04 8.4-7.2 9.62a1.5 1.5 0 01-.6 0C9.04 20.4 6 16.556 6 12V5.25a.75.75 0 01.75-.75c1.96 0 3.81-.6 5.25-1.5 1.44.9 3.29 1.5 5.25 1.5a.75.75 0 01.75.75V12z" />
             </svg>
           </div>

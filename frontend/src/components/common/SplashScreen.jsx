@@ -1,8 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react'
 
-const G0 = '#E8E8E8'
-const G1 = '#C0C0C0'
-const G2 = '#A0A0A0'
+const G0 = '#FDE68A'
+const G1 = '#F59E0B'
+const G2 = '#D97706'
 const GOLD = `linear-gradient(to bottom, ${G0} 0%, ${G1} 50%, ${G2} 100%)`
 
 const VERTICES = [[0, -38], [22, -12], [13, 32], [-13, 32], [-22, -12]]

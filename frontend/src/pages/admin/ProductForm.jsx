@@ -195,7 +195,7 @@ const ProductForm = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" id="is_active" name="is_active" checked={form.is_active} onChange={handleChange} className="w-4 h-4" style={{ accentColor: '#C0C0C0' }} />
+          <input type="checkbox" id="is_active" name="is_active" checked={form.is_active} onChange={handleChange} className="w-4 h-4" style={{ accentColor: '#F59E0B' }} />
           <label htmlFor="is_active" className="text-sm font-medium text-silver-muted">Product is active and visible to customers</label>
         </div>
 

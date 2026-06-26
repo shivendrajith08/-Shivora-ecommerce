@@ -127,7 +127,7 @@ const ManageCategories = () => {
                     <td className="px-4 py-3 text-silver-muted">{cat.product_count}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-3">
-                        <button onClick={() => openEditForm(cat)} className="text-[#C0C0C0] hover:underline text-xs font-semibold">Edit</button>
+                        <button onClick={() => openEditForm(cat)} className="text-[#F59E0B] hover:underline text-xs font-semibold">Edit</button>
                         <button onClick={() => handleDelete(cat)} disabled={deletingId === cat.id} className="text-red-400 hover:underline text-xs font-semibold">
                           {deletingId === cat.id ? 'Deleting...' : 'Delete'}
                         </button>

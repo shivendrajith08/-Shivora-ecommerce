@@ -33,9 +33,9 @@ const AdminSidebar = ({ onNavigate }) => {
   }
 
   return (
-    <div className="flex flex-col h-full w-64" style={{ background: '#110000' }}>
+    <div className="flex flex-col h-full w-64" style={{ background: '#060D22' }}>
       <div className="flex items-center gap-2 px-5 h-16 border-b border-surface-border">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[#0d0000]" style={{ background: 'var(--gold-shine)' }}>
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[#020818]" style={{ background: 'var(--gold-shine)' }}>
           S
         </div>
         <span className="text-parchment font-bold text-lg">Admin Panel</span>
@@ -50,7 +50,7 @@ const AdminSidebar = ({ onNavigate }) => {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                 isActive
-                  ? 'text-[#0d0000] font-semibold'
+                  ? 'text-[#020818] font-semibold'
                   : 'text-silver-muted hover:bg-surface-raised hover:text-parchment'
               }`
             }
@@ -61,7 +61,7 @@ const AdminSidebar = ({ onNavigate }) => {
             </svg>
             {item.label}
             {item.to === '/admin/returns' && pendingReturns > 0 && (
-              <span className="ml-auto bg-amber-500 text-[#0d0000] text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+              <span className="ml-auto bg-amber-500 text-[#020818] text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
                 {pendingReturns}
               </span>
             )}

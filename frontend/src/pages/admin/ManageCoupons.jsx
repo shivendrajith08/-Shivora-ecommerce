@@ -161,7 +161,7 @@ const ManageCoupons = () => {
               <tbody>
                 {coupons.map((c) => (
                   <tr key={c.id} className="border-t border-surface-border hover:bg-surface-raised/50 transition-colors">
-                    <td className="px-4 py-3 font-bold text-[#C0C0C0]">{c.code}</td>
+                    <td className="px-4 py-3 font-bold text-[#F59E0B]">{c.code}</td>
                     <td className="px-4 py-3 text-parchment">{c.discount_percent}%</td>
                     <td className="px-4 py-3 text-silver-muted">{c.min_order_amount > 0 ? `₹${c.min_order_amount.toLocaleString('en-IN')}` : '—'}</td>
                     <td className="px-4 py-3 text-silver-muted">{c.used_count}{c.max_uses != null ? ` / ${c.max_uses}` : ''}</td>
@@ -170,7 +170,7 @@ const ManageCoupons = () => {
                         onClick={() => handleToggle(c)}
                         disabled={togglingId === c.id}
                         className={`text-xs font-bold px-2.5 py-1 rounded-full transition ${
-                          c.active ? 'bg-[#C0C0C0]/10 text-[#C0C0C0] border border-[#C0C0C0]/30' : 'bg-surface-raised text-silver-dim border border-surface-border'
+                          c.active ? 'bg-[#F59E0B]/10 text-[#F59E0B] border border-[#F59E0B]/30' : 'bg-surface-raised text-silver-dim border border-surface-border'
                         }`}
                         title="Toggle active"
                       >

@@ -7,16 +7,16 @@ import Loader from '../../components/common/Loader'
 import ErrorAlert from '../../components/common/ErrorAlert'
 
 const STATUS_STYLES = {
-  pending:    'bg-amber-900/30 text-amber-300',
-  processing: 'bg-blue-900/30 text-blue-300',
+  pending:    'bg-[rgba(224,122,95,0.12)] text-[#E07A5F]',
+  processing: 'bg-[rgba(245,158,11,0.12)] text-[#F59E0B]',
   shipped:    'bg-purple-900/30 text-purple-300',
-  delivered:  'bg-[#C0C0C0]/10 text-[#C0C0C0]',
+  delivered:  'bg-green-900/30 text-green-400',
   cancelled:  'bg-red-900/30 text-red-400',
 }
 
 const CHART_TOOLTIP_STYLE = {
-  contentStyle: { backgroundColor: '#2a0000', border: '1px solid #3a1010', borderRadius: 8, color: '#F5F3EE', fontSize: 12 },
-  labelStyle: { color: '#A8AAAD' },
+  contentStyle: { backgroundColor: '#060D22', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 8, color: '#F4F4F2', fontSize: 12 },
+  labelStyle: { color: '#94A3B8' },
 }
 
 const Dashboard = () => {
@@ -75,11 +75,11 @@ const Dashboard = () => {
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#3a1010" />
-                <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
-                <YAxis tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(245,158,11,0.1)" />
+                <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="rgba(245,158,11,0.1)" />
+                <YAxis tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="rgba(245,158,11,0.1)" />
                 <Tooltip formatter={(value) => [`₹${value.toLocaleString('en-IN')}`, 'Revenue']} {...CHART_TOOLTIP_STYLE} />
-                <Line type="monotone" dataKey="revenue" stroke="#C0C0C0" strokeWidth={2.5} dot={{ r: 4, fill: '#C0C0C0' }} />
+                <Line type="monotone" dataKey="revenue" stroke="#F59E0B" strokeWidth={2.5} dot={{ r: 4, fill: '#F59E0B' }} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -92,11 +92,11 @@ const Dashboard = () => {
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={stats.top_products} layout="vertical" margin={{ left: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#3a1010" />
-                <XAxis type="number" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="#3a1010" />
-                <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 11, fill: '#8A8C8F' }} stroke="#3a1010" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(245,158,11,0.1)" />
+                <XAxis type="number" tick={{ fontSize: 12, fill: '#8A8C8F' }} stroke="rgba(245,158,11,0.1)" />
+                <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 11, fill: '#8A8C8F' }} stroke="rgba(245,158,11,0.1)" />
                 <Tooltip formatter={(value) => [value, 'Units Sold']} {...CHART_TOOLTIP_STYLE} />
-                <Bar dataKey="total_sold" fill="#C0C0C0" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="total_sold" fill="#F59E0B" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -106,7 +106,7 @@ const Dashboard = () => {
       <div className="card p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold text-parchment">Recent Orders</h3>
-          <Link to="/admin/orders" className="text-sm font-semibold text-[#C0C0C0] hover:underline">View all →</Link>
+          <Link to="/admin/orders" className="text-sm font-semibold text-[#F59E0B] hover:underline">View all →</Link>
         </div>
         {stats.recent_orders.length === 0 ? (
           <p className="text-sm text-silver-dim text-center py-8">No orders yet</p>

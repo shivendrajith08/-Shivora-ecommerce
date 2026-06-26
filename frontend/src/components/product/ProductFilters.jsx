@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const SORT_OPTIONS = [
   { value: 'newest',    label: 'Newest First' },
@@ -12,8 +12,8 @@ const Chip = ({ label, active, onClick }) => (
     onClick={onClick}
     className={
       active
-        ? 'bg-[#C0C0C0] text-black font-semibold rounded-full px-3 py-1.5 text-xs'
-        : 'border border-white/20 text-white/70 rounded-full px-3 py-1.5 text-xs hover:border-[#C0C0C0]/40 transition-colors'
+        ? 'bg-[#F59E0B] text-[#020818] font-semibold rounded-full px-3 py-1.5 text-xs'
+        : 'border border-[#F59E0B]/30 text-[#F59E0B]/70 rounded-full px-3 py-1.5 text-xs hover:border-[#F59E0B]/60 hover:text-[#F59E0B] transition-colors'
     }
   >
     {label}
@@ -53,14 +53,14 @@ const ProductFilters = ({
   }
 
   return (
-    <div className="bg-[#020818] border border-[#C0C0C0]/20 rounded-xl flex flex-col">
-      <div className="px-4 pt-4 pb-3 border-b border-[#C0C0C0]/10">
-        <h3 className="font-bold text-[#C0C0C0]">Filters</h3>
+    <div className="bg-[#060D22] border border-[rgba(245,158,11,0.15)] rounded-xl flex flex-col">
+      <div className="px-4 pt-4 pb-3 border-b border-[rgba(245,158,11,0.1)]">
+        <h3 className="font-bold text-[#F59E0B]">Filters</h3>
       </div>
 
       <div className="px-4 pb-4">
-        <div className="border-t border-[#C0C0C0]/10 pt-4 mt-4">
-          <p className="text-xs font-bold text-[#C0C0C0]/70 uppercase tracking-wider mb-3">Category</p>
+        <div className="border-t border-[rgba(245,158,11,0.1)] pt-4 mt-4">
+          <p className="text-xs font-bold text-[#F59E0B]/70 uppercase tracking-wider mb-3">Category</p>
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <Chip
@@ -73,33 +73,33 @@ const ProductFilters = ({
           </div>
         </div>
 
-        <div className="border-t border-[#C0C0C0]/10 pt-4 mt-4">
-          <p className="text-xs font-bold text-[#C0C0C0]/70 uppercase tracking-wider mb-3">Price Range (₹)</p>
+        <div className="border-t border-[rgba(245,158,11,0.1)] pt-4 mt-4">
+          <p className="text-xs font-bold text-[#F59E0B]/70 uppercase tracking-wider mb-3">Price Range (₹)</p>
           <div className="flex flex-col gap-2">
             <input
               type="number" min="0" placeholder="Min" value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="bg-[#060D22] border border-[#C0C0C0]/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-[#C0C0C0]/60"
+              className="bg-[#0A1535] border border-[rgba(245,158,11,0.3)] rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-[#F59E0B]/60 focus:ring-1 focus:ring-[#F59E0B]/20"
             />
             <input
               type="number" min="0" placeholder="Max" value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="bg-[#060D22] border border-[#C0C0C0]/30 rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-[#C0C0C0]/60"
+              className="bg-[#0A1535] border border-[rgba(245,158,11,0.3)] rounded-xl px-3 py-2 text-white text-sm w-full focus:outline-none focus:border-[#F59E0B]/60 focus:ring-1 focus:ring-[#F59E0B]/20"
             />
           </div>
         </div>
       </div>
 
-      <div className="px-4 py-3 border-t border-[#C0C0C0]/20 flex gap-3">
+      <div className="px-4 py-3 border-t border-[rgba(245,158,11,0.15)] flex gap-3">
         <button
           onClick={reset}
-          className="border border-white/20 text-white/70 rounded-full py-2.5 flex-1 text-sm hover:bg-white/5 transition-colors"
+          className="border border-[rgba(245,158,11,0.3)] text-[#F59E0B]/70 rounded-full py-2.5 flex-1 text-sm hover:bg-[rgba(245,158,11,0.08)] transition-colors"
         >
           Reset
         </button>
         <button
           onClick={apply}
-          className="bg-[#C0C0C0] text-black font-bold rounded-full py-2.5 flex-1 text-sm hover:brightness-110 transition-all"
+          className="bg-[#F59E0B] text-[#020818] font-bold rounded-full py-2.5 flex-1 text-sm hover:bg-[#D97706] transition-all"
         >
           Apply
         </button>

@@ -1,10 +1,10 @@
 ﻿import React from 'react'
 import { Link } from 'react-router-dom'
 
-// Shared gold gradient stop colours (light → mid → dark)
-const G0 = '#F5E4A8'
-const G1 = '#C0C0C0'
-const G2 = '#808080'
+// Shared marigold gradient stop colours (light → mid → dark)
+const G0 = '#FDE68A'
+const G1 = '#F59E0B'
+const G2 = '#D97706'
 
 const GOLD_CSS = `linear-gradient(to bottom, ${G0} 0%, ${G1} 50%, ${G2} 100%)`
 

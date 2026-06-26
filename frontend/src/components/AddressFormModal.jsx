@@ -182,7 +182,7 @@ const AddressFormModal = ({ address, onClose, onSaved }) => {
                 name="is_default"
                 checked={form.is_default}
                 onChange={handleChange}
-                style={{ accentColor: '#C0C0C0' }}
+                style={{ accentColor: '#F59E0B' }}
               />
               <span className="text-sm text-silver-muted">Set as default address</span>
             </label>

@@ -107,7 +107,7 @@ const PromoCarousel = () => {
             {/* Mobile: column (text then icon). sm+: row (text | icon). */}
             <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-9 lg:py-12 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 sm:gap-6">
               <div className="flex-1 min-w-0 text-center sm:text-left">
-                <span className="inline-block bg-[#C0C0C0]/20 text-[#C0C0C0] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full mb-2 sm:mb-3 uppercase tracking-widest border border-[#C0C0C0]/30">
+                <span className="inline-block bg-[#F59E0B]/20 text-[#F59E0B] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full mb-2 sm:mb-3 uppercase tracking-widest border border-[#F59E0B]/30">
                   {slide.tag}
                 </span>
                 {/* clamp: 1.4rem on narrow phones → scales with vw → caps at 2.5rem */}
@@ -175,7 +175,7 @@ const PromoCarousel = () => {
           >
             <span
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === current ? 'w-5 bg-[#C0C0C0]' : 'w-1.5 bg-[#C0C0C0]/30 hover:bg-[#C0C0C0]/60'
+                i === current ? 'w-5 bg-[#F59E0B]' : 'w-1.5 bg-[#F59E0B]/30 hover:bg-[#F59E0B]/60'
               }`}
             />
           </button>

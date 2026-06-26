@@ -118,7 +118,7 @@ const ManageProducts = () => {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-2">
-                          <Link to={`/admin/products/${product.id}/edit`} className="text-[#C0C0C0] hover:underline text-xs font-semibold">Edit</Link>
+                          <Link to={`/admin/products/${product.id}/edit`} className="text-[#F59E0B] hover:underline text-xs font-semibold">Edit</Link>
                           <button onClick={() => handleDelete(product.id, product.name)} disabled={deletingId === product.id} className="text-red-400 hover:underline text-xs font-semibold">
                             {deletingId === product.id ? 'Deleting...' : 'Delete'}
                           </button>

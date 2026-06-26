@@ -64,10 +64,10 @@ const AddressBook = () => {
 
       {/* Page header */}
       <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
-        <h1 className="text-2xl font-bold text-[#C0C0C0]">My Addresses</h1>
+        <h1 className="text-2xl font-bold text-[#F59E0B]">My Addresses</h1>
         <button
           onClick={() => setModalAddress(null)}
-          className="btn border border-[#C0C0C0] text-[#C0C0C0] hover:bg-[#C0C0C0]/10 transition-colors !px-5"
+          className="btn border border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10 transition-colors !px-5"
         >
           + Add New Address
         </button>
@@ -78,8 +78,8 @@ const AddressBook = () => {
       {/* Empty state */}
       {addresses.length === 0 ? (
         <div className="text-center py-8 sm:py-16">
-          <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-[#C0C0C0]/10 flex items-center justify-center">
-            <svg className="w-10 h-10 text-[#C0C0C0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-[#F59E0B]/10 flex items-center justify-center">
+            <svg className="w-10 h-10 text-[#F59E0B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
@@ -101,7 +101,7 @@ const AddressBook = () => {
               <div className="flex items-start justify-between gap-2">
                 <p className="font-semibold text-parchment">{addr.full_name}</p>
                 {addr.is_default && (
-                  <span className="flex-shrink-0 inline-flex items-center bg-[#C0C0C0] text-[#0d0000] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
+                  <span className="flex-shrink-0 inline-flex items-center bg-[#F59E0B] text-[#020818] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest">
                     Default
                   </span>
                 )}
@@ -139,7 +139,7 @@ const AddressBook = () => {
                     <button
                       onClick={() => handleSetDefault(addr.id)}
                       disabled={settingDefaultId === addr.id}
-                      className="text-[#C0C0C0] hover:underline disabled:opacity-50"
+                      className="text-[#F59E0B] hover:underline disabled:opacity-50"
                     >
                       {settingDefaultId === addr.id ? 'Updating…' : 'Set as Default'}
                     </button>

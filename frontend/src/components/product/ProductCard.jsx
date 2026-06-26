@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
@@ -44,12 +44,10 @@ const ProductCard = ({ product }) => {
       return
     }
     const prev = isWishlisted(product.id)
-    // Flip instantly in the synchronous event-handler phase so React flushes
-    // the paint before any network work starts — this is the optimistic update.
     setLocalWishlisted(!prev)
     toggleWishlist(product.id)
-      .then(() => setLocalWishlisted(null))   // API succeeded — let context take over
-      .catch(() => setLocalWishlisted(prev))  // API failed — revert the icon
+      .then(() => setLocalWishlisted(null))
+      .catch(() => setLocalWishlisted(prev))
   }
 
   const wishlisted = localWishlisted !== null ? localWishlisted : isWishlisted(product.id)
@@ -58,7 +56,7 @@ const ProductCard = ({ product }) => {
   const isBestseller = !hasDeal && product.id % 3 !== 2
 
   return (
-    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-[#C0C0C0]/40 hover:shadow-lg transition-all flex flex-col h-full rounded-xl">
+    <Link to={`/products/${product.id}`} className="card overflow-hidden group hover:border-[#F59E0B]/25 hover:shadow-lg transition-all flex flex-col h-full rounded-xl">
       {/* Image */}
       <div className="relative aspect-square bg-surface-raised overflow-hidden">
         {imageSrc ? (
@@ -76,17 +74,17 @@ const ProductCard = ({ product }) => {
         )}
 
         {hasDiscount && (
-          <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+          <span className="absolute top-2 left-2 bg-[rgba(224,122,95,0.9)] text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
             -{discountPercent}%
           </span>
         )}
 
         <button
           onClick={handleWishlistToggle}
-          className={`absolute top-1.5 right-1.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition ${wishlisted ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400' : 'bg-black/20 hover:bg-black/40 text-white/80'}`}
+          className={`absolute top-1.5 right-1.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition ${wishlisted ? 'bg-[#E07A5F]/20 hover:bg-[#E07A5F]/30 text-[#E07A5F]' : 'bg-black/20 hover:bg-black/40 text-white/80'}`}
           title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <svg className={`w-4 h-4 ${wishlisted ? 'text-red-400 fill-red-400' : 'text-white/80 fill-none'}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <svg className={`w-4 h-4 ${wishlisted ? 'text-[#E07A5F] fill-[#E07A5F]' : 'text-white/80 fill-none'}`} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
           </svg>
         </button>
@@ -102,22 +100,22 @@ const ProductCard = ({ product }) => {
       {(hasDeal || isBestseller) && (
         <div className="px-1.5 pt-1 sm:px-2 sm:pt-1.5">
           {hasDeal && (
-            <span className="inline-block bg-amber-900/30 text-amber-300 text-[10px] font-extrabold px-2 py-0.5 rounded border border-amber-700/30 uppercase tracking-wide">
+            <span className="inline-block bg-[rgba(224,122,95,0.12)] text-[#E07A5F] text-[10px] font-extrabold px-2 py-0.5 rounded border border-[rgba(224,122,95,0.3)] uppercase tracking-wide">
               Deal
             </span>
           )}
           {isBestseller && (
-            <span className="inline-block bg-[#C0C0C0]/10 text-[#C0C0C0] text-[10px] font-extrabold px-2 py-0.5 rounded border border-[#C0C0C0]/30 uppercase tracking-wide">
+            <span className="inline-block bg-[rgba(245,158,11,0.12)] text-[#F59E0B] text-[10px] font-extrabold px-2 py-0.5 rounded border border-[rgba(245,158,11,0.3)] uppercase tracking-wide">
               Bestseller
             </span>
           )}
         </div>
       )}
 
-      {/* Info — slightly tighter padding on mobile so 2-col cards don't feel cramped */}
+      {/* Info */}
       <div className="px-2 pt-1.5 pb-2 sm:px-2 sm:pt-1.5 sm:pb-2 flex flex-col flex-1">
         {product.category_name && (
-          <span className="text-[10px] font-medium text-[#C0C0C0] uppercase tracking-wide mb-0.5">{product.category_name}</span>
+          <span className="text-[10px] font-medium text-[#F59E0B] uppercase tracking-wide mb-0.5">{product.category_name}</span>
         )}
         <h3 className="text-xs sm:text-xs font-semibold text-parchment line-clamp-2 mb-1 flex-1 leading-snug">{product.name}</h3>
 
@@ -125,7 +123,7 @@ const ProductCard = ({ product }) => {
           <div className="flex items-center gap-1 mb-1.5">
             <div className="flex leading-none">
               {[1, 2, 3, 4, 5].map((s) => (
-                <span key={s} className={s <= Math.round(product.avg_rating) ? 'text-amber-400 text-xs' : 'text-silver-dim text-xs'}>★</span>
+                <span key={s} className={s <= Math.round(product.avg_rating) ? 'text-[#FCD34D] text-xs' : 'text-silver-dim text-xs'}>★</span>
               ))}
             </div>
             <span className="text-[10px] text-silver-dim">({product.review_count})</span>
@@ -133,13 +131,13 @@ const ProductCard = ({ product }) => {
         )}
 
         <div className="flex items-baseline gap-1.5 mb-2 flex-wrap">
-          <span className="text-sm font-bold text-parchment sm:text-sm">
+          <span className="text-sm font-bold text-[#FCD34D] sm:text-sm">
             ₹{(hasDiscount ? product.discount_price : product.price).toLocaleString('en-IN')}
           </span>
           {hasDiscount && (
             <>
-              <span className="text-[10px] text-silver-dim line-through">₹{product.price.toLocaleString('en-IN')}</span>
-              <span className="text-[10px] font-bold text-[#C0C0C0]">{discountPercent}% off</span>
+              <span className="text-[10px] text-silver-muted line-through">₹{product.price.toLocaleString('en-IN')}</span>
+              <span className="text-[10px] font-bold text-[#F59E0B]">{discountPercent}% off</span>
             </>
           )}
         </div>

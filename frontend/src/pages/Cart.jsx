@@ -51,7 +51,7 @@ const Cart = () => {
               <span>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
             </div>
             {shippingFee > 0 && (
-              <p className="text-xs text-[#C0C0C0]">Add ₹{(999 - cartTotal).toLocaleString('en-IN')} more for free shipping</p>
+              <p className="text-xs text-[#F59E0B]">Add ₹{(999 - cartTotal).toLocaleString('en-IN')} more for free shipping</p>
             )}
           </div>
           <div className="flex justify-between font-bold text-parchment text-base border-t border-surface-border pt-3 mb-5">
@@ -61,7 +61,7 @@ const Cart = () => {
           <button onClick={() => navigate('/checkout')} className="btn-primary w-full !py-3 min-h-[52px]">
             Proceed to Checkout
           </button>
-          <Link to="/products" className="block text-center text-sm text-[#C0C0C0] font-medium mt-4 hover:underline">
+          <Link to="/products" className="block text-center text-sm text-[#F59E0B] font-medium mt-4 hover:underline">
             Continue Shopping
           </Link>
         </div>

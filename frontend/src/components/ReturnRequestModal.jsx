@@ -35,7 +35,7 @@ const ReturnRequestModal = ({ order, onClose, onSubmitted }) => {
         <form onSubmit={handleSubmit} className="flex flex-col min-h-0 flex-1">
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-surface-border flex-shrink-0">
-            <h2 className="text-lg font-bold text-[#C0C0C0]" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>Request Return</h2>
+            <h2 className="text-lg font-bold text-[#F59E0B]" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>Request Return</h2>
             <button type="button" onClick={onClose} aria-label="Close" className="p-1.5 text-silver-dim hover:text-parchment hover:bg-surface-raised rounded-lg transition-colors">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>

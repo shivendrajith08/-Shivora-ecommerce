@@ -1,38 +1,36 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Midnight Navy & Gold design tokens ─────────────────────────────────── */
+/* ── Midnight Navy + Marigold + Terracotta design tokens ────────────────── */
 :root {
   --color-bg:             #020818;
   --color-base:           #020818;
   --color-base-soft:      #060D22;
   --color-surface:        #060D22;
-  --color-surface-raised: #0D1A3A;
-  --color-surface-border: rgba(192,192,192,0.15);
-  --color-surface-border-blue: rgba(30,58,138,0.4);
+  --color-surface-raised: #0A1535;
+  --color-surface-border: rgba(245,158,11,0.12);
 
-  --color-primary:       #1E3A8A;
-  --color-primary-hover: #2547B0;
-  --color-primary-light: #3B5FD4;
+  --color-gold:        #F59E0B;
+  --color-gold-hover:  #D97706;
+  --color-gold-muted:  rgba(245,158,11,0.12);
+  --color-gold-light:  #FDE68A;
+  --color-gold-deep:   #B45309;
 
-  --color-gold-light:  #E8E8E8;
-  --color-gold-hover:  #D4D4D4;
-  --color-gold:        #C0C0C0;
-  --color-gold-dark:   #A0A0A0;
-  --color-gold-deep:   #808080;
+  --color-terracotta:       #E07A5F;
+  --color-terracotta-hover: #C4603F;
+  --color-terracotta-muted: rgba(224,122,95,0.12);
 
-  --color-silver-lightest: #E8EAED;
-  --color-silver-light:    #D8DADE;
-  --color-silver:          #A09080;
-  --color-silver-muted:    #A0AABF;
-  --color-silver-dim:      #4A5568;
+  --color-highlight: #FCD34D;
+  --color-parchment: #F4F4F2;
 
-  --color-parchment: #F5F0E8;
+  --color-silver:       #94A3B8;
+  --color-silver-muted: #94A3B8;
+  --color-silver-dim:   #64748B;
 
-  --gold-shine:       linear-gradient(135deg, #D4D4D4 0%, #A0A0A0 100%);
-  --gold-shine-hover: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%);
-  --gold-shine-press: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%);
+  --gold-shine:       linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%);
+  --gold-shine-hover: linear-gradient(135deg, #FEF3C7 0%, #D97706 100%);
+  --gold-shine-press: linear-gradient(135deg, #F59E0B 0%, #B45309 100%);
 }
 
 html {
@@ -42,7 +40,7 @@ html {
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background-color: #020818;
-  color: #F5F0E8;
+  color: #F4F4F2;
   line-height: 1.6;
 }
 
@@ -53,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Dark-friendly native select options */
 select option {
   background-color: #060D22;
-  color: #F5F0E8;
+  color: #F4F4F2;
 }
 
 @layer components {
@@ -62,17 +60,22 @@ select option {
   }
   .btn-primary {
     @apply btn shadow-sm font-semibold;
-    background-image: var(--gold-shine);
+    background-color: #F59E0B;
     color: #020818;
   }
   .btn-primary:hover:not(:disabled) {
-    background-image: var(--gold-shine-hover);
+    background-color: #D97706;
   }
   .btn-primary:active:not(:disabled) {
-    background-image: var(--gold-shine-press);
+    background-color: #B45309;
   }
   .btn-secondary {
-    @apply btn bg-surface text-parchment border border-surface-border hover:bg-surface-raised;
+    @apply btn;
+    border: 1px solid rgba(245,158,11,0.3);
+    color: #F59E0B;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: rgba(245,158,11,0.12);
   }
   .btn-danger {
     @apply btn bg-red-700 text-white hover:bg-red-600;
@@ -119,30 +122,26 @@ select option {
   to   { transform: translateY(0); }
 }
 
-/* ── Promo carousel: warm luxury gradient on mobile ──────────────────────── */
+/* ── Promo carousel: navy gradient on mobile ─────────────────────────────── */
 @media (max-width: 639px) {
   .promo-slide-bg {
-    background: linear-gradient(135deg, #060D22 0%, #0D1A3A 50%, #060D22 100%) !important;
+    background: linear-gradient(135deg, #060D22 0%, #0A1535 50%, #060D22 100%) !important;
   }
 }
 
 /* ── Splash-screen animations ─────────────────────────────────────────────── */
-/* stroke draws in: dashoffset 1 → 0 (requires pathLength="1" on the element) */
 @keyframes sp-draw {
   from { stroke-dashoffset: 1; }
   to   { stroke-dashoffset: 0; }
 }
-/* generic opacity fade-in (also used for S glyph and vertex dots) */
 @keyframes sp-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-/* per-letter entrance: rises 6 px and fades in */
 @keyframes sp-letter-in {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0);   }
 }
-/* whole-overlay fade out at the end */
 @keyframes sp-exit {
   to { opacity: 0; }
 }

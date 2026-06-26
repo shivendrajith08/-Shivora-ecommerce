@@ -7,70 +7,56 @@ export default {
   theme: {
     extend: {
       colors: {
-        // ── Existing light-theme tokens (kept for active components) ──────
-        brand: {
-          50:  '#f1f8ed',
-          100: '#dff0d4',
-          200: '#bfdfac',
-          300: '#97c87f',
-          400: '#6dac55',
-          500: '#4d9136',
-          600: '#3c7229',
-          700: '#2d5620',
-          800: '#1f3c15',
-          900: '#12230c',
-        },
-        accent: {
-          500: '#c1623f',
-          600: '#a5502f',
-          700: '#8a3f22',
-          800: '#6f2f17',
-          900: '#52200e',
-        },
-
-        // ── Dark gold-and-silver theme tokens ─────────────────────────────
-        //
-        // Backgrounds
+        // Midnight Navy backgrounds
         base: {
-          DEFAULT: '#14130F', // bg-base          — deepest page bg
-          soft:    '#1A1916', // bg-base-soft      — lifted layer (between base and surface)
+          DEFAULT: '#020818',
+          soft:    '#060D22',
         },
         surface: {
-          DEFAULT: '#22201B', // bg-surface        — cards, panels, sidebars
-          raised:  '#2C2921', // bg-surface-raised — modals, dropdowns, tooltips
-          border:  '#3A3630', // border-surface-border — subtle dividers on dark
+          DEFAULT: '#060D22',
+          raised:  '#0A1535',
+          border:  'rgba(245,158,11,0.12)',
         },
 
-        // Silver — metallic; use silver-shine gradients for buttons
+        // Marigold — primary CTA
         gold: {
-          light:   '#E8E8E8', // silver-light   — focus rings, highlights
-          hover:   '#D4D4D4', // silver-hover   — button hover tint, gradient start
-          DEFAULT: '#C0C0C0', // silver         — primary CTA colour, icons, text accents
-          dark:    '#A0A0A0', // silver-dark    — gradient end, active/pressed state
-          deep:    '#808080', // silver-deep    — darkest; shadows, border on silver elements
+          DEFAULT: '#F59E0B',
+          hover:   '#D97706',
+          muted:   'rgba(245,158,11,0.12)',
+          light:   '#FDE68A',
+          deep:    '#B45309',
         },
 
-        // Silver — cool metallic; for borders, secondary UI, muted text
-        silver: {
-          lightest: '#E8EAED', // silver-lightest — table-header fills, tag backgrounds
-          light:    '#D8DADE', // silver-light    — input borders, hairlines
-          DEFAULT:  '#C0C2C5', // silver          — secondary borders, icon strokes
-          muted:    '#A8AAAD', // silver-muted    — secondary/helper text
-          dim:      '#8A8C8F', // silver-dim      — placeholders, disabled text
+        // Terracotta — secondary / sale accents
+        terracotta: {
+          DEFAULT: '#E07A5F',
+          hover:   '#C4603F',
+          muted:   'rgba(224,122,95,0.12)',
         },
+
+        // Highlight — stars, badges
+        highlight: '#FCD34D',
 
         // Text
-        parchment: '#F5F3EE', // text-parchment — primary near-white text (7.2:1 on base)
+        parchment: '#F4F4F2',
+
+        // Muted / UI greys
+        silver: {
+          lightest: '#E2E8F0',
+          light:    '#CBD5E1',
+          DEFAULT:  '#94A3B8',
+          muted:    '#94A3B8',
+          dim:      '#64748B',
+        },
       },
 
-      // Gold gradient utilities: bg-gold-shine, bg-gold-shine-hover
       backgroundImage: {
-        'gold-shine':       'linear-gradient(135deg, #D4D4D4 0%, #A0A0A0 100%)',
-        'gold-shine-hover': 'linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%)',
-        'gold-shine-press': 'linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%)',
+        'gold-shine':       'linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%)',
+        'gold-shine-hover': 'linear-gradient(135deg, #FEF3C7 0%, #D97706 100%)',
+        'gold-shine-press': 'linear-gradient(135deg, #F59E0B 0%, #B45309 100%)',
       },
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        sans:    ['DM Sans', 'system-ui', 'sans-serif'],
         display: ['Fraunces', 'Georgia', 'serif'],
       },
     },
