@@ -7,6 +7,7 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_order_number = db.Column(db.Integer, nullable=True)
     total_amount = db.Column(db.Numeric(10, 2), nullable=False)
     status = db.Column(
         db.Enum("pending", "processing", "shipped", "delivered", "cancelled", name="order_status"),
@@ -34,6 +35,7 @@ class Order(db.Model):
     def to_dict(self, include_items=True):
         data = {
             "id": self.id,
+            "user_order_number": self.user_order_number,
             "user_id": self.user_id,
             "customer_name": self.user.name if self.user else None,
             "customer_email": self.user.email if self.user else None,

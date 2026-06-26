@@ -76,7 +76,7 @@ const OrderHistory = () => {
                 <div className="flex flex-col gap-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-[11px] font-semibold text-silver-dim uppercase tracking-wide">
-                      Order #{order.id}
+                      Order #{order.user_order_number ?? order.id}
                     </p>
                     <StatusBadge status={order.status} />
                   </div>

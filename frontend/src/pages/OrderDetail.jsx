@@ -97,7 +97,7 @@ const OrderDetail = () => {
           </svg>
         </button>
         <div>
-          <h1 className="text-xl font-bold text-parchment">Order #{order.id}</h1>
+          <h1 className="text-xl font-bold text-parchment">Order #{order.user_order_number ?? order.id}</h1>
           <p className="text-xs text-silver-dim mt-0.5">
             {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
@@ -173,7 +173,7 @@ const OrderDetail = () => {
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <p className="text-[10px] font-semibold text-silver-dim uppercase tracking-wide mb-1">Order ID</p>
-            <p className="text-xs font-medium text-silver-muted font-mono">#{order.id}</p>
+            <p className="text-xs font-medium text-silver-muted font-mono">#{order.user_order_number ?? order.id}</p>
           </div>
           <div>
             <p className="text-[10px] font-semibold text-silver-dim uppercase tracking-wide mb-1">Payment</p>

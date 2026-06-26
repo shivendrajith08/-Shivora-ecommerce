@@ -68,8 +68,11 @@ def checkout():
 
     final_amount = round(subtotal_amount - discount_amount, 2)
 
+    user_order_number = Order.query.filter_by(user_id=user_id).count() + 1
+
     order = Order(
         user_id=user_id,
+        user_order_number=user_order_number,
         total_amount=final_amount,
         status="pending",
         payment_method="COD",
@@ -153,8 +156,11 @@ def buy_now():
 
     final_amount = round(subtotal - discount_amount, 2)
 
+    user_order_number = Order.query.filter_by(user_id=user_id).count() + 1
+
     order = Order(
         user_id=user_id,
+        user_order_number=user_order_number,
         total_amount=final_amount,
         status="pending",
         payment_method="COD",
