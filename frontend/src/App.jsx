@@ -26,6 +26,7 @@ const OrderHistory     = lazy(() => import('./pages/OrderHistory'))
 const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'))
 const OrderDetail      = lazy(() => import('./pages/OrderDetail'))
 const AddressBook      = lazy(() => import('./pages/AddressBook'))
+const Notifications    = lazy(() => import('./pages/Notifications'))
 const NotFound         = lazy(() => import('./pages/NotFound'))
 
 // Lazy-loaded admin pages
@@ -112,6 +113,7 @@ function App() {
         <Route path="/orders/:orderId" element={<StorefrontLayout><PrivateRoute><OrderDetail /></PrivateRoute></StorefrontLayout>} />
         <Route path="/order-confirmation/:orderId" element={<StorefrontLayout><PrivateRoute><OrderConfirmation /></PrivateRoute></StorefrontLayout>} />
         <Route path="/profile/addresses" element={<StorefrontLayout><PrivateRoute><AddressBook /></PrivateRoute></StorefrontLayout>} />
+        <Route path="/notifications" element={<StorefrontLayout><PrivateRoute><Notifications /></PrivateRoute></StorefrontLayout>} />
         <Route path="*" element={<StorefrontLayout><NotFound /></StorefrontLayout>} />
       </Routes>
     </Suspense>
