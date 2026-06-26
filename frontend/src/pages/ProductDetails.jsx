@@ -2,7 +2,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { getProductById, getProducts } from '../api/productApi'
-import { addToWishlist } from '../api/wishlistApi'
+import { addToWishlist, removeFromWishlistByProduct } from '../api/wishlistApi'
 import { getProductReviews, createReview } from '../api/reviewApi'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
@@ -39,6 +39,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1)
   const [adding, setAdding] = useState(false)
   const [wishing, setWishing] = useState(false)
+  const [isWishlisted, setIsWishlisted] = useState(false)
   const [descExpanded, setDescExpanded] = useState(false)
 
   const [reviews, setReviews] = useState([])
@@ -196,14 +197,21 @@ const ProductDetails = () => {
     }
   }
 
-  const handleAddToWishlist = async () => {
+  const handleWishlistToggle = async () => {
     if (!isAuthenticated) { toast.error('Please log in to use your wishlist'); return }
     setWishing(true)
     try {
-      await addToWishlist(product.id)
-      toast.success('Added to wishlist')
+      if (isWishlisted) {
+        await removeFromWishlistByProduct(product.id)
+        setIsWishlisted(false)
+        toast.success('Removed from wishlist')
+      } else {
+        await addToWishlist(product.id)
+        setIsWishlisted(true)
+        toast.success('Added to wishlist')
+      }
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Could not add to wishlist')
+      toast.error(err.response?.data?.message || 'Could not update wishlist')
     } finally {
       setWishing(false)
     }
@@ -226,21 +234,41 @@ const ProductDetails = () => {
       <div className="grid md:grid-cols-2 gap-6 md:gap-10">
         {/* Image column */}
         <div>
-          <button
-            type="button"
-            onClick={() => imageSrc && setLightboxSrc(imageSrc)}
-            className="block w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border cursor-zoom-in md:cursor-default"
-          >
-            {imageSrc ? (
-              <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-silver-dim">
-                <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 11.25V19.5a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 19.5V11.25m-18 0V8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v3M3 11.25h18M8.25 6V4.5a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25V6" />
-                </svg>
-              </div>
-            )}
-          </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => imageSrc && setLightboxSrc(imageSrc)}
+              className="block w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border cursor-zoom-in md:cursor-default"
+            >
+              {imageSrc ? (
+                <img src={imageSrc} alt={product.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-silver-dim">
+                  <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 11.25V19.5a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 19.5V11.25m-18 0V8.25A2.25 2.25 0 015.25 6h13.5A2.25 2.25 0 0121 8.25v3M3 11.25h18M8.25 6V4.5a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25V6" />
+                  </svg>
+                </div>
+              )}
+            </button>
+            <button
+              onClick={handleWishlistToggle}
+              disabled={wishing}
+              className="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#060D22]/80 backdrop-blur-sm flex items-center justify-center border border-white/10 transition-all hover:scale-110"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill={isWishlisted ? '#E07A5F' : 'none'}
+                stroke={isWishlisted ? '#E07A5F' : 'white'}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
+          </div>
           {imageSrc && <p className="md:hidden text-center text-xs text-silver-dim mt-2">Tap image to view full size</p>}
         </div>
 
@@ -333,7 +361,7 @@ const ProductDetails = () => {
             {product.in_stock && (
               <button
                 onClick={handleBuyNow}
-                className="btn !px-8 !py-3 border border-[#F59E0B]/30 text-[#F59E0B] font-semibold hover:bg-[rgba(245,158,11,0.12)] transition-colors"
+                className="flex items-center gap-2 justify-center py-3 px-6 rounded-xl font-semibold text-base border-2 border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B] hover:text-[#020818] transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -342,21 +370,21 @@ const ProductDetails = () => {
               </button>
             )}
 
-            <button onClick={handleAddToWishlist} disabled={wishing} className="btn-secondary !px-6 !py-3">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button onClick={handleWishlistToggle} disabled={wishing} className="btn-secondary !px-6 !py-3">
+              <svg className="w-5 h-5" fill={isWishlisted ? '#E07A5F' : 'none'} stroke={isWishlisted ? '#E07A5F' : 'currentColor'} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
-              Wishlist
+              {isWishlisted ? 'Wishlisted' : 'Wishlist'}
             </button>
           </div>
 
           {/* Mobile: wishlist button only — Add to Cart + Buy Now are in the sticky bar */}
           <div className="md:hidden">
-            <button onClick={handleAddToWishlist} disabled={wishing} className="btn-secondary w-full !py-3 min-h-[44px]">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button onClick={handleWishlistToggle} disabled={wishing} className="btn-secondary w-full !py-3 min-h-[44px]">
+              <svg className="w-5 h-5" fill={isWishlisted ? '#E07A5F' : 'none'} stroke={isWishlisted ? '#E07A5F' : 'currentColor'} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
-              Save to Wishlist
+              {isWishlisted ? 'Wishlisted' : 'Save to Wishlist'}
             </button>
           </div>
 
@@ -495,7 +523,7 @@ const ProductDetails = () => {
             </button>
             <button
               onClick={handleBuyNow}
-              className="btn flex-1 min-h-[52px] text-base border border-[#F59E0B]/30 text-[#F59E0B] font-semibold hover:bg-[rgba(245,158,11,0.12)] transition-colors"
+              className="flex-1 min-h-[52px] text-base py-3 px-6 rounded-xl font-semibold border-2 border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B] hover:text-[#020818] transition-colors"
             >
               Buy Now
             </button>

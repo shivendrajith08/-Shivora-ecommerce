@@ -7,13 +7,13 @@ const SEARCH_PLACEHOLDERS = [
   'Search sarees...',
   'Search kurtis...',
   'Search jewellery...',
-  'Search electronics...',
-  'Search cricket bat...',
-  'Search dumbbells...',
+  'Search home decor...',
+  'Search ethnic wear...',
+  'Search handbags...',
   'Search face wash...',
   'Search hair dryer...',
   'Search products...',
-  'Search toys...',
+  'Search accessories...',
 ]
 
 const SearchBar = ({ className = '', onNavigate }) => {
