@@ -30,6 +30,13 @@ class Config:
 
     FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
 
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_USERNAME')
+
     # File upload settings
     UPLOAD_FOLDER = os.path.join(basedir, "uploads", "products")
     REVIEW_UPLOAD_FOLDER = os.path.join(basedir, "uploads", "reviews")

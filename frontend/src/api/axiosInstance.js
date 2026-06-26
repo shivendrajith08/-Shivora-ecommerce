@@ -1,9 +1,8 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
-
 const axiosInstance = axios.create({
-  baseURL: `${API_BASE_URL}/api`,
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
+  withCredentials: false,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -37,5 +36,5 @@ axiosInstance.interceptors.response.use(
   }
 )
 
-export const API_ORIGIN = API_BASE_URL
+export const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:5001/api').replace('/api', '')
 export default axiosInstance

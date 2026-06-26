@@ -7,6 +7,7 @@ import { getCategories } from '../../api/categoryApi'
 import CategoryBar from './CategoryBar'
 import SearchBar from './SearchBar'
 import Logo from './Logo'
+import NotificationBell from '../NotificationBell'
 
 /* ─── Icon helpers ─────────────────────────────────────────────────────────── */
 const IconSearch = () => (
@@ -181,6 +182,8 @@ const Navbar = () => {
               </Link>
             )}
 
+            <NotificationBell />
+
             <Link to="/cart" title="Cart"
               className="relative text-silver-muted hover:text-[#F59E0B] transition-colors">
               <IconCart cls="w-6 h-6" />
@@ -246,6 +249,8 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
+
+            <NotificationBell />
 
             {/* Profile avatar — visible on all mobile/tablet sizes */}
             {isAuthenticated && (

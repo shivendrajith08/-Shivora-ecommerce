@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, send_from_directory
 from app.config import Config
-from app.extensions import db, jwt, cors
+from app.extensions import db, jwt, cors, mail
 
 
 def _safe_add_columns(engine):
@@ -52,6 +52,7 @@ def create_app():
     # Init extensions
     db.init_app(app)
     jwt.init_app(app)
+    mail.init_app(app)
     # Allowed CORS origins: the deployed Vercel frontend + the configured
     # FRONTEND_URL (dynamic, e.g. set on Railway) + local Vite dev ports.
     allowed_origins = list({
@@ -71,7 +72,7 @@ def create_app():
     os.makedirs(app.config["REVIEW_UPLOAD_FOLDER"], exist_ok=True)
 
     # Import models so SQLAlchemy is aware of them
-    from app.models import user, category, product, cart, wishlist, order, order_item, review, address, coupon, return_request  # noqa: F401
+    from app.models import user, category, product, cart, wishlist, order, order_item, review, address, coupon, return_request, notification  # noqa: F401
 
     # On a hosted DB (Render Postgres / Railway MySQL), auto-create tables
     # and apply any column additions that create_all() won't run on existing tables.
@@ -95,6 +96,7 @@ def create_app():
     from app.routes.address_routes import address_bp
     from app.routes.coupon_routes import coupon_bp, admin_coupon_bp
     from app.routes.return_routes import return_bp, admin_return_bp
+    from app.routes.notification_routes import notification_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(product_bp, url_prefix="/api/products")
@@ -110,6 +112,7 @@ def create_app():
     app.register_blueprint(admin_coupon_bp, url_prefix="/api/admin/coupons")
     app.register_blueprint(return_bp, url_prefix="/api/orders")
     app.register_blueprint(admin_return_bp, url_prefix="/api/admin/returns")
+    app.register_blueprint(notification_bp, url_prefix="/api/notifications")
 
     # Serve uploaded product images
     @app.route("/uploads/products/<path:filename>")
