@@ -323,8 +323,9 @@ const ProductList = () => {
             </button>
           </div>
 
-          <div style={{display:'grid', gridTemplateColumns:'260px 1fr', gap:'24px', alignItems:'start'}}>
-            <div style={{position:'sticky', top:'96px'}}>
+          <div className="flex gap-6 items-start">
+            {/* Sidebar: hidden on mobile, shown on lg+ */}
+            <div className="hidden lg:block w-[260px] flex-shrink-0 sticky top-24">
               <ProductFilters
                 categories={categories}
                 filters={filtersForSidebar}
@@ -334,7 +335,7 @@ const ProductList = () => {
               />
             </div>
 
-            <div>
+            <div className="w-full min-w-0">
               {error && <ErrorAlert message={error} onRetry={loadProducts} />}
 
               {loading ? (
@@ -345,7 +346,7 @@ const ProductList = () => {
                   <p className="text-silver-dim text-sm">Try adjusting your filters or search term</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 md:gap-4">
                   {visibleProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}

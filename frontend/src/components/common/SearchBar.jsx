@@ -12,7 +12,7 @@ const SEARCH_PLACEHOLDERS = [
   'Search dumbbells...',
   'Search face wash...',
   'Search hair dryer...',
-  'Search books...',
+  'Search products...',
   'Search toys...',
 ]
 
