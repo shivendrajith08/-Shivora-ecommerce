@@ -28,10 +28,10 @@ const ReturnRequestModal = ({ order, onClose, onSubmitted }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center left-4 right-4 top-0 bottom-0">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg bg-surface rounded-xl border border-surface-border shadow-2xl max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-[calc(100vw-2rem)] sm:max-w-lg mx-auto bg-surface rounded-xl border border-surface-border shadow-2xl max-h-[90vh] flex flex-col overflow-hidden">
         <form onSubmit={handleSubmit} className="flex flex-col min-h-0 flex-1">
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-surface-border flex-shrink-0">

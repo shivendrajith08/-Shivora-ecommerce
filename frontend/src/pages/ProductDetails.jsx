@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import Zoom from 'react-medium-image-zoom'
@@ -48,6 +48,9 @@ const ProductDetails = () => {
   const [selectedColor, setSelectedColor] = useState(null)
   const [recentlyViewed, setRecentlyViewed] = useState([])
 
+  const [showStickyBar, setShowStickyBar] = useState(false)
+  const mainBtnRef = useRef(null)
+
   const [reviews, setReviews] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
   const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' })
@@ -93,6 +96,16 @@ const ProductDetails = () => {
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
   }, [lightboxSrc])
+
+  useEffect(() => {
+    const el = mainBtnRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => {
+      setShowStickyBar(!entry.isIntersecting)
+    }, { threshold: 0 })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [product])
 
   const clearImage = () => {
     if (imagePreview) URL.revokeObjectURL(imagePreview)
@@ -453,7 +466,7 @@ const ProductDetails = () => {
           )}
 
           {/* Action buttons — visible on all screen sizes */}
-          <div className="flex gap-3 mt-4">
+          <div ref={mainBtnRef} className="flex gap-3 mt-4">
             <button
               onClick={handleAddToCart}
               disabled={adding || !product.in_stock}
@@ -650,6 +663,15 @@ const ProductDetails = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setLightboxSrc(null)}>
           <button type="button" onClick={() => setLightboxSrc(null)} className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white text-2xl leading-none hover:bg-white/20 transition-colors">×</button>
           <img src={lightboxSrc} alt="Full-size photo" className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
+
+      {showStickyBar && product?.stock > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#060D22]/95 backdrop-blur-sm border-t border-white/10 px-4 pt-3" style={{paddingBottom:'calc(env(safe-area-inset-bottom) + 64px)'}}>
+          <div className="flex gap-3 max-w-lg mx-auto">
+            <button onClick={handleAddToCart} className="flex-1 py-3 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-sm transition-colors">Add to Cart</button>
+            <button onClick={handleBuyNow} className="flex-1 py-3 rounded-xl bg-[#E07A5F] hover:bg-[#C4603F] text-white font-bold text-sm transition-colors">Buy Now</button>
+          </div>
         </div>
       )}
     </div>
