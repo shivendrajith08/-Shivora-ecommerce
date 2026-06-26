@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import SEO from '../components/SEO'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import Zoom from 'react-medium-image-zoom'
@@ -251,6 +252,7 @@ const ProductDetails = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 pb-28 md:pb-8">
+      {product && <SEO title={product.name} description={`Buy ${product.name} at ₹${(product.discount_price || product.price).toLocaleString('en-IN')}. ${product.description?.slice(0, 120) || ''}`} image={product.image_url || product.image} url={`/products/${product.id}`} type="product" />}
       <nav className="text-sm text-silver-dim mb-6">
         <Link to="/" className="hover:text-[#F59E0B] transition-colors">Home</Link>
         <span className="mx-2">/</span>

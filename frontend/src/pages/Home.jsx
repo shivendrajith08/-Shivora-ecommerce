@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState, useCallback, useRef } from 'react'
+import SEO from '../components/SEO'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getProducts } from '../api/productApi'
 import { getCategories } from '../api/categoryApi'
@@ -226,6 +227,7 @@ const Home = () => {
 
   return (
     <>
+      <SEO title="Luxury Online Shopping" description="Shop premium fashion, electronics, home & more at Shivora. Free shipping. Cash on delivery." url="/" />
       {showMobileFilter && (
         <div style={{position:'fixed',inset:0,zIndex:100,display:'flex',flexDirection:'column',background:'#020818'}}>
 
