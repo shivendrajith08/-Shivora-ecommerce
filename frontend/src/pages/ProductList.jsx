@@ -26,6 +26,7 @@ const ProductList = () => {
   const [hasMore, setHasMore] = useState(false)
   const [page, setPage] = useState(1)
   const [error, setError] = useState('')
+  const [retryCount, setRetryCount] = useState(0)
 
   // Desktop sort dropdown
   const [showSortDropdown, setShowSortDropdown] = useState(false)
@@ -110,6 +111,16 @@ const ProductList = () => {
     loadProducts()
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [loadProducts])
+
+  useEffect(() => {
+    if (error && retryCount < 2) {
+      const timer = setTimeout(() => {
+        setRetryCount(prev => prev + 1)
+        loadProducts()
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [error, retryCount])
 
   // Close desktop sort dropdown on outside click
   useEffect(() => {
@@ -368,7 +379,13 @@ const ProductList = () => {
             </div>
 
             <div className="w-full min-w-0">
-              {error && <ErrorAlert message={error} onRetry={loadProducts} />}
+              {error && retryCount >= 2 && <ErrorAlert message={error} onRetry={() => { setRetryCount(0); loadProducts() }} />}
+              {error && retryCount < 2 && (
+                <div className="text-center py-8">
+                  <div className="w-6 h-6 border-2 border-[#F59E0B] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                  <p className="text-sm text-[#94A3B8]">Connecting to server...</p>
+                </div>
+              )}
 
               {loading ? (
                 <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 md:gap-4">

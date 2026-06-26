@@ -65,15 +65,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const checkBackend = async () => {
-      try {
-        await fetch(`${BACKEND_URL}/api/health`)
-      } catch {}
-      finally {
-        setBackendReady(true)
-      }
-    }
-    checkBackend()
+    const timeout = setTimeout(() => setBackendReady(true), 5000)
+    fetch(`${BACKEND_URL}/api/health`)
+      .then(() => { clearTimeout(timeout); setBackendReady(true) })
+      .catch(() => { clearTimeout(timeout); setBackendReady(true) })
   }, [])
 
   const appRoutes = routesReady ? (
@@ -123,13 +118,16 @@ function App() {
   ) : null
 
   if (!backendReady) return (
-    <div className="min-h-screen bg-[#020818] flex flex-col items-center justify-center gap-4">
+    <div className="min-h-screen bg-[#020818] flex flex-col items-center justify-center gap-6">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-[#F59E0B] mb-1">SHIVORA</h1>
-        <p className="text-xs text-[#94A3B8]">Luxury Online Shopping</p>
+        <h1 className="text-3xl font-bold text-[#F59E0B] font-serif tracking-widest mb-1">SHIVORA</h1>
+        <p className="text-xs text-[#475569] tracking-widest uppercase">Luxury Online Shopping</p>
       </div>
-      <div className="w-8 h-8 rounded-full border-2 border-[#F59E0B] border-t-transparent animate-spin mt-4" />
-      <p className="text-xs text-[#94A3B8]">Loading...</p>
+      <div className="flex gap-2">
+        <div className="w-2 h-2 rounded-full bg-[#F59E0B] animate-bounce" style={{animationDelay:'0ms'}}></div>
+        <div className="w-2 h-2 rounded-full bg-[#F59E0B] animate-bounce" style={{animationDelay:'150ms'}}></div>
+        <div className="w-2 h-2 rounded-full bg-[#F59E0B] animate-bounce" style={{animationDelay:'300ms'}}></div>
+      </div>
     </div>
   )
 
