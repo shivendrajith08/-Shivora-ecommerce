@@ -1,12 +1,10 @@
 import { Helmet } from 'react-helmet-async'
 
 export default function SEO({ title, description, image, url, type = 'website' }) {
-  const siteName = 'Shivora'
-  const defaultTitle = 'Shivora | Luxury Online Shopping'
   const defaultDescription = 'Shop premium fashion, electronics, home & more at Shivora. Free shipping. Cash on delivery.'
   const defaultImage = 'https://shivora-ecommerce.vercel.app/og-image.jpg'
   const siteUrl = 'https://shivora-ecommerce.vercel.app'
-  const fullTitle = title ? `${title} | ${siteName}` : defaultTitle
+  const fullTitle = title ? `${title} | Shivora` : 'Shivora | Luxury Online Shopping'
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl
   const absoluteImage = !image ? defaultImage : image.startsWith('http') ? image : `${siteUrl}${image}`
 
@@ -20,7 +18,7 @@ export default function SEO({ title, description, image, url, type = 'website' }
       <meta property="og:image" content={absoluteImage} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:type" content={type} />
-      <meta property="og:site_name" content={siteName} />
+      <meta property="og:site_name" content="Shivora" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description || defaultDescription} />
