@@ -65,7 +65,7 @@ const OrderHistory = () => {
         </div>
       ) : (
         <div className="space-y-3">
-          {orders.map((order, index) => (
+          {orders.map((order) => (
             <div
               key={order.id}
               onClick={() => navigate(`/orders/${order.id}`)}
