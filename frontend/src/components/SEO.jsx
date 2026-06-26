@@ -8,6 +8,7 @@ export default function SEO({ title, description, image, url, type = 'website' }
   const siteUrl = 'https://shivora-ecommerce.vercel.app'
   const fullTitle = title ? `${title} | ${siteName}` : defaultTitle
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl
+  const absoluteImage = !image ? defaultImage : image.startsWith('http') ? image : `${siteUrl}${image}`
 
   return (
     <Helmet>
@@ -16,14 +17,14 @@ export default function SEO({ title, description, image, url, type = 'website' }
       <meta name="robots" content="index, follow" />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description || defaultDescription} />
-      <meta property="og:image" content={image || defaultImage} />
+      <meta property="og:image" content={absoluteImage} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={siteName} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description || defaultDescription} />
-      <meta name="twitter:image" content={image || defaultImage} />
+      <meta name="twitter:image" content={absoluteImage} />
       <link rel="canonical" href={fullUrl} />
     </Helmet>
   )
