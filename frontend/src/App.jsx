@@ -9,6 +9,7 @@ import PrivateRoute from './components/common/PrivateRoute'
 import AdminRoute from './components/common/AdminRoute'
 import AdminLayout from './components/admin/AdminLayout'
 import PageLoader from './components/common/PageLoader'
+import PWAInstallBanner from './components/PWAInstallBanner'
 
 // Lazy-loaded storefront pages
 const Home             = lazy(() => import('./pages/Home'))
@@ -39,6 +40,8 @@ const ManageReviews    = lazy(() => import('./pages/admin/ManageReviews'))
 const ManageCoupons    = lazy(() => import('./pages/admin/ManageCoupons'))
 const ManageReturns    = lazy(() => import('./pages/admin/ManageReturns'))
 
+const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://your-railway-backend-url.up.railway.app'
+
 const isLocalhost = window.location.hostname === 'localhost'
 
 const StorefrontLayout = ({ children }) => (
@@ -52,12 +55,25 @@ const StorefrontLayout = ({ children }) => (
 
 function App() {
   const [routesReady, setRoutesReady] = useState(!splashWillShow)
+  const [backendReady, setBackendReady] = useState(false)
 
   useEffect(() => {
     if (splashWillShow) {
       const t = setTimeout(() => setRoutesReady(true), 4000)
       return () => clearTimeout(t)
     }
+  }, [])
+
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        await fetch(`${BACKEND_URL}/api/health`)
+      } catch {}
+      finally {
+        setBackendReady(true)
+      }
+    }
+    checkBackend()
   }, [])
 
   const appRoutes = routesReady ? (
@@ -106,10 +122,22 @@ function App() {
     </Suspense>
   ) : null
 
+  if (!backendReady) return (
+    <div className="min-h-screen bg-[#020818] flex flex-col items-center justify-center gap-4">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-[#F59E0B] mb-1">SHIVORA</h1>
+        <p className="text-xs text-[#94A3B8]">Luxury Online Shopping</p>
+      </div>
+      <div className="w-8 h-8 rounded-full border-2 border-[#F59E0B] border-t-transparent animate-spin mt-4" />
+      <p className="text-xs text-[#94A3B8]">Loading...</p>
+    </div>
+  )
+
   return (
     <>
       <SplashScreen />
       {appRoutes}
+      <PWAInstallBanner />
     </>
   )
 }
