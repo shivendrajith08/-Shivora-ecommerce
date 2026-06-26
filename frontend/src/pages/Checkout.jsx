@@ -450,8 +450,8 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* ── Submit (UNCHANGED) ─────────────────────────────────────────── */}
-          <button type="submit" disabled={submitting} className="btn-primary w-full !py-3 mt-2">
+          {/* ── Submit — hidden on mobile (sticky bottom button used instead) ── */}
+          <button type="submit" disabled={submitting} className="btn-primary w-full !py-3 mt-2 hidden md:block">
             {submitting ? 'Placing Order...' : `Place Order — ₹${finalTotal.toLocaleString('en-IN')}`}
           </button>
         </form>
@@ -499,9 +499,14 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-surface-border p-4 shadow-2xl">
-        <button type="submit" form="checkout-form" className="btn-primary w-full min-h-[52px] !py-3 text-base font-semibold">
-          Place Order
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#020818] border-t border-white/10 md:hidden z-20">
+        <button
+          type="submit"
+          form="checkout-form"
+          disabled={submitting}
+          className="w-full py-3.5 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-[#020818] font-bold text-base transition-colors disabled:opacity-50"
+        >
+          {submitting ? 'Placing order...' : `Place Order — ₹${finalTotal.toLocaleString('en-IN')}`}
         </button>
       </div>
     </div>
