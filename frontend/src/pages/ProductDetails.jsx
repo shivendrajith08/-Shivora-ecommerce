@@ -280,7 +280,7 @@ const ProductDetails = () => {
         {/* Image column */}
         <div>
           <div className="relative">
-            <div className="w-full aspect-[4/5] sm:aspect-square bg-surface-raised rounded-xl overflow-hidden border border-surface-border">
+            <div className="w-full rounded-xl overflow-hidden">
               {imageSrc ? (
                 <Zoom>
                   <img
@@ -288,7 +288,7 @@ const ProductDetails = () => {
                     alt={product.name}
                     loading="eager"
                     decoding="async"
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto object-cover rounded-xl"
                   />
                 </Zoom>
               ) : (
